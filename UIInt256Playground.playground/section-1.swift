@@ -26,7 +26,7 @@ func raiseByPositivePower(radix: Int, power: Int) -> Int {
     return res;
 }
 
-operator infix ^^ { }
+operator infix ^^ { precedence 160 associativity left  }
 @infix func ^^ (radix: Int, power: Int) -> Int {
     assert(power >= 0, "Power must be 0 or more")
     return raiseByPositivePower(radix, power)
@@ -51,7 +51,7 @@ var i = 0
 for digitChar in reverseDecimalString {
     digitChar
     let digitString: String = digitChar + ""
-    var carryover = digitString.toInt()! * (10^^i)
+    var carryover = digitString.toInt()! * 10^^i
 
     for var j = countElements(base16) - 1; j >= 0; j-- {
         base16[j] = base16[j] + carryover
@@ -156,6 +156,9 @@ string1.toInt()
 "0".toInt()
 "1".toInt()
 "0x1".toInt()
+
+//var testIntFromHex: Int? = Int("0x1")
+
 
 var int1: Int = 0
 var int2: Int = 0

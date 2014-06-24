@@ -4,8 +4,6 @@
 //
 //  Created by Sjors Provoost on 23-06-14.
 
-
-
 // Avoid using NSNumber:
 func raiseByPositivePower(radix: Int, power: Int) -> Int {
     var res = 1;
@@ -15,7 +13,7 @@ func raiseByPositivePower(radix: Int, power: Int) -> Int {
     return res;
 }
 
-operator infix ^^ { }
+operator infix ^^ { precedence 160 associativity left }
 @infix func ^^ (radix: Int, power: Int) -> Int {
     assert(power >= 0, "Power must be 0 or more")
     return raiseByPositivePower(radix, power)
@@ -71,10 +69,6 @@ struct UInt256 : Comparable, Printable {
     init(decimalStringValue: String) {
         // First we perform some sanity checks on the string. Then we convert it to a hex string.
         
-        println("      ")
-        println(decimalStringValue)
-        println(countElements(decimalStringValue))
-        
         assert(countElements(decimalStringValue) > 0, "Can't be empty");
         
         // Assert if string longer than 78 characters
@@ -101,68 +95,9 @@ struct UInt256 : Comparable, Printable {
         
         assert(paddedDecimalString <= "115792089237316195423570985008687907853269984665640564039457584007913129639935", "Too large")
         
-        var reverseDecimalString = ""
-        var base16: Int[] = []
+        let hexStringValue: String = BaseConverter.decToHex(decimalStringValue)
         
-        for char in decimalStringValue {
-            reverseDecimalString = char + reverseDecimalString
-            base16 += 0
-        }
-        
-        var hexStringValue: String = ""
-        
-        var i = 0
-        for digitChar in reverseDecimalString {
-            digitChar
-            let digitString: String = digitChar + ""
-            println("i = \(i)")
-            var carryover = digitString.toInt()! * (10 ^^ i)
-            
-            // Starts all the way on the right of the base16 array, so the carryover becomes too large...
-            for var j = countElements(base16) - 1; j >= 0; j-- {
-                base16[j] = base16[j] + carryover
-                let remainder: Int = base16[j] % 16
-                carryover = base16[j] / 16
-                base16[j] = remainder
-                
-                if carryover == 0 {
-                    break;
-                }
-            }
-            
-            i++
-        }
-        
-        // Convert to hex:
-        var firstNonZeroDigitParsed = false
-        for digit in base16 {
-            switch digit {
-            case 0:
-                if(firstNonZeroDigitParsed) {
-                    hexStringValue += "0"
-                }
-            case 1...9:
-                firstNonZeroDigitParsed = true
-                hexStringValue += digit.description
-            case 10:
-                hexStringValue += "A"
-            case 11:
-                hexStringValue += "B"
-            case 12:
-                hexStringValue += "C"
-            case 13:
-                hexStringValue += "D"
-            case 14:
-                hexStringValue += "E"
-            case 15:
-                hexStringValue += "F"
-            default:
-                println(digit)
-                assert(false, "Digit too large")
-            }
-        }
-        
-        self.init(hexStringValue: hexStringValue)
+        self.init(hexStringValue: hexStringValue )
     }
     
     init(var hexStringValue: String) {
@@ -170,13 +105,15 @@ struct UInt256 : Comparable, Printable {
         
         println("Hex string: '\( hexStringValue )'")
         
-        
         assert(countElements(hexStringValue) > 0, "Can't be empty");
         
         // Assert if string isn't too long
         assert(countElements(hexStringValue) <= 64, "Too large");
         
+        
         hexStringValue = hexStringValue.uppercaseString;
+        
+        println("Upcase: \( hexStringValue )")
         
         // Assert if string has any characters that are not 0-9 or A-F
         for character in hexStringValue {
