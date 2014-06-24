@@ -103,8 +103,6 @@ struct UInt256 : Comparable, Printable {
     init(var hexStringValue: String) {
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
         
-        println("Hex string: '\( hexStringValue )'")
-        
         assert(countElements(hexStringValue) > 0, "Can't be empty");
         
         // Assert if string isn't too long
@@ -112,8 +110,6 @@ struct UInt256 : Comparable, Printable {
         
         
         hexStringValue = hexStringValue.uppercaseString;
-        
-        println("Upcase: \( hexStringValue )")
         
         // Assert if string has any characters that are not 0-9 or A-F
         for character in hexStringValue {
@@ -132,24 +128,24 @@ struct UInt256 : Comparable, Printable {
             hexStringValue = "0" + hexStringValue;
         }
         
-        var int1: Int = 0
-        var int2: Int = 0
-        var int3: Int = 0
-        var int4: Int = 0
-        var int5: Int = 0
-        var int6: Int = 0
-        var int7: Int = 0
-        var int8: Int = 0
+        var int1: UInt32 = 0
+        var int2: UInt32 = 0
+        var int3: UInt32 = 0
+        var int4: UInt32 = 0
+        var int5: UInt32 = 0
+        var int6: UInt32 = 0
+        var int7: UInt32 = 0
+        var int8: UInt32 = 0
         
         var i = 0
         
         for char in hexStringValue {
-            var increment: Int = 0
+            var increment: UInt32 = 0
             
             switch char {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
                 let stringChar: String = char + "";
-                increment = stringChar.toInt()!
+                increment = UInt32(stringChar.toInt()!)
             case "A":
                 increment = 10
             case "B":
@@ -167,12 +163,11 @@ struct UInt256 : Comparable, Printable {
             }
             
             let incrementor: Int = 16^^(7 - (i % 8))
-
-            increment *= incrementor;
+            increment = increment * UInt32(incrementor);
             
             switch i {
             case 0..8:
-                int1 += increment
+                int1 += UInt32(increment)
             case 8..16:
                 int2 += increment
             case 16..24:
@@ -194,7 +189,7 @@ struct UInt256 : Comparable, Printable {
             i++
         }
         
-        self.init(mostSignificantOf8UInt32First: [UInt32(int1), UInt32(int2), UInt32(int3), UInt32(int4), UInt32(int5), UInt32(int6), UInt32(int7), UInt32(int8)])
+        self.init(mostSignificantOf8UInt32First: [int1, int2, int3, int4, int5, int6, int7, int8])
         
 
     }
