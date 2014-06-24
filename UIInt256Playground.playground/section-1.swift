@@ -9,11 +9,27 @@ decimalStringValue =   "1000000000000000000"  // Too much for Wolfram Alpha and 
 
 decimalStringValue   = "100000000000000000" // The most Wolfram Alpha can handle
 
+decimalStringValue = "100000000000"
+
 // For reference, 2^64: 18446744073709551616
+
+//operator infix ^^ { }
+//@infix func ^^ (radix: Int, power: Int) -> Int {
+//    return Int(pow(Double(radix), Double(power)))
+//}
+
+func raiseByPositivePower(radix: Int, power: Int) -> Int {
+    var res = 1;
+    for _ in 1...power {
+        res *= radix;
+    }
+    return res;
+}
 
 operator infix ^^ { }
 @infix func ^^ (radix: Int, power: Int) -> Int {
-    return Int(pow(Double(radix), Double(power)))
+    assert(power >= 0, "Power must be 0 or more")
+    return raiseByPositivePower(radix, power)
 }
 
 var reverseDecimalString = ""
