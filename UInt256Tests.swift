@@ -22,7 +22,15 @@ class UInt256Tests: XCTestCase {
 
     func testInit() {
         let bi = UInt256(decimalStringValue: "123456")
-        XCTAssertTrue(bi != nil, "Should exist")
+        XCTAssertEqual(bi.description, "123456", "Should exist");
+    }
+    
+    func testInitWithLargestDecimalNumber() {
+        // The largest value for an unsigned 256 bit integer is 2^256 - 1
+        let bi = UInt256(decimalStringValue: "115792089237316195423570985008687907853269984665640564039457584007913129639935")
+        
+        XCTAssertEqual(bi.description, "115792089237316195423570985008687907853269984665640564039457584007913129639935", "Should handle big number");
+
     }
 
 }
