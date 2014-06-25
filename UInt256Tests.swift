@@ -312,16 +312,16 @@ class UInt256Tests: XCTestCase {
         
     }
 
-//    func testDivide() {
-//        let a = UInt256(decimalStringValue: "64")
-//        let b = UInt256(decimalStringValue: "2")
-//        let c = UInt256(decimalStringValue: "32")
-//        
-//        let res =  a / b
-//
-//        XCTAssertEqual(res, c, "\(a) / \(b) = \( res ) != \( c )");
-//        
-//    }
+    func testDivide() {
+        let a = UInt256(decimalStringValue: "64")
+        let b = UInt256(decimalStringValue: "2")
+        let c = UInt256(decimalStringValue: "32")
+        
+        let res =  a / b
+
+        XCTAssertEqual(res, c, "\(a) / \(b) = \( res ) != \( c )");
+        
+    }
     
     func testModulo() {
         let a = UInt256(decimalStringValue: "24")

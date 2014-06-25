@@ -245,6 +245,12 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     func toIntMax() -> IntMax {
         return Int64(self.smallerIntegers[6]<<32 + self.smallerIntegers[7])
     }
+    
+    func divideBy(other: UInt256) -> (quotient: UInt256, remainder: UInt256) {
+        assert(other != UInt256.allZeros, "Divide by zero")
+        
+        return (UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,smallerIntegers[7] / other.smallerIntegers[7] ]), UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,smallerIntegers[7] % other.smallerIntegers[7] ]));
+    }
 
 }
 
@@ -470,9 +476,6 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
 
         // Left shift
         leftShiftedLHS = leftShiftedLHS << 1
-        
-        
-        
 
     }
     
@@ -481,17 +484,20 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 func / (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    assert(false, "Not implemented")
-    
     assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
     assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
     
-    return UInt256.allZeros;
+    let (quotient, _) = lhs.divideBy(rhs)
+    
+    return quotient
 }
 
 func % (lhs: UInt256, rhs: UInt256) -> UInt256 {
     assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
     assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
     
-    return UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,lhs.smallerIntegers[7] % rhs.smallerIntegers[7] ]);
+    let (_, remainder) = lhs.divideBy(rhs)
+    
+    return remainder
+    
 }
