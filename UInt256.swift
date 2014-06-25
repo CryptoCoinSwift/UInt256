@@ -21,11 +21,10 @@ operator infix ^^ { precedence 160 associativity left }
     return raiseByPositivePower(radix, power)
 }
 
-struct UInt256 : Comparable, Printable, BitwiseOperations {
+struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable {
     // We should support the following protocols before honoring ourselves with the
     // UnsignedInteger protocol:
     
-    // Hashable
     // IntegerLiteralConvertible
     // _BuiltinIntegerLiteralConvertible
     // ArrayBound
@@ -213,6 +212,10 @@ struct UInt256 : Comparable, Printable, BitwiseOperations {
 //        self.init(hexStringValue: hexStringValue ) // This will cause EXC_BAD_ACCESS error
         self.init(hexStringValue: NSString(format:"%@", hexStringValue))
         
+    }
+    
+    var hashValue: Int {
+        return toHexString.hashValue
     }
     
 
