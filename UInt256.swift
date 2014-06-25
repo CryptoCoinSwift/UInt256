@@ -481,6 +481,8 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 func / (lhs: UInt256, rhs: UInt256) -> UInt256 {
+    assert(false, "Not implemented")
+    
     assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
     assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
     
@@ -491,5 +493,5 @@ func % (lhs: UInt256, rhs: UInt256) -> UInt256 {
     assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
     assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
     
-    return UInt256.allZeros;
+    return UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,lhs.smallerIntegers[7] % rhs.smallerIntegers[7] ]);
 }
