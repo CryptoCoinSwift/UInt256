@@ -21,18 +21,34 @@ operator infix ^^ { precedence 160 associativity left }
     return raiseByPositivePower(radix, power)
 }
 
-struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable {
+struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLiteralConvertible {
     // We should support the following protocols before honoring ourselves with the
     // UnsignedInteger protocol:
     
-    // IntegerLiteralConvertible
-    // _BuiltinIntegerLiteralConvertible
     // ArrayBound
     // _IntegerArithmetic
     // ForwardIndex  (_Incrementable, etc)
     // IntegerArithmetic
     
     let smallerIntegers: UInt32[] = [0,0,0,0,0,0,0,0] // Most significant first.
+    
+    static func convertFromIntegerLiteral(value: IntegerLiteralType) -> UInt256 {
+       assert(value >= 0, "Unsigned integer should be 0 or larger")
+
+        switch UInt64(Int.max) {
+        case UInt64(Int32.max):
+            return UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,UInt32(value)])
+        case UInt64(Int64.max):
+            let rightDigit: UInt32 = UInt32(value & Int(Int32.max));
+            let leftDigit:  UInt32 = UInt32(value >> 32);
+
+            return UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,leftDigit, rightDigit])
+        default:
+            assert(false, "Unknown bit size")
+            return allZeros;
+        }
+        
+    }
     
     var description: String { return self.toDecimalString }
     
@@ -217,30 +233,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable {
     var hashValue: Int {
         return toHexString.hashValue
     }
-    
 
-//
-//    func |(_: Self, _: Self) -> Self {
-//    
-//    }
-//    
-//    func ^(_: Self, _: Self) -> Self {
-//    
-//    }
-//    
-//    func ~(_: Self) -> Self {
-//    
-//    }
-    
-    /// The identity value for "|" and "^", and the fixed point for "&".
-    ///
-    /// ::
-    ///
-    ///   x | allZeros == x
-    ///   x ^ allZeros == x
-    ///   x & allZeros == allZeros
-    ///   x & ~allZeros == x
-    ///
     static var allZeros: UInt256 {
         let zeros: UInt32[] = [0,0,0,0,0,0,0,0]
         return UInt256(mostSignificantOf8UInt32First: zeros)
