@@ -7,16 +7,16 @@
 import Foundation // Needed for a workaround in decimalStringValue's call to hexStringValue
 
 // Avoid using NSNumber:
-func raiseByPositivePower(radix: Int, power: Int) -> Int {
-    var res = 1;
+func raiseByPositivePower(radix: UInt32, power: UInt32) -> UInt32 {
+    var res: UInt32 = 1;
     for _ in 1...power {
-        res *= radix;
+        res = res * radix;
     }
     return res;
 }
 
 operator infix ^^ { precedence 160 associativity left }
-@infix func ^^ (radix: Int, power: Int) -> Int {
+@infix func ^^ (radix: UInt32, power: UInt32) -> UInt32 {
     assert(power >= 0, "Power must be 0 or more")
     return raiseByPositivePower(radix, power)
 }
@@ -76,11 +76,13 @@ struct UInt256 : Comparable, Printable {
     
     init (mostSignificantOf8UInt32First: UInt32[]) {
         assert(mostSignificantOf8UInt32First.count == 8, "8 UInt32's needed")
-
+        
         for i in 0..8 {
             self.smallerIntegers[i] = mostSignificantOf8UInt32First[i]
         }
         
+        self.smallerIntegers.unshare()
+
     }
     
     init(var hexStringValue: String) {
@@ -100,7 +102,6 @@ struct UInt256 : Comparable, Printable {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F":
                 assert(true)
             default:
-                println("Invalid character: \( character)")
                 assert(false, "Invalid character")
             }
             
@@ -146,8 +147,8 @@ struct UInt256 : Comparable, Printable {
                 assert(false, "Unexpected digit");
             }
             
-            let incrementor: Int = 16^^(7 - (i % 8))
-            increment = increment * UInt32(incrementor);
+            let incrementor: UInt32 = 16^^(7 - (UInt32(i) % 8))
+            increment = increment * incrementor;
             
             switch i {
             case 0..8:
@@ -214,8 +215,9 @@ struct UInt256 : Comparable, Printable {
 //        self.init(hexStringValue: hexStringValue ) // This will cause EXC_BAD_ACCESS error
         self.init(hexStringValue: NSString(format:"%@", hexStringValue))
         
-//        self.init(hexStringValue: "2A")
     }
+    
+    
 
 }
 
@@ -283,4 +285,130 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
     diff[0] = lhs.smallerIntegers[0] - lhs.smallerIntegers[0]  - (previousDigitDidOverflow ? 1 : 0)
     
     return UInt256(mostSignificantOf8UInt32First: diff)
+}
+
+
+func << (lhs: UInt256, rhs: Int) -> UInt256 {
+    assert(rhs == 1, "Only left-shift by 1 bit is supported")
+    
+    var result = lhs
+    
+    var overflow = false
+    for var i=7; i >= 0; i-- {
+        let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
+        
+        let willOverflow = result.smallerIntegers[i] & leftMostBit != 0
+        
+        result.smallerIntegers[i] = lhs.smallerIntegers[i] << 1
+
+        
+        if(overflow) {
+            result.smallerIntegers[i]++
+        }
+        
+        
+        overflow = willOverflow
+    }
+    
+    return result
+}
+
+func <<= (var lhs: UInt256, rhs: Int) -> () {
+    lhs = lhs << rhs
+}
+
+func >> (lhs: UInt256, rhs: Int) -> UInt256 {
+    assert(rhs == 1, "Only right-shift by 1 bit is supported")
+    
+    var result = lhs
+    
+    var overflow = false
+    for i in 0..8 {
+        
+        let rightMostBit: UInt32 = 0b0000_0000_0000_0000_0000_0000_0000_0001
+        let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
+
+        
+        let willOverflow = result.smallerIntegers[i] & rightMostBit != 0
+        
+        result.smallerIntegers[i] = lhs.smallerIntegers[i] >> 1
+        
+        
+        if(overflow) {
+            result.smallerIntegers[i] += leftMostBit
+        }
+        
+        overflow = willOverflow
+    }
+    
+    return result
+}
+
+func >>= (var lhs: UInt256, rhs: Int) -> () {
+    lhs = lhs >> rhs
+}
+
+func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
+    assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    
+
+    
+    var rhsBitLength: UInt32 = 256
+    for int in rhs.smallerIntegers {
+        if int == 0 {
+            rhsBitLength -= 32
+        } else {
+            for var i: UInt32 = 31; i > 0; i-- {
+                if (2^^i) & int != 0 {
+                    break;
+                } else {
+                    rhsBitLength--;
+
+                }
+            }
+            break;
+        }
+    }
+    
+    var product: UInt32[] = [0,0,0,0,0,0,0,0]
+    
+    // var leftShiftedLHS = lhs // This won't copy the array...
+    var leftShiftedLHS = UInt256(mostSignificantOf8UInt32First: lhs.smallerIntegers)
+    
+    for var i: UInt32 = 0; i < rhsBitLength; i++ {
+        // Bitwise AND RHS with a single bit at position 256 - i (split in chunks of 32)
+        let relevantInt = rhs.smallerIntegers[Int((255 - i) / 32)]
+        let position = (i) % 32
+        
+        if(2^^position & relevantInt != 0) {
+            for j in 0..8 {
+                let add: UInt32 = leftShiftedLHS.smallerIntegers[Int(j)]
+                let before: UInt32 = product[Int(j)]
+                product[Int(j)] = before &+ add
+                if before > product[Int(j)] {
+                    if(i > 0) {
+                        product[Int(j) - 1]++
+                    } else {
+                        assert(false, "Overflow")
+                    }
+                }
+            }
+        }
+        
+        // Don't allow overflow on the most significant digit:
+        let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
+
+        assert(leftShiftedLHS.smallerIntegers[0] & leftMostBit == 0, "Left shift overflow not allowed for UInt256")
+
+        // Left shift
+        leftShiftedLHS = leftShiftedLHS << 1
+        
+        
+        
+
+    }
+    
+    
+    return UInt256(mostSignificantOf8UInt32First: product)
 }

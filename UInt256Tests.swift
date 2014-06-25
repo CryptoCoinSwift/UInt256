@@ -190,5 +190,128 @@ class UInt256Tests: XCTestCase {
         XCTAssertEqual(a - b, c, "a - b = c");
         
     }
+    
+    func testLeftShift() {
+        var a = UInt256(decimalStringValue: "32")
+        a <<= 1
+        
+        XCTAssertEqual(a.toDecimalString, "64", "");
+        
+    }
+    
+    func testLeftShiftHex() {
+        var a = UInt256(hexStringValue: "FFFFFFFF")
+        a <<= 1
+        
+        XCTAssertEqual(a.toHexString,  "1FFFFFFFE", "");
+        
+    }
+    
+    func testLeftShiftBigHex() {
+        var a = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFF")
+        a <<= 1
+        
+        XCTAssertEqual(a.toHexString,  "1FFFFFFFFFFFFFFFFFFFE", "");
+        
+    }
+    
+    func testLeftShiftShouldNotMutate() {
+        var a = UInt256(hexStringValue: "AAAAAAAAAAA")
+        var b=a
+        a << 1
+        
+        XCTAssertEqual(a, b, "");
+    }
+    
+    func testRightShiftShouldNotMutate() {
+        var a = UInt256(hexStringValue: "AAAAAAAAAAA")
+        var b=a
+        a >> 1
+        
+        XCTAssertEqual(a, b, "");
+    }
+    
+    func testLeftOverflowHex() {
+        var a = UInt256(hexStringValue: "1FFFFF")
+
+        println(a.toDecimalString)
+        
+        a <<= 1
+        
+        println(a.toDecimalString)
+        
+        XCTAssertEqual(a.toHexString,   "3FFFFE", "");
+        
+    }
+    
+    func testLeftShiftBig() {
+        var a = UInt256(decimalStringValue: "32000000000000000000")
+        a <<= 1
+        
+        XCTAssertEqual(a.toDecimalString,   "64000000000000000000", "");
+        
+    }
+
+    func testRightShift() {
+        var a = UInt256(decimalStringValue: "64")
+        a >>= 1
+        
+        XCTAssertEqual(a.toDecimalString, "32", "");
+        
+    }
+    
+    func testRightShiftBig() {
+        var a = UInt256(decimalStringValue: "64000000000000000000")
+        a >>= 1
+        
+        XCTAssertEqual(a.toDecimalString, "32000000000000000000", "");
+    }
+
+    func testMultiply() {
+        let a = UInt256(decimalStringValue: "32")
+        let b = UInt256(decimalStringValue: "2")
+        let c = UInt256(decimalStringValue: "64")
+        
+        let res =  a * b
+        
+        println("Product: \(res )")
+        
+        XCTAssertEqual(res, c, "\(a) * \(b) = \( res ) != \( c )");
+        
+    }
+    
+    func testMultiplyShouldNotMutate() {
+        let a = UInt256(decimalStringValue: "32")
+        let b = UInt256(decimalStringValue: "2")
+        let c = UInt256(decimalStringValue: "64")
+        
+        var res =  a * b
+        res = a * b
+        
+        XCTAssertEqual(res, c, "Res mutated to \( res)");
+        
+        
+    }
+
+    func testMultiplyBig() {
+        let a = UInt256(decimalStringValue: "32000000000")
+        let b = UInt256(decimalStringValue:  "2000000000")
+        let c = UInt256(decimalStringValue: "64000000000000000000")
+        
+        let res = a * b
+        
+        XCTAssertEqual(res, c, "\(a) * \(b) = \( res) != \( c )");
+        
+    }
+    
+    func testMultiplyMax() {
+        let a = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        let c = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025") // 0.9999999...% of UInt256 max
+        
+        let res = a * a
+        
+        XCTAssertEqual(res, c, "");
+        
+    }
 
 }
