@@ -21,14 +21,12 @@ operator infix ^^ { precedence 160 associativity left }
     return raiseByPositivePower(radix, power)
 }
 
-struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLiteralConvertible, ArrayBound {
-    // We should support the following protocols before honoring ourselves with the
-    // UnsignedInteger protocol:
+struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLiteralConvertible, ArrayBound  {
+    // All the above are combined in the illustruous UnsignedInteger protocol. 
+    // The following is still needed (mostly things like *=, &&=, etc)
     
-    // ArrayBound
-    // _IntegerArithmetic
+    // IntegerArithmetic (it complies, but Swift demands _IntegerArithmetic as well)
     // ForwardIndex  (_Incrementable, etc)
-    // IntegerArithmetic
     
     let smallerIntegers: UInt32[] = [0,0,0,0,0,0,0,0] // Most significant first.
     
@@ -242,6 +240,10 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     static var allZeros: UInt256 {
         let zeros: UInt32[] = [0,0,0,0,0,0,0,0]
         return UInt256(mostSignificantOf8UInt32First: zeros)
+    }
+    
+    func toIntMax() -> IntMax {
+        return Int64(self.smallerIntegers[6]<<32 + self.smallerIntegers[7])
     }
 
 }
@@ -476,4 +478,18 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     
     
     return UInt256(mostSignificantOf8UInt32First: product)
+}
+
+func / (lhs: UInt256, rhs: UInt256) -> UInt256 {
+    assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    
+    return UInt256.allZeros;
+}
+
+func % (lhs: UInt256, rhs: UInt256) -> UInt256 {
+    assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    
+    return UInt256.allZeros;
 }
