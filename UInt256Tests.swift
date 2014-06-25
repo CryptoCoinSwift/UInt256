@@ -67,19 +67,6 @@ class UInt256Tests: XCTestCase {
         
     }
 
-    func testInitWith24BitMaxHexNumber() {
-        let bi = UInt256(hexStringValue: "FFFFFF")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
-    
-    func testInitWith31BitMaxHexNumber() {
-        let bi = UInt256(hexStringValue: "FFFFFFF")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
 
     func testInitWith32BitHexNumber() {
         // The largest value for an unsigned 32 bit integer is 2^32 - 1
@@ -138,5 +125,51 @@ class UInt256Tests: XCTestCase {
         XCTAssertEqual(a, b, "Should be the same as max hex");
 
     }
+    
+    func testInitWithExampleDecimalNumber() {
+        let a = UInt256(decimalStringValue: "29048849665247")
+        let b = UInt256(hexStringValue: "1A6B765D8CDF")
+        
+        XCTAssertEqual(a, b, "Should be the same as max hex");
+
+    }
+    
+    func testAdd() {
+        let a = UInt256(decimalStringValue: "14")
+        let b = UInt256(decimalStringValue: "26")
+        let c = UInt256(decimalStringValue: "40")
+        
+        XCTAssertEqual(a + b, c, "a + b = c");
+
+    }
+    
+    func testAddBig() {
+        let a = UInt256(decimalStringValue: "14000000123400000001")
+        let b = UInt256(decimalStringValue: "26000000123400000001")
+        let c = UInt256(decimalStringValue: "40000000246800000002")
+        
+        XCTAssertEqual(a + b, c, "\(a) + \(b) = \( c )");
+    }
+    
+    func testSubtract() {
+        let a = UInt256(decimalStringValue: "40")
+        let b = UInt256(decimalStringValue: "26")
+        let c = UInt256(decimalStringValue: "14")
+        
+        XCTAssertEqual(a - b, c, "a - b = c");
+        
+    }
+    
+    func testSubtractBig() {
+        let a = UInt256(decimalStringValue: "40000000000000000000")
+        let b = UInt256(decimalStringValue: "26000000000000000000")
+        let c = UInt256(decimalStringValue: "14000000000000000000")
+        
+        XCTAssertEqual(a - b, c, "a - b = c");
+        
+    }
+    
+
+
 
 }

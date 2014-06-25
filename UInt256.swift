@@ -42,7 +42,7 @@ struct UInt256 : Comparable, Printable {
     let part7: UInt32
     let part8: UInt32 // Least significant
 
-    var description: String { return self.toDecimalString}
+    var description: String { return "0x" + self.toHexString}
     
     var toDecimalString: String {
         // start with self.toHexString
@@ -63,7 +63,25 @@ struct UInt256 : Comparable, Printable {
     }
     
     var toHexString: String {
-        return ""
+        var paddedHexString8 = BaseConverter.decToHex(self.part8.description)
+        
+        for _ in 1...(8 - countElements(paddedHexString8)) {
+            paddedHexString8 = "0" + paddedHexString8;
+        }
+            
+        var paddedHexString7 = BaseConverter.decToHex(self.part7.description)
+        
+        for _ in 1...(8 - countElements(paddedHexString7)) {
+            paddedHexString7 = "0" + paddedHexString7;
+        }
+        
+        var paddedHexString6 = BaseConverter.decToHex(self.part6.description)
+        
+        for _ in 1...(8 - countElements(paddedHexString6)) {
+            paddedHexString6 = "0" + paddedHexString6;
+        }
+            
+        return "..." + paddedHexString6 + paddedHexString7 + paddedHexString8
     }
 
     init(decimalStringValue: String) {
@@ -95,7 +113,11 @@ struct UInt256 : Comparable, Printable {
         
         assert(paddedDecimalString <= "115792089237316195423570985008687907853269984665640564039457584007913129639935", "Too large")
         
-        let hexStringValue: String = BaseConverter.decToHex(decimalStringValue)
+        var hexStringValue: String = BaseConverter.decToHex(decimalStringValue)
+        
+        if hexStringValue == "" {
+            hexStringValue = "0"
+        }
         
         self.init(hexStringValue: hexStringValue )
     }
@@ -216,4 +238,34 @@ func < (lhs: UInt256, rhs: UInt256) -> Bool {
 
 func == (lhs: UInt256, rhs: UInt256) -> Bool {
     return lhs.part1 == rhs.part1 && lhs.part2 == rhs.part2 && lhs.part3 == rhs.part3 && lhs.part4 == rhs.part4 && lhs.part5 == rhs.part5 && lhs.part6 == rhs.part6 && lhs.part7 == rhs.part7 && lhs.part8 == rhs.part8;
+}
+
+func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
+
+    let sum8 = lhs.part8 &+ rhs.part8
+    let sum7 = lhs.part7 &+ rhs.part7 + (sum8 < lhs.part8 ? 1 : 0) // Overflow
+    let sum6 = lhs.part6 &+ rhs.part6 + (sum7 < lhs.part7 ? 1 : 0)
+    let sum5 = lhs.part5 &+ rhs.part5 + (sum6 < lhs.part6 ? 1 : 0)
+    let sum4 = lhs.part4 &+ rhs.part4 + (sum5 < lhs.part5 ? 1 : 0)
+    let sum3 = lhs.part3 &+ rhs.part3 + (sum4 < lhs.part4 ? 1 : 0)
+    let sum2 = lhs.part2 &+ rhs.part2 + (sum3 < lhs.part3 ? 1 : 0)
+    let sum1 = lhs.part1  + rhs.part1 + (sum2 < lhs.part2 ? 1 : 0)
+
+    
+    return UInt256(mostSignificantOf8UInt32First: [sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8])
+}
+
+func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
+    
+    let diff8 = lhs.part8 &- rhs.part8
+    let diff7 = lhs.part7 &- rhs.part7 &- (diff8 > lhs.part8 ? 1 : 0) // Overflow
+    let diff6 = lhs.part6 &- rhs.part6 &- (diff7 > lhs.part7 ? 1 : 0)
+    let diff5 = lhs.part5 &- rhs.part5 &- (diff6 > lhs.part6 ? 1 : 0)
+    let diff4 = lhs.part4 &- rhs.part4 &- (diff5 > lhs.part5 ? 1 : 0)
+    let diff3 = lhs.part3 &- rhs.part3 &- (diff4 > lhs.part4 ? 1 : 0)
+    let diff2 = lhs.part2 &- rhs.part2 &- (diff3 > lhs.part3 ? 1 : 0)
+    let diff1 = lhs.part1  - rhs.part1 &- (diff2 > lhs.part2 ? 1 : 0)
+    
+    
+    return UInt256(mostSignificantOf8UInt32First: [diff1, diff2, diff3, diff4, diff5, diff6, diff7, diff8])
 }
