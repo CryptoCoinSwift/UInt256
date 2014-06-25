@@ -21,7 +21,7 @@ operator infix ^^ { precedence 160 associativity left }
     return raiseByPositivePower(radix, power)
 }
 
-struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLiteralConvertible {
+struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLiteralConvertible, ArrayBound {
     // We should support the following protocols before honoring ourselves with the
     // UnsignedInteger protocol:
     
@@ -49,6 +49,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         }
         
     }
+    
     
     var description: String { return self.toDecimalString }
     
@@ -232,6 +233,10 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     
     var hashValue: Int {
         return toHexString.hashValue
+    }
+    
+    func getArrayBoundValue() -> UInt256 {
+        return self
     }
 
     static var allZeros: UInt256 {
