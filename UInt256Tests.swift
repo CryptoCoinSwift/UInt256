@@ -134,7 +134,38 @@ class UInt256Tests: XCTestCase {
         let bigger =  UInt256(decimalStringValue: "100000000001")
 
         XCTAssertTrue(smaller < bigger, "Should compare");
+        XCTAssertFalse(smaller > bigger, "Should compare");
+
     }
+    
+    func testCompareBig() {
+        var smaller = UInt256(decimalStringValue: "340282366920938463463374607431768211454")
+        var bigger =  UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        
+        XCTAssertTrue(smaller < bigger, "Should compare");
+        XCTAssertTrue(bigger > smaller, "Should compare");
+        
+        smaller =   UInt256(decimalStringValue: "64333151529")
+        bigger =    UInt256(decimalStringValue: "158113883008")
+
+        XCTAssertTrue(smaller < bigger, "Should compare");
+        XCTAssertTrue(bigger > smaller, "Should compare");
+        
+        XCTAssertFalse(smaller > bigger, "Should compare");
+        XCTAssertFalse(bigger < smaller, "Should compare");
+    }
+    
+    func testGreaterOrEqual() {
+        var smaller =   UInt256(decimalStringValue: "64333151529")
+        var bigger =    UInt256(decimalStringValue: "158113883008")
+        
+        XCTAssertTrue(smaller <= bigger, "Should compare");
+        XCTAssertTrue(bigger >= smaller, "Should compare");
+        
+        XCTAssertFalse(smaller >= bigger, "Should compare");
+        XCTAssertFalse(bigger <= smaller, "Should compare");
+    }
+
 
 
     func testAdd() {
@@ -183,9 +214,9 @@ class UInt256Tests: XCTestCase {
     }
 
     func testSubtractBig() {
-        let a = UInt256(decimalStringValue: "40000000000000000000")
-        let b = UInt256(decimalStringValue: "26000000000000000000")
-        let c = UInt256(decimalStringValue: "14000000000000000000")
+        let a = UInt256(hexStringValue: "40000000000000000000")
+        let b = UInt256(hexStringValue: "26000000000000000001")
+        let c = UInt256(hexStringValue: "19FFFFFFFFFFFFFFFFFF")
         
         XCTAssertEqual(a - b, c, "a - b = c");
         
@@ -312,10 +343,32 @@ class UInt256Tests: XCTestCase {
         
     }
 
+    func testSingleBitAt() {
+        var a = UInt256.singleBitAt(255)
+        XCTAssertEqual(a.toHexString, "1", "");
+
+        a = UInt256.singleBitAt(254)
+        XCTAssertEqual(a.toHexString, "2", "");
+        
+        a = UInt256.singleBitAt(0)
+        XCTAssertEqual(a.toHexString, "8000000000000000000000000000000000000000000000000000000000000000", "");
+    }
+    
+    func testSetBitAt() {
+        var a = UInt256.singleBitAt(255)
+        a.setBitAt(255)
+        
+        XCTAssertEqual(a.toHexString, "1", "");
+        
+        a.setBitAt(254)
+        XCTAssertEqual(a.toHexString, "3", "");
+        
+    }
+    
     func testDivide() {
-        let a = UInt256(decimalStringValue: "64")
-        let b = UInt256(decimalStringValue: "2")
-        let c = UInt256(decimalStringValue: "32")
+        let a = UInt256(decimalStringValue: "640")
+        let b = UInt256(decimalStringValue: "4")
+        let c = UInt256(decimalStringValue: "160")
         
         let res =  a / b
 
@@ -324,9 +377,65 @@ class UInt256Tests: XCTestCase {
     }
     
     func testModulo() {
-        let a = UInt256(decimalStringValue: "24")
+        let a = UInt256(decimalStringValue: "23")
         let b = UInt256(decimalStringValue: "5")
+        let c = UInt256(decimalStringValue: "3")
+        
+        let res =  a % b
+        
+        XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
+        
+    }
+    
+    
+    func testModuloLarger() {
+        let a = UInt256(decimalStringValue: "25000000000000000000000000000000000000000000000000000000000000000000000004")
+        let b = UInt256(decimalStringValue: "5000000000000000000000000000000000000")
         let c = UInt256(decimalStringValue: "4")
+        
+        let res =  a % b
+        
+        XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
+        
+    }
+    
+    func testModuloMoreComplex() {
+        let a = UInt256(decimalStringValue: "2145932040592314323128185")
+        let b = UInt256(decimalStringValue: "897983433434")
+        let c = UInt256(decimalStringValue: "3")
+        
+        let res =  a % b
+        
+        XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
+        
+    }
+//
+    func testDivideBig() {
+        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025")
+        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        let c = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        
+        let res =  a / b
+        
+        XCTAssertEqual(res, c, "\(a) / \(b) = \( res ) != \( c )");
+        
+    }
+    
+    func testModuloAlmostBiggest() {
+        let a = UInt256(decimalStringValue: "1157920892373161954235709850086879078491865962625893024778970887187319111025")
+        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        let c = UInt256(decimalStringValue: "1")
+        
+        let res =  a % b
+        
+        XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
+        
+    }
+    
+    func testModuloBig() {
+        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
+        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        let c = UInt256(decimalStringValue: "1")
         
         let res =  a % b
         

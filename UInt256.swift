@@ -229,6 +229,27 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         
     }
     
+    var highestBit: Int {
+        var bitLength: UInt32 = 256
+        for int in self.smallerIntegers {
+            if int == 0 {
+                bitLength -= 32
+            } else {
+                for var i: UInt32 = 31; i > 0; i-- {
+                    if (2^^i) & int != 0 {
+                        break;
+                    } else {
+                        bitLength--;
+                        
+                    }
+                }
+                break;
+            }
+        }
+            
+        return Int(bitLength)
+    }
+    
     var hashValue: Int {
         return toHexString.hashValue
     }
@@ -246,12 +267,52 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         return Int64(self.smallerIntegers[6]<<32 + self.smallerIntegers[7])
     }
     
-    func divideBy(other: UInt256) -> (quotient: UInt256, remainder: UInt256) {
-        assert(other != UInt256.allZeros, "Divide by zero")
-        
-        return (UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,smallerIntegers[7] / other.smallerIntegers[7] ]), UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,smallerIntegers[7] % other.smallerIntegers[7] ]));
-    }
+    func divideBy(denomenator: UInt256) -> (quotient: UInt256, remainder: UInt256) {
+        assert(denomenator != UInt256.allZeros, "Divide by zero")
+        let numerator = UInt256(mostSignificantOf8UInt32First:  self.smallerIntegers.copy())
 
+        var  quotient: UInt256 = 0
+        var remainder: UInt256 = 0
+        
+        for var i=numerator.highestBit - 1; i >= 0; i--  {
+            
+            remainder <<= 1
+            if UInt256.singleBitAt(255 - i) & numerator != 0 {
+                remainder.setBitAt(255)
+            } else {
+                remainder.unsetBitAt(255)
+            }
+            
+            if remainder >= denomenator {
+                let remainderCopy = UInt256(mostSignificantOf8UInt32First: remainder.smallerIntegers.copy())
+//                println("R=\( remainder ) D=\( denomenator )")
+                remainder = remainderCopy - denomenator
+                quotient = quotient | UInt256.singleBitAt(255 - i)
+            }
+        }
+        
+        
+        return (quotient, remainder);
+    }
+    
+    static func singleBitAt (position: Int) -> (UInt256) {
+        var result: UInt256 = self.allZeros
+        let index: Int = position / 32
+        let bit: Int = 31 - (position % 32)
+        
+        result.smallerIntegers[index] = 2^^UInt32(bit)
+        
+        return result
+    }
+    
+    mutating func setBitAt(position: Int) -> () {
+      self = (self & ~UInt256.singleBitAt(position)) | UInt256.singleBitAt(position)
+    }
+    
+    mutating func unsetBitAt(position: Int) -> () {
+        self = self & ~UInt256.singleBitAt(position)
+    }
+    
 }
 
 func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
@@ -298,6 +359,8 @@ func < (lhs: UInt256, rhs: UInt256) -> Bool {
     for i in 0..8 {
         if lhs.smallerIntegers[i] < rhs.smallerIntegers[i] {
             return true
+        } else if lhs.smallerIntegers[i] > rhs.smallerIntegers[i] {
+            return false;
         }
     }
     
@@ -312,6 +375,15 @@ func == (lhs: UInt256, rhs: UInt256) -> Bool {
     }
     
     return true
+}
+
+
+func >= (lhs: UInt256, rhs: UInt256) -> Bool {
+    return lhs == rhs || lhs > rhs
+}
+
+func <= (lhs: UInt256, rhs: UInt256) -> Bool {
+    return lhs == rhs || lhs < rhs
 }
 
 func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
@@ -340,6 +412,9 @@ func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
+    assert(lhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    assert(rhs.smallerIntegers.count == 8, "8 UInt32's needed")
+    
     var previousDigitDidOverflow = false
     var diff: UInt32[] = [0,0,0,0,0,0,0,0]
     
@@ -347,7 +422,9 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
         let lhsForIndex: UInt32  = lhs.smallerIntegers[i]
         let rhsForIndex: UInt32  = rhs.smallerIntegers[i]
         
-        let diffForIndex = lhsForIndex &- rhsForIndex &- (previousDigitDidOverflow ? 1 : 0)
+        let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
+        
+        let diffForIndex = lhsForIndex &- rhsForIndex &- modifier
         
         diff[i] = diffForIndex
         
@@ -427,29 +504,14 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     
 
     
-    var rhsBitLength: UInt32 = 256
-    for int in rhs.smallerIntegers {
-        if int == 0 {
-            rhsBitLength -= 32
-        } else {
-            for var i: UInt32 = 31; i > 0; i-- {
-                if (2^^i) & int != 0 {
-                    break;
-                } else {
-                    rhsBitLength--;
-
-                }
-            }
-            break;
-        }
-    }
+    var rhsBitLength = rhs.highestBit
     
     var product: UInt32[] = [0,0,0,0,0,0,0,0]
     
     // var leftShiftedLHS = lhs // This won't copy the array...
     var leftShiftedLHS = UInt256(mostSignificantOf8UInt32First: lhs.smallerIntegers)
     
-    for var i: UInt32 = 0; i < rhsBitLength; i++ {
+    for var i: UInt32 = 0; i < UInt32(rhsBitLength); i++ {
         // Bitwise AND RHS with a single bit at position 256 - i (split in chunks of 32)
         let relevantInt = rhs.smallerIntegers[Int((255 - i) / 32)]
         let position = (i) % 32
