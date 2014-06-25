@@ -21,7 +21,7 @@ operator infix ^^ { precedence 160 associativity left }
     return raiseByPositivePower(radix, power)
 }
 
-struct UInt256 : Comparable, Printable {
+struct UInt256 : Comparable, Printable, BitwiseOperations {
     // We should support the following protocols before honoring ourselves with the
     // UnsignedInteger protocol:
     
@@ -29,11 +29,9 @@ struct UInt256 : Comparable, Printable {
     // IntegerLiteralConvertible
     // _BuiltinIntegerLiteralConvertible
     // ArrayBound
-    // _UnsignedInteger
     // _IntegerArithmetic
     // ForwardIndex  (_Incrementable, etc)
     // IntegerArithmetic
-    // BitwiseOperations
     
     let smallerIntegers: UInt32[] = [0,0,0,0,0,0,0,0] // Most significant first.
     
@@ -217,8 +215,74 @@ struct UInt256 : Comparable, Printable {
         
     }
     
-    
 
+//
+//    func |(_: Self, _: Self) -> Self {
+//    
+//    }
+//    
+//    func ^(_: Self, _: Self) -> Self {
+//    
+//    }
+//    
+//    func ~(_: Self) -> Self {
+//    
+//    }
+    
+    /// The identity value for "|" and "^", and the fixed point for "&".
+    ///
+    /// ::
+    ///
+    ///   x | allZeros == x
+    ///   x ^ allZeros == x
+    ///   x & allZeros == allZeros
+    ///   x & ~allZeros == x
+    ///
+    static var allZeros: UInt256 {
+        let zeros: UInt32[] = [0,0,0,0,0,0,0,0]
+        return UInt256(mostSignificantOf8UInt32First: zeros)
+    }
+
+}
+
+func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
+    var res: UInt256 = UInt256.allZeros
+    
+    for i in 0..8 {
+        res.smallerIntegers[i] = lhs.smallerIntegers[i] & rhs.smallerIntegers[i]
+    }
+    
+    return res
+}
+
+func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
+    var res: UInt256 = UInt256.allZeros
+    
+    for i in 0..8 {
+        res.smallerIntegers[i] = lhs.smallerIntegers[i] | rhs.smallerIntegers[i]
+    }
+    
+    return res
+}
+
+func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
+    var res: UInt256 = UInt256.allZeros
+    
+    for i in 0..8 {
+        res.smallerIntegers[i] = lhs.smallerIntegers[i] ^ rhs.smallerIntegers[i]
+    }
+    
+    return res
+}
+
+@prefix func ~(lhs: UInt256) -> UInt256 {
+    var res: UInt256 = UInt256.allZeros
+    
+    for i in 0..8 {
+        res.smallerIntegers[i] = ~lhs.smallerIntegers[i]
+    }
+    
+    return res
 }
 
 func < (lhs: UInt256, rhs: UInt256) -> Bool {
