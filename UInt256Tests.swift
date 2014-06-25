@@ -20,63 +20,28 @@ class UInt256Tests: XCTestCase {
         super.tearDown()
     }
 
-    func testInit() {
-        let bi = UInt256(decimalStringValue: "123456")
-        XCTAssertTrue(bi != nil, "Should exist");
-    }
-
-    func test9DigitNumber() {
-        let bi = UInt256(decimalStringValue: "100000000")
-        XCTAssertTrue(bi != nil, "Should exist");
-    }
-
-    func test10DigitNumber() {
-        let bi = UInt256(decimalStringValue: "1000000000")
-        XCTAssertTrue(bi != nil, "Should exist");
-    }
-    
-    func test11DigitNumber() {
-        let bi = UInt256(decimalStringValue: "10000000000")
-        XCTAssertTrue(bi != nil, "Should exist");
-    }
-    
-    func test12DigitNumber() {
-        let bi = UInt256(decimalStringValue: "100000000000")
-        XCTAssertTrue(bi != nil, "Should exist");
-    }
-    
-    func testEquality() {
-        let a =  UInt256(decimalStringValue: "100000000000")
-        let b =  UInt256(decimalStringValue: "100000000000")
-
-        XCTAssertTrue(a == b, "Should be the same");
-    }
-    
-    func testComparison() {
-        let smaller = UInt256(decimalStringValue: "100000000000")
-        let bigger =  UInt256(decimalStringValue: "100000000001")
-        
-        XCTAssertTrue(smaller < bigger, "Should compare");
-    }
-
-    func testInitWith16BitMaxHexNumber() {
+    func testInitWith16BitMaxHex() {
         // The largest value for an unsigned 16 bit integer is 2^16 - 1
         let bi = UInt256(hexStringValue: "FFFF")
         
         XCTAssertTrue(bi != nil, "Should exist");
         
     }
+    
+    func testToHexString() {
+        let bi = UInt256(hexStringValue: "FFFF")
+        XCTAssertEqual(bi.toHexString, "FFFF", "");
 
+    }
 
-    func testInitWith32BitHexNumber() {
-        // The largest value for an unsigned 32 bit integer is 2^32 - 1
+    func testInitWith32BitHex() {
         let bi = UInt256(hexStringValue: "7FFFFFFF")
         
         XCTAssertTrue(bi != nil, "Should exist");
         
     }
-    
-    func testInitWithHalfMax32BitHexNumber() {
+
+    func testInitWithHalfMax32BitHex() {
         // The largest value for an unsigned 32 bit integer is 2^32 - 1
         let bi = UInt256(hexStringValue: "80000000")
         
@@ -84,15 +49,15 @@ class UInt256Tests: XCTestCase {
         
     }
     
-    func testInitWith32BitMaxHexNumber() {
+    func testInitWith32BitMaxHex() {
         // The largest value for an unsigned 32 bit integer is 2^32 - 1
         let bi = UInt256(hexStringValue: "FFFFFFFF")
         
         XCTAssertTrue(bi != nil, "Should exist");
         
     }
-    
-    func testInitWith64BitMaxHexNumber() {
+
+    func testInitWith64BitMaxHex() {
         // The largest value for an unsigned 64 bit integer is 2^64 - 1
         let bi = UInt256(hexStringValue: "FFFFFFFFFFFFFFFF")
         
@@ -101,7 +66,7 @@ class UInt256Tests: XCTestCase {
     }
 
     
-    func testInitWith128BitMaxHexNumber() {
+    func testInitWith128BitMaxHex() {
         // The largest value for an unsigned 128 bit integer is 2^128 - 1
         let bi = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         
@@ -109,12 +74,36 @@ class UInt256Tests: XCTestCase {
         
     }
 
-    func testInitWithLargestHexNumber() {
+    func testInitWithLargestHex() {
         // The largest value for an unsigned 256 bit integer is 2^256 - 1
         let bi = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         
         XCTAssertTrue(bi != nil, "Should exist");
         
+    }
+    
+    func testInitWithDecimal() {
+        let dec = UInt256(decimalStringValue: "42")
+        let hex = UInt256(hexStringValue: "2A")
+
+        XCTAssertEqual(dec, hex, "Should exist and be the same");
+    }
+    
+    func testToDecimalString() {
+        let bi = UInt256(decimalStringValue: "42")
+        XCTAssertEqual(bi.toDecimalString, "42", "");
+        
+    }
+    
+    
+    func test9DigitNumber() {
+        let bi = UInt256(decimalStringValue: "100000000")
+        XCTAssertTrue(bi != nil, "Should exist");
+    }
+
+    func test12DigitNumber() {
+        let bi = UInt256(decimalStringValue: "100000000000")
+        XCTAssertTrue(bi != nil, "Should exist");
     }
 
     func testInitWithLargestDecimalNumber() {
@@ -133,7 +122,21 @@ class UInt256Tests: XCTestCase {
         XCTAssertEqual(a, b, "Should be the same as max hex");
 
     }
-    
+    func testEquality() {
+        let a =  UInt256(decimalStringValue: "100000000000")
+        let b =  UInt256(decimalStringValue: "100000000000")
+
+        XCTAssertTrue(a == b, "Should be the same");
+    }
+
+    func testComparison() {
+        let smaller = UInt256(decimalStringValue: "100000000000")
+        let bigger =  UInt256(decimalStringValue: "100000000001")
+
+        XCTAssertTrue(smaller < bigger, "Should compare");
+    }
+
+
     func testAdd() {
         let a = UInt256(decimalStringValue: "14")
         let b = UInt256(decimalStringValue: "26")
@@ -143,6 +146,16 @@ class UInt256Tests: XCTestCase {
 
     }
     
+    func testAddHex() {
+        let a = UInt256(hexStringValue: "14")
+        let b = UInt256(hexStringValue: "26")
+        let c = UInt256(hexStringValue: "3A")
+
+        XCTAssertEqual(a + b, c, "a + b = c");
+
+    }
+    
+
     func testAddBig() {
         let a = UInt256(decimalStringValue: "14000000123400000001")
         let b = UInt256(decimalStringValue: "26000000123400000001")
@@ -159,7 +172,16 @@ class UInt256Tests: XCTestCase {
         XCTAssertEqual(a - b, c, "a - b = c");
         
     }
-    
+
+    func testSubtractHex() {
+        let a = UInt256(hexStringValue: "3A")
+        let b = UInt256(hexStringValue: "26")
+        let c = UInt256(hexStringValue: "14")
+
+        XCTAssertEqual(a - b, c, "a - b = c");
+        
+    }
+
     func testSubtractBig() {
         let a = UInt256(decimalStringValue: "40000000000000000000")
         let b = UInt256(decimalStringValue: "26000000000000000000")
@@ -168,8 +190,5 @@ class UInt256Tests: XCTestCase {
         XCTAssertEqual(a - b, c, "a - b = c");
         
     }
-    
-
-
 
 }
