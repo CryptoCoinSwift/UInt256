@@ -421,6 +421,34 @@ class UInt256Tests: XCTestCase {
         
     }
     
+
+
+    func testModuloLargest128bitPrime() {
+        // According to http://primes.utm.edu/lists/2small/100bit.html, 2^128-159 is prime
+        // According to Ruby that's: 340282366920938463463374607431768211297
+        
+        var a = UInt256(decimalStringValue: "340282366920938463463374607431768211298")
+        var b = UInt256(decimalStringValue: "340282366920938463463374607431768211297")
+        var c = UInt256(decimalStringValue: "1")
+        
+        var res =  a % b
+        
+        XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
+        
+        // (2**128 - 159) * 55 + 5 (according to Ruby)
+        a = UInt256(decimalStringValue: "18715530180651615490485603408747251621340")
+        b = UInt256(decimalStringValue: "340282366920938463463374607431768211297")
+        c = UInt256(decimalStringValue: "5")
+        
+        res =  a % b
+        
+        // Fails:
+        XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
+        
+
+    }
+    
+    // Fails:
     func testModuloAlmostBiggest() {
         let a = UInt256(decimalStringValue: "1157920892373161954235709850086879078491865962625893024778970887187319111025")
         let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
@@ -432,6 +460,7 @@ class UInt256Tests: XCTestCase {
         
     }
     
+    // Fails (even though multiplication above did reveal these numbers, are they wrong?):
     func testModuloBig() {
         let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
         let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
