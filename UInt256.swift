@@ -44,12 +44,12 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
 
         switch UInt64(Int.max) {
         case UInt64(Int32.max):
-            return UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,0,UInt32(value)])
+            return UInt256([0,0,0,0,0,0,0,UInt32(value)])
         case UInt64(Int64.max):
             let rightDigit: UInt32 = UInt32(value & Int(Int32.max));
             let leftDigit:  UInt32 = UInt32(value >> 32);
 
-            return UInt256(mostSignificantOf8UInt32First: [0,0,0,0,0,0,leftDigit, rightDigit])
+            return UInt256([0,0,0,0,0,0,leftDigit, rightDigit])
         default:
             assert(false, "Unknown bit size")
             return allZeros;
@@ -92,7 +92,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         return unpaddedResult
     }
     
-    init (mostSignificantOf8UInt32First: UInt32[]) {
+    init (_ mostSignificantOf8UInt32First: UInt32[]) {
         assert(mostSignificantOf8UInt32First.count == 8, "8 UInt32's needed")
         
         for i in 0..8 {
@@ -190,7 +190,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
             i++
         }
         
-        self.init(mostSignificantOf8UInt32First: [int1, int2, int3, int4, int5, int6, int7, int8])
+        self.init([int1, int2, int3, int4, int5, int6, int7, int8])
     }
     
     init(decimalStringValue: String) {
@@ -264,7 +264,11 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
 
     static var allZeros: UInt256 {
         let zeros: UInt32[] = [0,0,0,0,0,0,0,0]
-        return UInt256(mostSignificantOf8UInt32First: zeros)
+        return UInt256(zeros)
+    }
+    
+    static var max: UInt256 {
+        return UInt256([UInt32.max, UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max])
     }
     
     func toIntMax() -> IntMax {
@@ -415,32 +419,53 @@ func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
     // Don't allow overflow for the most significant UInt32:
     sum[0] = lhs[0] + lhs[0]  + (previousDigitDidOverflow ? 1 : 0)
     
-    return UInt256(mostSignificantOf8UInt32First: sum)
+    return UInt256(sum)
+}
+
+extension UInt256 {
+    static func subtract(lhs: UInt256, rhs: UInt256, allowOverFlow:Bool = false) -> (UInt256, Bool) {
+        var previousDigitDidOverflow = false
+        var diff: UInt32[] = [0,0,0,0,0,0,0,0]
+        
+        for var i=7; i > 0; i-- {
+            let lhsForIndex: UInt32  = lhs[i]
+            let rhsForIndex: UInt32  = rhs[i]
+            
+            let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
+            
+            let diffForIndex = lhsForIndex &- rhsForIndex &- modifier
+            
+            diff[i] = diffForIndex
+            
+            previousDigitDidOverflow = diffForIndex > lhsForIndex
+        }
+        
+        if allowOverFlow {
+            diff[0] = lhs[0] &- lhs[0]  &- (previousDigitDidOverflow ? 1 : 0)
+            return (UInt256(diff), diff[0] > lhs[0])
+        } else {
+            // Don't allow overflow for the most significant UInt32:
+            diff[0] = lhs[0] - lhs[0]  - (previousDigitDidOverflow ? 1 : 0)
+            return (UInt256(diff), false)
+        }
+        
+
+    }
 }
 
 func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var previousDigitDidOverflow = false
-    var diff: UInt32[] = [0,0,0,0,0,0,0,0]
+    let (diff, _) = UInt256.subtract(lhs, rhs:rhs)
     
-    for var i=7; i > 0; i-- {
-        let lhsForIndex: UInt32  = lhs[i]
-        let rhsForIndex: UInt32  = rhs[i]
-        
-        let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
-        
-        let diffForIndex = lhsForIndex &- rhsForIndex &- modifier
-        
-        diff[i] = diffForIndex
-        
-        previousDigitDidOverflow = diffForIndex > lhsForIndex
-    }
+
     
-    // Don't allow overflow for the most significant UInt32:
-    diff[0] = lhs[0] - lhs[0]  - (previousDigitDidOverflow ? 1 : 0)
-    
-    return UInt256(mostSignificantOf8UInt32First: diff)
+    return diff
 }
 
+func &- (lhs: UInt256, rhs: UInt256) -> UInt256 {
+    let (diff, _) = UInt256.subtract(lhs, rhs:rhs, allowOverFlow: true)
+    
+    return diff
+}
 
 func << (lhs: UInt256, rhs: Int) -> UInt256 {
     assert(rhs == 1, "Only left-shift by 1 bit is supported")
@@ -540,7 +565,7 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     }
     
     
-    return UInt256(mostSignificantOf8UInt32First: product)
+    return UInt256(product)
 }
 
 func / (lhs: UInt256, rhs: UInt256) -> UInt256 {
