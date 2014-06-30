@@ -7,7 +7,7 @@
 //  Pending fixed size arrays in Swift which don't behave w̶e̶i̶r̶d̶ optimized when
 //  they get copied around with the struct they're in.
 
-struct UInt256Store { //: Sequence {
+struct UInt256Store : Sequence {
     // Todo: use 4 parts on a 64 bit system
     
     var part0: UInt32 // Most significant
@@ -84,9 +84,9 @@ struct UInt256Store { //: Sequence {
 
     }
     
-//    func generate() -> UInt256StoreItemListGenerator {
-//        return UInt256StoreItemListGenerator(items: self)
-//    }
+    func generate() -> UInt256StoreItemListGenerator {
+        return UInt256StoreItemListGenerator(items: self)
+    }
 
     
 }

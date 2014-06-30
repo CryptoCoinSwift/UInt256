@@ -57,15 +57,15 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
 
         var result: String = ""
             
-//        for int in smallerIntegers {
-//            var paddedHexString = BaseConverter.decToHex(int.description)
-//            
-//            for _ in 1...(8 - countElements(paddedHexString)) {
-//                paddedHexString = "0" + paddedHexString;
-//            }
-//            
-//            result += paddedHexString
-//        }
+        for int in smallerIntegers {
+            var paddedHexString = BaseConverter.decToHex(int.description)
+            
+            for _ in 1...(8 - countElements(paddedHexString)) {
+                paddedHexString = "0" + paddedHexString;
+            }
+            
+            result += paddedHexString
+        }
             
         // Remove 0 padding
         var unpaddedResult = ""
@@ -226,21 +226,21 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     
     var highestBit: Int {
         var bitLength: UInt32 = 256
-//        for int in self.smallerIntegers {
-//            if int == 0 {
-//                bitLength -= 32
-//            } else {
-//                for var i: UInt32 = 31; i > 0; i-- {
-//                    if (2^^i) & int != 0 {
-//                        break;
-//                    } else {
-//                        bitLength--;
-//                        
-//                    }
-//                }
-//                break;
-//            }
-//        }
+        for int in self.smallerIntegers {
+            if int == 0 {
+                bitLength -= 32
+            } else {
+                for var i: UInt32 = 31; i > 0; i-- {
+                    if (2^^i) & int != 0 {
+                        break;
+                    } else {
+                        bitLength--;
+                        
+                    }
+                }
+                break;
+            }
+        }
             
         return Int(bitLength)
     }
