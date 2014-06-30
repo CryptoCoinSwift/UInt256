@@ -101,6 +101,10 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
 
     }
     
+    init(let _ int: Int) {
+        self.init(decimalStringValue: int.description)
+    }
+    
     init(var hexStringValue: String) {
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
         
