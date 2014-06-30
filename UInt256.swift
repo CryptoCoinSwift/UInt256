@@ -21,7 +21,7 @@ operator infix ^^ { precedence 160 associativity left }
     return raiseByPositivePower(radix, power)
 }
 
-struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLiteralConvertible, ArrayBound  {
+struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLiteralConvertible, ArrayBound, Sequence  {
     // All the above are combined in the illustruous UnsignedInteger protocol. 
     // The following is still needed (mostly things like *=, &&=, etc)
     
@@ -29,6 +29,15 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     // ForwardIndex  (_Incrementable, etc)
     
     var smallerIntegers: UInt256Store = UInt256Store(array: [0,0,0,0,0,0,0,0]) // Most significant first.
+    
+    subscript(index: Int) -> UInt32 {
+        get {
+            return smallerIntegers[index]
+        }
+        set(newValue) {
+            smallerIntegers[index] = newValue
+        }
+    }
     
     static func convertFromIntegerLiteral(value: IntegerLiteralType) -> UInt256 {
        assert(value >= 0, "Unsigned integer should be 0 or larger")
@@ -57,7 +66,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
 
         var result: String = ""
             
-        for int in smallerIntegers {
+        for int in self {
             var paddedHexString = BaseConverter.decToHex(int.description)
             
             for _ in 1...(8 - countElements(paddedHexString)) {
@@ -87,7 +96,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         assert(mostSignificantOf8UInt32First.count == 8, "8 UInt32's needed")
         
         for i in 0..8 {
-            self.smallerIntegers[i] = mostSignificantOf8UInt32First[i]
+            self[i] = mostSignificantOf8UInt32First[i]
         }
 
     }
@@ -219,14 +228,14 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
             hexStringValue = "0"
         }
         
-//        self.init(hexStringValue: hexStringValue ) // This will cause EXC_BAD_ACCESS error
-        self.init(hexStringValue: NSString(format:"%@", hexStringValue))
+        self.init(hexStringValue: hexStringValue ) // This will cause EXC_BAD_ACCESS error
+//        self.init(hexStringValue: NSString(format:"%@", hexStringValue))
         
     }
     
     var highestBit: Int {
         var bitLength: UInt32 = 256
-        for int in self.smallerIntegers {
+        for int in self {
             if int == 0 {
                 bitLength -= 32
             } else {
@@ -259,7 +268,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     }
     
     func toIntMax() -> IntMax {
-        return Int64(self.smallerIntegers[6]<<32 + self.smallerIntegers[7])
+        return Int64(self[6]<<32 + self[7])
     }
     
     func divideBy(denomenator: UInt256) -> (quotient: UInt256, remainder: UInt256) {
@@ -294,7 +303,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         let index: Int = position / 32
         let bit: Int = 31 - (position % 32)
         
-        result.smallerIntegers[index] =  2^^UInt32(bit)
+        result[index] =  2^^UInt32(bit)
         
         return result
     }
@@ -309,12 +318,19 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     
 }
 
+extension UInt256 : Sequence {
+    func generate() -> IndexingGenerator<UInt32[]> {
+        return self.smallerIntegers.generate()
+    }
+}
+
+
 func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..8 {
-        let and: UInt32 = lhs.smallerIntegers[i] & rhs.smallerIntegers[i]
-        res.smallerIntegers[i] = and
+        let and: UInt32 = lhs[i] & rhs[i]
+        res[i] = and
     }
     
     return res
@@ -324,7 +340,7 @@ func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..8 {
-        res.smallerIntegers[i] = lhs.smallerIntegers[i] | rhs.smallerIntegers[i]
+        res[i] = lhs[i] | rhs[i]
     }
     
     return res
@@ -334,7 +350,7 @@ func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..8 {
-        res.smallerIntegers[i] = lhs.smallerIntegers[i] ^ rhs.smallerIntegers[i]
+        res[i] = lhs[i] ^ rhs[i]
     }
     
     return res
@@ -344,7 +360,7 @@ func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..8 {
-        res.smallerIntegers[i] = ~lhs.smallerIntegers[i]
+        res[i] = ~lhs[i]
     }
     
     return res
@@ -352,9 +368,9 @@ func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
 
 func < (lhs: UInt256, rhs: UInt256) -> Bool {
     for i in 0..8 {
-        if lhs.smallerIntegers[i] < rhs.smallerIntegers[i] {
+        if lhs[i] < rhs[i] {
             return true
-        } else if lhs.smallerIntegers[i] > rhs.smallerIntegers[i] {
+        } else if lhs[i] > rhs[i] {
             return false;
         }
     }
@@ -364,7 +380,7 @@ func < (lhs: UInt256, rhs: UInt256) -> Bool {
 
 func == (lhs: UInt256, rhs: UInt256) -> Bool {
     for i in 0..8 {
-        if lhs.smallerIntegers[i] != rhs.smallerIntegers[i] {
+        if lhs[i] != rhs[i] {
             return false
         }
     }
@@ -386,8 +402,8 @@ func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
     var sum: UInt32[] = [0,0,0,0,0,0,0,0]
 
     for var i=7; i > 0; i-- {
-        let lhsForIndex: UInt32  = lhs.smallerIntegers[i]
-        let rhsForIndex: UInt32  = rhs.smallerIntegers[i]
+        let lhsForIndex: UInt32  = lhs[i]
+        let rhsForIndex: UInt32  = rhs[i]
 
         let sumForIndex = lhsForIndex &+ rhsForIndex &+ (previousDigitDidOverflow ? 1 : 0)
         
@@ -397,7 +413,7 @@ func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
     }
     
     // Don't allow overflow for the most significant UInt32:
-    sum[0] = lhs.smallerIntegers[0] + lhs.smallerIntegers[0]  + (previousDigitDidOverflow ? 1 : 0)
+    sum[0] = lhs[0] + lhs[0]  + (previousDigitDidOverflow ? 1 : 0)
     
     return UInt256(mostSignificantOf8UInt32First: sum)
 }
@@ -407,8 +423,8 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
     var diff: UInt32[] = [0,0,0,0,0,0,0,0]
     
     for var i=7; i > 0; i-- {
-        let lhsForIndex: UInt32  = lhs.smallerIntegers[i]
-        let rhsForIndex: UInt32  = rhs.smallerIntegers[i]
+        let lhsForIndex: UInt32  = lhs[i]
+        let rhsForIndex: UInt32  = rhs[i]
         
         let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
         
@@ -420,7 +436,7 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
     }
     
     // Don't allow overflow for the most significant UInt32:
-    diff[0] = lhs.smallerIntegers[0] - lhs.smallerIntegers[0]  - (previousDigitDidOverflow ? 1 : 0)
+    diff[0] = lhs[0] - lhs[0]  - (previousDigitDidOverflow ? 1 : 0)
     
     return UInt256(mostSignificantOf8UInt32First: diff)
 }
@@ -435,13 +451,13 @@ func << (lhs: UInt256, rhs: Int) -> UInt256 {
     for var i=7; i >= 0; i-- {
         let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
         
-        let willOverflow = result.smallerIntegers[i] & leftMostBit != 0
+        let willOverflow = result[i] & leftMostBit != 0
         
-        result.smallerIntegers[i] = lhs.smallerIntegers[i] << 1
+        result[i] = lhs[i] << 1
 
         
         if(overflow) {
-            result.smallerIntegers[i] = result.smallerIntegers[i] + 1
+            result[i] = result[i] + 1
         }
         
         
@@ -451,7 +467,7 @@ func << (lhs: UInt256, rhs: Int) -> UInt256 {
     return result
 }
 
-func <<= (var lhs: UInt256, rhs: Int) -> () {
+func <<= (inout lhs: UInt256, rhs: Int) -> () {
     lhs = lhs << rhs
 }
 
@@ -467,13 +483,13 @@ func >> (lhs: UInt256, rhs: Int) -> UInt256 {
         let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
 
         
-        let willOverflow = result.smallerIntegers[i] & rightMostBit != 0
+        let willOverflow = result[i] & rightMostBit != 0
         
-        result.smallerIntegers[i] = lhs.smallerIntegers[i] >> 1
+        result[i] = lhs[i] >> 1
         
         
         if(overflow) {
-            result.smallerIntegers[i] += leftMostBit
+            result[i] += leftMostBit
         }
         
         overflow = willOverflow
@@ -482,7 +498,7 @@ func >> (lhs: UInt256, rhs: Int) -> UInt256 {
     return result
 }
 
-func >>= (var lhs: UInt256, rhs: Int) -> () {
+func >>= (inout lhs: UInt256, rhs: Int) -> () {
     lhs = lhs >> rhs
 }
 
@@ -495,12 +511,12 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     
     for var i: UInt32 = 0; i < UInt32(rhsBitLength); i++ {
         // Bitwise AND RHS with a single bit at position 256 - i (split in chunks of 32)
-        let relevantInt = rhs.smallerIntegers[Int((255 - i) / 32)]
+        let relevantInt = rhs[Int((255 - i) / 32)]
         let position = (i) % 32
         
         if(2^^position & relevantInt != 0) {
             for j in 0..8 {
-                let add: UInt32 = leftShiftedLHS.smallerIntegers[Int(j)]
+                let add: UInt32 = leftShiftedLHS[Int(j)]
                 let before: UInt32 = product[Int(j)]
                 product[Int(j)] = before &+ add
                 if before > product[Int(j)] {
@@ -516,7 +532,7 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
         // Don't allow overflow on the most significant digit:
         let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
 
-        assert(leftShiftedLHS.smallerIntegers[0] & leftMostBit == 0, "Left shift overflow not allowed for UInt256")
+        assert(leftShiftedLHS[0] & leftMostBit == 0, "Left shift overflow not allowed for UInt256")
 
         // Left shift
         leftShiftedLHS = leftShiftedLHS << 1

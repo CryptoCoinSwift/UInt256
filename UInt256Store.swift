@@ -84,31 +84,11 @@ struct UInt256Store : Sequence {
 
     }
     
-    func generate() -> UInt256StoreItemListGenerator {
-        return UInt256StoreItemListGenerator(items: self)
-    }
-
-    
 }
 
-struct UInt256StoreItemListGenerator : Generator {
-    let items: UInt256Store
-    
-    var position = -1
-    
-    mutating func next() -> UInt32? {
-        position++
-
-        if position >= 8 {
-            return nil
-        } else {
-            return items[position]
-        }
-        
-    }
-    
-    init(items: UInt256Store) {
-        self.items = items
+extension UInt256Store : Sequence {
+    func generate() -> IndexingGenerator<UInt32[]> {
+        return [part0, part1, part2, part3, part4, part5, part6, part7].generate()
     }
 }
 

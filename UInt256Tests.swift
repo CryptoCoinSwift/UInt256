@@ -224,6 +224,13 @@ class UInt256Tests: XCTestCase {
     
     func testLeftShift() {
         var a = UInt256(decimalStringValue: "32")
+        
+        XCTAssertEqual((a << 1).toDecimalString, "64", "");
+    }
+    
+    func testAssignLeftShift() {
+        var a = UInt256(decimalStringValue: "32")
+        
         a <<= 1
         
         XCTAssertEqual(a.toDecimalString, "64", "");
