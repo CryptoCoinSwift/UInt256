@@ -467,6 +467,8 @@ func &- (lhs: UInt256, rhs: UInt256) -> UInt256 {
     return diff
 }
 
+
+
 func << (lhs: UInt256, rhs: Int) -> UInt256 {
     assert(rhs == 1, "Only left-shift by 1 bit is supported")
     
@@ -494,6 +496,16 @@ func << (lhs: UInt256, rhs: Int) -> UInt256 {
 
 func <<= (inout lhs: UInt256, rhs: Int) -> () {
     lhs = lhs << rhs
+}
+
+func += (inout lhs: UInt256, rhs: UInt256) -> () {
+    lhs = lhs + rhs
+}
+
+@postfix func ++ (inout lhs: UInt256) -> (UInt256) {
+    lhs += UInt256([0,0,0,0,0,0,0,1])
+    
+    return lhs
 }
 
 func >> (lhs: UInt256, rhs: Int) -> UInt256 {
