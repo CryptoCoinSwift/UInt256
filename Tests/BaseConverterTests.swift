@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CryptoCoin
+import UInt256
 
 class BaseConverterTests: XCTestCase {
 
