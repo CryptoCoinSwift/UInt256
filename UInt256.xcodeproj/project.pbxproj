@@ -65,9 +65,9 @@
 		A2A1A0C81962DAFC00701051 /* UInt256Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UInt256Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverterTests.swift; path = Tests/BaseConverterTests.swift; sourceTree = SOURCE_ROOT; };
 		A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256Tests.swift; path = Tests/UInt256Tests.swift; sourceTree = SOURCE_ROOT; };
-		A2B8A5311962CFB400117EF5 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConverter.swift; sourceTree = "<group>"; };
-		A2B8A5321962CFB400117EF5 /* UInt256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256.swift; sourceTree = "<group>"; };
-		A2B8A5331962CFB400117EF5 /* UInt256Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256Store.swift; sourceTree = "<group>"; };
+		A2B8A5311962CFB400117EF5 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverter.swift; path = Classes/BaseConverter.swift; sourceTree = "<group>"; };
+		A2B8A5321962CFB400117EF5 /* UInt256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256.swift; path = Classes/UInt256.swift; sourceTree = "<group>"; };
+		A2B8A5331962CFB400117EF5 /* UInt256Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256Store.swift; path = Classes/UInt256Store.swift; sourceTree = "<group>"; };
 		A2D32CEF1962CED3001B5998 /* UInt256Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UInt256Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2D32CF31962CED3001B5998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Demo/Info.plist; sourceTree = "<group>"; };
 		A2D32CF41962CED3001B5998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "/Users/sjors/Dropbox/BitB/iOs/Crypto Coin Swift/UInt256/Demo/AppDelegate.swift"; sourceTree = "<absolute>"; };
@@ -540,6 +540,7 @@
 				A2A1A0D91962DAFC00701051 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A2A1A0DB1962DAFC00701051 /* Build configuration list for PBXNativeTarget "UInt256Tests" */ = {
 			isa = XCConfigurationList;
@@ -548,6 +549,7 @@
 				A2A1A0DD1962DAFC00701051 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A2D32CEA1962CED3001B5998 /* Build configuration list for PBXProject "UInt256" */ = {
 			isa = XCConfigurationList;
