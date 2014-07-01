@@ -8,57 +8,94 @@
 
 /* Begin PBXBuildFile section */
 		A2A1A0A71962D1C600701051 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D32CF41962CED3001B5998 /* AppDelegate.swift */; };
-		A2B8A52F1962CF9300117EF5 /* BaseConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */; };
-		A2B8A5301962CF9300117EF5 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
-		A2B8A5341962CFB400117EF5 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5311962CFB400117EF5 /* BaseConverter.swift */; };
-		A2B8A5351962CFB400117EF5 /* UInt256.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5321962CFB400117EF5 /* UInt256.swift */; };
-		A2B8A5361962CFB400117EF5 /* UInt256Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5331962CFB400117EF5 /* UInt256Store.swift */; };
+		A2A1A0C31962DAFC00701051 /* UInt256.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A1A0C21962DAFC00701051 /* UInt256.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A2A1A0C91962DAFC00701051 /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A1A0BE1962DAFC00701051 /* UInt256.framework */; };
+		A2A1A0D31962DAFC00701051 /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A1A0BE1962DAFC00701051 /* UInt256.framework */; };
+		A2A1A0D41962DAFC00701051 /* UInt256.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2A1A0BE1962DAFC00701051 /* UInt256.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		A2A1A0DE1962DB2100701051 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5311962CFB400117EF5 /* BaseConverter.swift */; };
+		A2A1A0DF1962DB2400701051 /* UInt256.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5321962CFB400117EF5 /* UInt256.swift */; };
+		A2A1A0E01962DB2600701051 /* UInt256Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5331962CFB400117EF5 /* UInt256Store.swift */; };
+		A2A1A0E11962DB2D00701051 /* BaseConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */; };
+		A2A1A0E21962DB2F00701051 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
 		A2D32CF71962CED3001B5998 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2D32CF61962CED3001B5998 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A2A1A0A81962D3A600701051 /* PBXContainerItemProxy */ = {
+		A2A1A0CA1962DAFC00701051 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A2D32CEE1962CED3001B5998;
+			remoteGlobalIDString = A2A1A0BD1962DAFC00701051;
 			remoteInfo = UInt256;
 		};
-		A2D32CFD1962CED3001B5998 /* PBXContainerItemProxy */ = {
+		A2A1A0D11962DAFC00701051 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A2D32CEE1962CED3001B5998;
+			remoteGlobalIDString = A2A1A0BD1962DAFC00701051;
+			remoteInfo = UInt256;
+		};
+		A2A1A0D51962DAFC00701051 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A2A1A0BD1962DAFC00701051;
 			remoteInfo = UInt256;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A2A1A0DA1962DAFC00701051 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A2A1A0D41962DAFC00701051 /* UInt256.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		A2A1A0BE1962DAFC00701051 /* UInt256.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UInt256.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2A1A0C11962DAFC00701051 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UInt256/Info.plist; sourceTree = "<group>"; };
+		A2A1A0C21962DAFC00701051 /* UInt256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UInt256.h; path = UInt256/UInt256.h; sourceTree = "<group>"; };
+		A2A1A0C81962DAFC00701051 /* UInt256Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UInt256Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverterTests.swift; path = Tests/BaseConverterTests.swift; sourceTree = SOURCE_ROOT; };
 		A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256Tests.swift; path = Tests/UInt256Tests.swift; sourceTree = SOURCE_ROOT; };
 		A2B8A5311962CFB400117EF5 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConverter.swift; sourceTree = "<group>"; };
 		A2B8A5321962CFB400117EF5 /* UInt256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256.swift; sourceTree = "<group>"; };
 		A2B8A5331962CFB400117EF5 /* UInt256Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256Store.swift; sourceTree = "<group>"; };
-		A2D32CEF1962CED3001B5998 /* UInt256.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UInt256.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2D32CEF1962CED3001B5998 /* UInt256Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UInt256Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2D32CF31962CED3001B5998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Demo/Info.plist; sourceTree = "<group>"; };
 		A2D32CF41962CED3001B5998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "/Users/sjors/Dropbox/BitB/iOs/Crypto Coin Swift/UInt256/Demo/AppDelegate.swift"; sourceTree = "<absolute>"; };
 		A2D32CF61962CED3001B5998 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "/Users/sjors/Dropbox/BitB/iOs/Crypto Coin Swift/UInt256/Demo/Images.xcassets"; sourceTree = "<absolute>"; };
-		A2D32CFC1962CED3001B5998 /* UInt256Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UInt256Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2D32D011962CED3001B5998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Tests/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A2D32CEC1962CED3001B5998 /* Frameworks */ = {
+		A2A1A0BA1962DAFC00701051 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A2D32CF91962CED3001B5998 /* Frameworks */ = {
+		A2A1A0C51962DAFC00701051 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2A1A0C91962DAFC00701051 /* UInt256.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2D32CEC1962CED3001B5998 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2A1A0D31962DAFC00701051 /* UInt256.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,9 +105,11 @@
 		A2B8A5371962CFB900117EF5 /* UInt256 */ = {
 			isa = PBXGroup;
 			children = (
+				A2A1A0C21962DAFC00701051 /* UInt256.h */,
 				A2B8A5311962CFB400117EF5 /* BaseConverter.swift */,
 				A2B8A5321962CFB400117EF5 /* UInt256.swift */,
 				A2B8A5331962CFB400117EF5 /* UInt256Store.swift */,
+				A2A1A0C11962DAFC00701051 /* Info.plist */,
 			);
 			name = UInt256;
 			sourceTree = "<group>";
@@ -88,8 +127,9 @@
 		A2D32CF01962CED3001B5998 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A2D32CEF1962CED3001B5998 /* UInt256.app */,
-				A2D32CFC1962CED3001B5998 /* UInt256Tests.xctest */,
+				A2D32CEF1962CED3001B5998 /* UInt256Demo.app */,
+				A2A1A0BE1962DAFC00701051 /* UInt256.framework */,
+				A2A1A0C81962DAFC00701051 /* UInt256Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,14 +173,26 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		A2A1A0BB1962DAFC00701051 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2A1A0C31962DAFC00701051 /* UInt256.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		A2D32CEE1962CED3001B5998 /* UInt256 */ = {
+		A2A1A0BD1962DAFC00701051 /* UInt256 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A2D32D061962CED3001B5998 /* Build configuration list for PBXNativeTarget "UInt256" */;
+			buildConfigurationList = A2A1A0D71962DAFC00701051 /* Build configuration list for PBXNativeTarget "UInt256" */;
 			buildPhases = (
-				A2D32CEB1962CED3001B5998 /* Sources */,
-				A2D32CEC1962CED3001B5998 /* Frameworks */,
-				A2D32CED1962CED3001B5998 /* Resources */,
+				A2A1A0B91962DAFC00701051 /* Sources */,
+				A2A1A0BA1962DAFC00701051 /* Frameworks */,
+				A2A1A0BB1962DAFC00701051 /* Headers */,
+				A2A1A0BC1962DAFC00701051 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -148,27 +200,46 @@
 			);
 			name = UInt256;
 			productName = UInt256;
-			productReference = A2D32CEF1962CED3001B5998 /* UInt256.app */;
-			productType = "com.apple.product-type.application";
+			productReference = A2A1A0BE1962DAFC00701051 /* UInt256.framework */;
+			productType = "com.apple.product-type.framework";
 		};
-		A2D32CFB1962CED3001B5998 /* UInt256Tests */ = {
+		A2A1A0C71962DAFC00701051 /* UInt256Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A2D32D091962CED3001B5998 /* Build configuration list for PBXNativeTarget "UInt256Tests" */;
+			buildConfigurationList = A2A1A0DB1962DAFC00701051 /* Build configuration list for PBXNativeTarget "UInt256Tests" */;
 			buildPhases = (
-				A2D32CF81962CED3001B5998 /* Sources */,
-				A2D32CF91962CED3001B5998 /* Frameworks */,
-				A2D32CFA1962CED3001B5998 /* Resources */,
+				A2A1A0C41962DAFC00701051 /* Sources */,
+				A2A1A0C51962DAFC00701051 /* Frameworks */,
+				A2A1A0C61962DAFC00701051 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				A2D32CFE1962CED3001B5998 /* PBXTargetDependency */,
-				A2A1A0A91962D3A600701051 /* PBXTargetDependency */,
+				A2A1A0CB1962DAFC00701051 /* PBXTargetDependency */,
 			);
 			name = UInt256Tests;
 			productName = UInt256Tests;
-			productReference = A2D32CFC1962CED3001B5998 /* UInt256Tests.xctest */;
+			productReference = A2A1A0C81962DAFC00701051 /* UInt256Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A2D32CEE1962CED3001B5998 /* UInt256Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2D32D061962CED3001B5998 /* Build configuration list for PBXNativeTarget "UInt256Demo" */;
+			buildPhases = (
+				A2D32CEB1962CED3001B5998 /* Sources */,
+				A2D32CEC1962CED3001B5998 /* Frameworks */,
+				A2D32CED1962CED3001B5998 /* Resources */,
+				A2A1A0DA1962DAFC00701051 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2A1A0D21962DAFC00701051 /* PBXTargetDependency */,
+				A2A1A0D61962DAFC00701051 /* PBXTargetDependency */,
+			);
+			name = UInt256Demo;
+			productName = UInt256;
+			productReference = A2D32CEF1962CED3001B5998 /* UInt256Demo.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -179,12 +250,15 @@
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Crypto Coin Swift";
 				TargetAttributes = {
-					A2D32CEE1962CED3001B5998 = {
+					A2A1A0BD1962DAFC00701051 = {
 						CreatedOnToolsVersion = 6.0;
 					};
-					A2D32CFB1962CED3001B5998 = {
+					A2A1A0C71962DAFC00701051 = {
 						CreatedOnToolsVersion = 6.0;
-						TestTargetID = A2D32CEE1962CED3001B5998;
+						TestTargetID = A2A1A0BD1962DAFC00701051;
+					};
+					A2D32CEE1962CED3001B5998 = {
+						CreatedOnToolsVersion = 6.0;
 					};
 				};
 			};
@@ -200,13 +274,28 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A2D32CEE1962CED3001B5998 /* UInt256 */,
-				A2D32CFB1962CED3001B5998 /* UInt256Tests */,
+				A2D32CEE1962CED3001B5998 /* UInt256Demo */,
+				A2A1A0BD1962DAFC00701051 /* UInt256 */,
+				A2A1A0C71962DAFC00701051 /* UInt256Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A2A1A0BC1962DAFC00701051 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2A1A0C61962DAFC00701051 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2D32CED1962CED3001B5998 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,52 +304,133 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A2D32CFA1962CED3001B5998 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A2A1A0B91962DAFC00701051 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2A1A0E01962DB2600701051 /* UInt256Store.swift in Sources */,
+				A2A1A0DE1962DB2100701051 /* BaseConverter.swift in Sources */,
+				A2A1A0DF1962DB2400701051 /* UInt256.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2A1A0C41962DAFC00701051 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2A1A0E21962DB2F00701051 /* UInt256Tests.swift in Sources */,
+				A2A1A0E11962DB2D00701051 /* BaseConverterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2D32CEB1962CED3001B5998 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A2A1A0A71962D1C600701051 /* AppDelegate.swift in Sources */,
-				A2B8A5351962CFB400117EF5 /* UInt256.swift in Sources */,
-				A2B8A5341962CFB400117EF5 /* BaseConverter.swift in Sources */,
-				A2B8A5361962CFB400117EF5 /* UInt256Store.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A2D32CF81962CED3001B5998 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A2B8A52F1962CF9300117EF5 /* BaseConverterTests.swift in Sources */,
-				A2B8A5301962CF9300117EF5 /* UInt256Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A2A1A0A91962D3A600701051 /* PBXTargetDependency */ = {
+		A2A1A0CB1962DAFC00701051 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A2D32CEE1962CED3001B5998 /* UInt256 */;
-			targetProxy = A2A1A0A81962D3A600701051 /* PBXContainerItemProxy */;
+			target = A2A1A0BD1962DAFC00701051 /* UInt256 */;
+			targetProxy = A2A1A0CA1962DAFC00701051 /* PBXContainerItemProxy */;
 		};
-		A2D32CFE1962CED3001B5998 /* PBXTargetDependency */ = {
+		A2A1A0D21962DAFC00701051 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A2D32CEE1962CED3001B5998 /* UInt256 */;
-			targetProxy = A2D32CFD1962CED3001B5998 /* PBXContainerItemProxy */;
+			target = A2A1A0BD1962DAFC00701051 /* UInt256 */;
+			targetProxy = A2A1A0D11962DAFC00701051 /* PBXContainerItemProxy */;
+		};
+		A2A1A0D61962DAFC00701051 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A2A1A0BD1962DAFC00701051 /* UInt256 */;
+			targetProxy = A2A1A0D51962DAFC00701051 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A2A1A0D81962DAFC00701051 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = UInt256/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A2A1A0D91962DAFC00701051 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = UInt256/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A2A1A0DC1962DAFC00701051 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = UInt256Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A2A1A0DD1962DAFC00701051 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = UInt256Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		A2D32D041962CED3001B5998 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -360,48 +530,25 @@
 			};
 			name = Release;
 		};
-		A2D32D0A1962CED3001B5998 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/UInt256.app/UInt256";
-				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = UInt256Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				METAL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Debug;
-		};
-		A2D32D0B1962CED3001B5998 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/UInt256.app/UInt256";
-				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = UInt256Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A2A1A0D71962DAFC00701051 /* Build configuration list for PBXNativeTarget "UInt256" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2A1A0D81962DAFC00701051 /* Debug */,
+				A2A1A0D91962DAFC00701051 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		A2A1A0DB1962DAFC00701051 /* Build configuration list for PBXNativeTarget "UInt256Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2A1A0DC1962DAFC00701051 /* Debug */,
+				A2A1A0DD1962DAFC00701051 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		A2D32CEA1962CED3001B5998 /* Build configuration list for PBXProject "UInt256" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -411,20 +558,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A2D32D061962CED3001B5998 /* Build configuration list for PBXNativeTarget "UInt256" */ = {
+		A2D32D061962CED3001B5998 /* Build configuration list for PBXNativeTarget "UInt256Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A2D32D071962CED3001B5998 /* Debug */,
 				A2D32D081962CED3001B5998 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A2D32D091962CED3001B5998 /* Build configuration list for PBXNativeTarget "UInt256Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A2D32D0A1962CED3001B5998 /* Debug */,
-				A2D32D0B1962CED3001B5998 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

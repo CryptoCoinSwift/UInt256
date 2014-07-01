@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>UInt256 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>UInt256.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>A2A1A0BD1962DAFC00701051</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A2A1A0C71962DAFC00701051</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A2D32CEE1962CED3001B5998</key>
 		<dict>
 			<key>primary</key>

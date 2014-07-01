@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A2D32CEE1962CED3001B5998"
-               BuildableName = "UInt256Demo.app"
-               BlueprintName = "UInt256Demo"
+               BlueprintIdentifier = "A2A1A0BD1962DAFC00701051"
+               BuildableName = "UInt256.framework"
+               BlueprintName = "UInt256"
                ReferencedContainer = "container:UInt256.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,22 +32,13 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A2D32CFB1962CED3001B5998"
+               BlueprintIdentifier = "A2A1A0C71962DAFC00701051"
                BuildableName = "UInt256Tests.xctest"
                BlueprintName = "UInt256Tests"
                ReferencedContainer = "container:UInt256.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A2D32CEE1962CED3001B5998"
-            BuildableName = "UInt256Demo.app"
-            BlueprintName = "UInt256Demo"
-            ReferencedContainer = "container:UInt256.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -58,15 +49,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A2D32CEE1962CED3001B5998"
-            BuildableName = "UInt256Demo.app"
-            BlueprintName = "UInt256Demo"
-            ReferencedContainer = "container:UInt256.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -76,15 +58,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A2D32CEE1962CED3001B5998"
-            BuildableName = "UInt256Demo.app"
-            BlueprintName = "UInt256Demo"
-            ReferencedContainer = "container:UInt256.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
