@@ -347,7 +347,33 @@ class UInt256Tests: XCTestCase {
         let res = a * a
         
         XCTAssertEqual(res, c, "");
+
+    }
+
+
+    
+    func testMultiplyOverflow() {
+        let a = UInt256(hexStringValue: "8888888888888888888888888888888888888888888888888888888888888888")
+        let b = UInt256(hexStringValue: "0000000000000000000000000000000000000000000000000000000000000002")
+        let c = UInt256(hexStringValue: "1111111111111111111111111111111111111111111111111111111111111110")
         
+        // Should crash: let res = a * b
+        
+        let res = a &* b
+        
+        XCTAssertTrue(res == c, "");
+    }
+    
+    func testMultiplyPartOverflow() {
+        let a = UInt256(hexStringValue: "0000000000000000000000008888888888888888888888888888888888888888")
+        let b = UInt256(hexStringValue: "0000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000")
+        
+        // This should crash:
+        //        let res = a * b
+        
+        let res = a &* b
+                        
+        XCTAssertTrue(true, ""); // Just make sure it doesn't crash
     }
 
     func testSingleBitAt() {
