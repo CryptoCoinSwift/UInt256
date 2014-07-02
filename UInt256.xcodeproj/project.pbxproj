@@ -14,6 +14,7 @@
 		A2A1A0E01962DB2600701051 /* UInt256Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5331962CFB400117EF5 /* UInt256Store.swift */; };
 		A2A1A0E11962DB2D00701051 /* BaseConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */; };
 		A2A1A0E21962DB2F00701051 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
+		A2D1FF99196336DB00905250 /* UInt256+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D1FF98196336DB00905250 /* UInt256+Operators.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		A2B8A5311962CFB400117EF5 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverter.swift; path = Classes/BaseConverter.swift; sourceTree = "<group>"; };
 		A2B8A5321962CFB400117EF5 /* UInt256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256.swift; path = Classes/UInt256.swift; sourceTree = "<group>"; };
 		A2B8A5331962CFB400117EF5 /* UInt256Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256Store.swift; path = Classes/UInt256Store.swift; sourceTree = "<group>"; };
+		A2D1FF98196336DB00905250 /* UInt256+Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Operators.swift"; path = "Classes/UInt256+Operators.swift"; sourceTree = "<group>"; };
 		A2D32D011962CED3001B5998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Tests/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,8 +65,9 @@
 			children = (
 				A2A1A0C21962DAFC00701051 /* UInt256.h */,
 				A2B8A5311962CFB400117EF5 /* BaseConverter.swift */,
-				A2B8A5321962CFB400117EF5 /* UInt256.swift */,
 				A2B8A5331962CFB400117EF5 /* UInt256Store.swift */,
+				A2B8A5321962CFB400117EF5 /* UInt256.swift */,
+				A2D1FF98196336DB00905250 /* UInt256+Operators.swift */,
 				A2A1A0C11962DAFC00701051 /* Info.plist */,
 			);
 			name = UInt256;
@@ -214,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2D1FF99196336DB00905250 /* UInt256+Operators.swift in Sources */,
 				A2A1A0E01962DB2600701051 /* UInt256Store.swift in Sources */,
 				A2A1A0DE1962DB2100701051 /* BaseConverter.swift in Sources */,
 				A2A1A0DF1962DB2400701051 /* UInt256.swift in Sources */,

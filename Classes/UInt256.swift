@@ -59,6 +59,9 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     var description: String { return self.toDecimalString }
     
     var toDecimalString: String {
+        if self == 0 {
+            return 0.description
+        }
         return BaseConverter.hexToDec(self.toHexString)
     }
     
@@ -87,6 +90,10 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
             if didEncounterFirstNonZeroDigit {
                 unpaddedResult += digit
             }
+        }
+            
+        if unpaddedResult == "" {
+          unpaddedResult = "0"
         }
             
         return unpaddedResult
@@ -282,7 +289,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     func divideBy(denomenator: UInt256) -> (quotient: UInt256, remainder: UInt256) {
         assert(denomenator != UInt256.allZeros, "Divide by zero")
         let numerator = self
-
+        
         var  quotient: UInt256 = 0
         var remainder: UInt256 = 0
         
@@ -296,7 +303,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
             }
             
             if remainder >= denomenator {
-//                println("R=\( remainder ) D=\( denomenator )")
+                // println("R=\( remainder ) D=\( denomenator )")
                 remainder = remainder - denomenator
                 quotient = quotient | UInt256.singleBitAt(255 - i)
             }
@@ -317,13 +324,12 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     }
     
     mutating func setBitAt(position: Int) -> () {
-      self = (self & ~UInt256.singleBitAt(position)) | UInt256.singleBitAt(position)
+        self = (self & ~UInt256.singleBitAt(position)) | UInt256.singleBitAt(position)
     }
     
     mutating func unsetBitAt(position: Int) -> () {
         self = self & ~UInt256.singleBitAt(position)
     }
-    
 }
 
 extension UInt256 : Sequence {
@@ -333,283 +339,4 @@ extension UInt256 : Sequence {
 }
 
 
-func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
-    
-    for i in 0..8 {
-        let and: UInt32 = lhs[i] & rhs[i]
-        res[i] = and
-    }
-    
-    return res
-}
 
-func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
-    
-    for i in 0..8 {
-        res[i] = lhs[i] | rhs[i]
-    }
-    
-    return res
-}
-
-func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
-    
-    for i in 0..8 {
-        res[i] = lhs[i] ^ rhs[i]
-    }
-    
-    return res
-}
-
-@prefix func ~(lhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
-    
-    for i in 0..8 {
-        res[i] = ~lhs[i]
-    }
-    
-    return res
-}
-
-func < (lhs: UInt256, rhs: UInt256) -> Bool {
-    for i in 0..8 {
-        if lhs[i] < rhs[i] {
-            return true
-        } else if lhs[i] > rhs[i] {
-            return false;
-        }
-    }
-    
-    return false
-}
-
-func == (lhs: UInt256, rhs: UInt256) -> Bool {
-    for i in 0..8 {
-        if lhs[i] != rhs[i] {
-            return false
-        }
-    }
-    
-    return true
-}
-
-
-func >= (lhs: UInt256, rhs: UInt256) -> Bool {
-    return lhs == rhs || lhs > rhs
-}
-
-func <= (lhs: UInt256, rhs: UInt256) -> Bool {
-    return lhs == rhs || lhs < rhs
-}
-
-func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var previousDigitDidOverflow = false
-    var sum: UInt32[] = [0,0,0,0,0,0,0,0]
-
-    for var i=7; i > 0; i-- {
-        let lhsForIndex: UInt32  = lhs[i]
-        let rhsForIndex: UInt32  = rhs[i]
-
-        let sumForIndex = lhsForIndex &+ rhsForIndex &+ (previousDigitDidOverflow ? 1 : 0)
-        
-        sum[i] = sumForIndex
-        
-        previousDigitDidOverflow = sumForIndex < lhsForIndex
-    }
-    
-    // Don't allow overflow for the most significant UInt32:
-    sum[0] = lhs[0] + lhs[0]  + (previousDigitDidOverflow ? 1 : 0)
-    
-    return UInt256(sum)
-}
-
-extension UInt256 {
-    static func subtract(lhs: UInt256, rhs: UInt256, allowOverFlow:Bool = false) -> (UInt256, Bool) {
-        var previousDigitDidOverflow = false
-        var diff: UInt32[] = [0,0,0,0,0,0,0,0]
-        
-        for var i=7; i > 0; i-- {
-            let lhsForIndex: UInt32  = lhs[i]
-            let rhsForIndex: UInt32  = rhs[i]
-            
-            let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
-            
-            let diffForIndex = lhsForIndex &- rhsForIndex &- modifier
-            
-            diff[i] = diffForIndex
-            
-            previousDigitDidOverflow = diffForIndex > lhsForIndex
-        }
-        
-        if allowOverFlow {
-            diff[0] = lhs[0] &- lhs[0]  &- (previousDigitDidOverflow ? 1 : 0)
-            return (UInt256(diff), diff[0] > lhs[0])
-        } else {
-            // Don't allow overflow for the most significant UInt32:
-            diff[0] = lhs[0] - lhs[0]  - (previousDigitDidOverflow ? 1 : 0)
-            return (UInt256(diff), false)
-        }
-        
-
-    }
-}
-
-func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (diff, _) = UInt256.subtract(lhs, rhs:rhs)
-    
-
-    
-    return diff
-}
-
-func &- (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (diff, _) = UInt256.subtract(lhs, rhs:rhs, allowOverFlow: true)
-    
-    return diff
-}
-
-
-
-func << (lhs: UInt256, rhs: Int) -> UInt256 {
-    assert(rhs == 1, "Only left-shift by 1 bit is supported")
-    
-    var result = lhs
-    
-    var overflow = false
-    for var i=7; i >= 0; i-- {
-        let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-        
-        let willOverflow = result[i] & leftMostBit != 0
-        
-        result[i] = lhs[i] << 1
-
-        
-        if(overflow) {
-            result[i] = result[i] + 1
-        }
-        
-        
-        overflow = willOverflow
-    }
-    
-    return result
-}
-
-func <<= (inout lhs: UInt256, rhs: Int) -> () {
-    lhs = lhs << rhs
-}
-
-func += (inout lhs: UInt256, rhs: UInt256) -> () {
-    lhs = lhs + rhs
-}
-
-@postfix func ++ (inout lhs: UInt256) -> (UInt256) {
-    lhs += UInt256([0,0,0,0,0,0,0,1])
-    
-    return lhs
-}
-
-func >> (lhs: UInt256, rhs: Int) -> UInt256 {
-    assert(rhs == 1, "Only right-shift by 1 bit is supported")
-    
-    var result = lhs
-    
-    var overflow = false
-    for i in 0..8 {
-        
-        let rightMostBit: UInt32 = 0b0000_0000_0000_0000_0000_0000_0000_0001
-        let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-
-        
-        let willOverflow = result[i] & rightMostBit != 0
-        
-        result[i] = lhs[i] >> 1
-        
-        
-        if(overflow) {
-            result[i] += leftMostBit
-        }
-        
-        overflow = willOverflow
-    }
-    
-    return result
-}
-
-func >>= (inout lhs: UInt256, rhs: Int) -> () {
-    lhs = lhs >> rhs
-}
-
-extension UInt256 {
-    static func multiply (lhs: UInt256, _ rhs: UInt256, _ allowOverflow: Bool) -> UInt256 {
-        var rhsBitLength = rhs.highestBit
-        
-        var product: UInt32[] = [0,0,0,0,0,0,0,0]
-        
-        var leftShiftedLHS = lhs
-        
-        for var i: UInt32 = 0; i < UInt32(rhsBitLength); i++ {
-            // Bitwise AND RHS with a single bit at position 256 - i (split in chunks of 32)
-            let relevantInt = rhs[Int((255 - i) / 32)]
-            let position = (i) % 32
-            
-            if(2^^position & relevantInt != 0) {
-                for j in 0..8 {
-                    let add: UInt32 = leftShiftedLHS[Int(j)]
-                    let before: UInt32 = product[Int(j)]
-                    product[Int(j)] = before &+ add
-                    if before > product[Int(j)] {
-                        if(i > 0 && j > 0) {
-                            product[Int(j) - 1]++
-                        } else {
-                            if allowOverflow {
-                                // Noting to do
-                            } else {
-                                assert(false, "Overflow")
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if(!allowOverflow) {
-                // Don't allow overflow on the most significant digit:
-                let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-                
-                assert(leftShiftedLHS[0] & leftMostBit == 0, "Left shift overflow not allowed for UInt256")
-            }
-                
-            // Left shift
-            leftShiftedLHS = leftShiftedLHS << 1
-            
-        }
-        
-        
-        return UInt256(product)
-
-    }
-}
-
-func &* (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    return UInt256.multiply(lhs, rhs, true)
-}
-
-func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    return UInt256.multiply(lhs, rhs, false)
-}
-
-func / (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (quotient, _) = lhs.divideBy(rhs)
-    
-    return quotient
-}
-
-func % (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (_, remainder) = lhs.divideBy(rhs)
-    
-    return remainder
-    
-}
