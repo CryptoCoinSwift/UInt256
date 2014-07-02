@@ -85,8 +85,32 @@ func += (inout lhs: UInt256, rhs: UInt256) -> () {
     lhs = lhs + rhs
 }
 
+func -= (inout lhs: UInt256, rhs: UInt256) -> () {
+    lhs = lhs - rhs
+}
+
 @postfix func ++ (inout lhs: UInt256) -> (UInt256) {
+    let oldValue = lhs
     lhs += UInt256([0,0,0,0,0,0,0,1])
+    
+    return oldValue
+}
+
+@prefix func ++ (inout lhs: UInt256) -> (UInt256) {
+    lhs += UInt256([0,0,0,0,0,0,0,1])
+    
+    return lhs
+}
+
+@postfix func -- (inout lhs: UInt256) -> (UInt256) {
+    let oldValue = lhs
+    lhs -= UInt256([0,0,0,0,0,0,0,1])
+    
+    return oldValue
+}
+
+@prefix func -- (inout lhs: UInt256) -> (UInt256) {
+    lhs -= UInt256([0,0,0,0,0,0,0,1])
     
     return lhs
 }
