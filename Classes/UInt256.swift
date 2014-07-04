@@ -335,35 +335,32 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         // http://rosettacode.org/wiki/Modular_inverse#C
         var a = self
         var b = m
+        
         let b0 = b
         var t: UInt256
         var q: UInt256
         var x0 = UInt256.allZeros
+        var x0positive = true
         var x1 = UInt256(1)
         
-        if (m == 1) {
+        if (b == 1) {
             return 1
         }
         
         while (a > 1) {
-//            println("Divide...")
-            q = a / b;
+            q = a / b
             t = b
-//            println("Modulo...")
             b = a % b
             a = t
             t = x0
-            //x0 = x1 &- q &* x0
-//            println("Multiply..")
-            let temp = q &* x0
-//            println("Subtract...")
+            let temp: UInt256 = q &* x0 // Should this really overflow?
             x0 = x1 &- temp
+            x0positive = x1 >= x0
             x1 = t
         }
         
-        if (x1 < 0) {
-            println("Add...")
-            x1 += b0
+        if (!x0positive) {
+            x1 = x1 &+ b0
         }
         
         return x1;
