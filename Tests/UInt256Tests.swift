@@ -562,4 +562,16 @@ class UInt256Tests: XCTestCase {
         XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
         
     }
+    
+    func testModularMultiplicativeInverse() {
+        let a = UInt256(hexStringValue: "FFFFFF")
+        let m = "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f"
+        
+        let aInverse = "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493"
+        
+        let res = a.inverseModulo(m)
+        
+        XCTAssertEqual(res, aInverse, res.toHexString);
+
+    }
 }
