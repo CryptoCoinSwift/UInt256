@@ -323,3 +323,7 @@ func % (lhs: UInt256, rhs: UInt256) -> UInt256 {
     return remainder
     
 }
+
+func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
+    return UInt256.allZeros
+}

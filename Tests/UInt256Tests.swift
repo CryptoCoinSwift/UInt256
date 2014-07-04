@@ -425,6 +425,17 @@ class UInt256Tests: XCTestCase {
         XCTAssertTrue(resLeft == cLeft && resRight == cRight, "( \(resLeft), \(resRight) )");
     }
 
+    func testModuloFromTuple() {
+        let tuple = (UInt256(hexStringValue: "33F23902074835C68CC1630F5EA81161C3720765CC78C137D6434422659760CC"),UInt256(hexStringValue: "493EF0F253A03B4AB649EA632C432258F7886805422976F65A3E63DE32D809D8"))
+    
+        let p = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F")
+        
+        let modulo = UInt256(hexStringValue: "8FF2B776AAF6D91942FD096D2F1F7FD9AA2F64BE71462131AA7F067E28FEF8AC")
+        
+        let result = tuple % p
+        
+        XCTAssertEqual(result, modulo, result.description)
+    }
     
     func testMultiplyPartOverflow() {
         let a = UInt256(hexStringValue: "0000000000000000000000008888888888888888888888888888888888888888")
