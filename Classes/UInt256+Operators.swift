@@ -353,9 +353,23 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         if left == 0 {
            z₁ = right - z₂ - z₀
         } else {
-          let willOverflow = right < z₂ + z₀
+          var willOverflow = false
+            let addSafe = z₂ &+ z₀
+            if addSafe >= z₂ { // z₂ + z₀ doesn't overflow
+                willOverflow = right < addSafe
+            } else {
+                if left == 1 {
+                    willOverflow = right < addSafe
+                } else if left > 1 { // left > 1; we already checked left = 0 above
+                    willOverflow = false
+                }
+            }
+            
+            
+            
+          
             if (willOverflow) {
-                z₁tuple = (left - 1, right - z₂ - z₀)
+                z₁tuple = (left - 1, right &- z₂ &- z₀)
             } else {
                 z₁tuple = (left, right - z₂ - z₀)
 
