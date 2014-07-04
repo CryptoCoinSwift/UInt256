@@ -434,7 +434,7 @@ class UInt256Tests: XCTestCase {
         
         let result = tuple % p
         
-        XCTAssertEqual(result, modulo, result.description)
+        XCTAssertEqual(result, modulo, result.toHexString)
     }
     
     func testMultiplyPartOverflow() {

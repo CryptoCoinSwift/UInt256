@@ -185,27 +185,39 @@ func << (lhs: UInt256, rhs: Int) -> UInt256 {
 }
 
 func >> (lhs: UInt256, rhs: Int) -> UInt256 {
-    assert(rhs == 1, "Only right-shift by 1 bit is supported")
+    if rhs >= 256 {
+        return UInt256.allZeros
+    }
+    
+    if rhs == 255 {
+        if lhs & UInt256.singleBitAt(0) == 0 {
+            return 0
+        } else {
+            return UInt256.singleBitAt(255)
+        }
+    }
     
     var result = lhs
     
-    var overflow = false
-    for i in 0..8 {
-        
-        let rightMostBit: UInt32 = 0b0000_0000_0000_0000_0000_0000_0000_0001
-        let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-        
-        
-        let willOverflow = result[i] & rightMostBit != 0
-        
-        result[i] = lhs[i] >> 1
-        
-        
-        if(overflow) {
-            result[i] += leftMostBit
+    for _ in 0..rhs {
+        var overflow = false
+        for i in 0..8 {
+            
+            let rightMostBit: UInt32 = 0b0000_0000_0000_0000_0000_0000_0000_0001
+            let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
+            
+            
+            let willOverflow = result[i] & rightMostBit != 0
+            
+            result[i] = lhs[i] >> 1
+            
+            
+            if(overflow) {
+                result[i] += leftMostBit
+            }
+            
+            overflow = willOverflow
         }
-        
-        overflow = willOverflow
     }
     
     return result
@@ -325,5 +337,30 @@ func % (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
-    return UInt256.allZeros
+    // Source: http://www.hackersdelight.org/MontgomeryMultiplication.pdf (page 5)
+    var (x,y) = lhs
+    let z = rhs
+    
+    var t: UInt256
+    
+    assert(x < z, "Can't calculate modulo")
+    
+    for _ in 0..256 {
+        // Avoid casting x to a signed integer and right shifting it all the way:
+        if UInt256.singleBitAt(0) & x == 0 {
+            t = UInt256.allZeros
+        } else {
+            t = UInt256.max
+        }
+        
+        x = (x << 1) | (y >> 255)
+        y = y << 1
+        
+        if((x | t) >= z) {
+            x = x &- z
+            y++
+        }
+    }
+    
+    return x
 }
