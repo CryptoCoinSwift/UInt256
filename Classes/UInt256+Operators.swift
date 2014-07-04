@@ -161,26 +161,41 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
  }
 
 func << (lhs: UInt256, rhs: Int) -> UInt256 {
-    assert(rhs == 1, "Only left-shift by 1 bit is supported")
-
+    if rhs >= 256 {
+        return UInt256.allZeros
+    }
+    
+    if rhs == 255 {
+        if lhs & UInt256.singleBitAt(255) == 0 {
+            return 0
+        } else {
+            return UInt256.singleBitAt(0)
+        }
+    }
+    
+    if rhs == 128 {
+        return UInt256([lhs[4],lhs[5],lhs[6], lhs[7], 0,0,0, 0])
+    }
+    
     var result = lhs
     
-    var overflow = false
-    for var i=7; i >= 0; i-- {
-        let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-        
-        let willOverflow = result[i] & leftMostBit != 0
-        
-        result[i] = lhs[i] << 1
-        
-        if(overflow) {
-            result[i] = result[i] + 1
+    for _ in 0..rhs {
+        var overflow = false
+        for var i=7; i >= 0; i-- {
+            let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
+            
+            let willOverflow = result[i] & leftMostBit != 0
+            
+            result[i] = lhs[i] << 1
+            
+            if(overflow) {
+                result[i] = result[i] + 1
+            }
+            
+            overflow = willOverflow
         }
-        
-        overflow = willOverflow
     }
-
-
+    
     return result
 }
 
@@ -195,6 +210,10 @@ func >> (lhs: UInt256, rhs: Int) -> UInt256 {
         } else {
             return UInt256.singleBitAt(255)
         }
+    }
+    
+    if rhs == 128 {
+        return UInt256([0,0,0,0, lhs[0],lhs[1],lhs[2], lhs[3]])
     }
     
     var result = lhs
@@ -233,92 +252,137 @@ func &* (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (a,b) = lhs * rhs
+    var bitLength      = rhs.highestBit
+    var product        = UInt256.allZeros
+    var lhsLeftShifter = lhs
     
-    assert(a==0, "Overflow not allowed in multiplication")
-    
-    return b
-}
-
-func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
-    var rhsBitLength = rhs.highestBit
-    var (productLeft,productRight)   = (UInt256.allZeros, UInt256.allZeros)
-    var (lhsLeftShifterLeft, lhsLeftShifterRight) = (UInt256.allZeros, lhs)
-    
-    for var i = 0; i < rhsBitLength; i++ {
+    for var i = 0; i < bitLength; i++ {
         // Bitwise AND RHS with a single bit at position 256 - i (split in chunks of 32)
         let relevantInt = rhs[Int((255 - i) / 32)]
-        let position = (i) % 32
+        let position = i % 32
         
         if(2^^UInt32(position) & relevantInt != 0) {
             // Least significant UInt256:
             for var j=7; j >= 0; j-- {
-                let add    = lhsLeftShifterRight[j]
-                let before =        productRight[j]
-                productRight[j] = before &+ add
+                let add    = lhsLeftShifter[j]
+                let before =        product[j]
+                product[j] = before &+ add
                 
-                let addHex = UInt256(decimalStringValue: add.description).toHexString
-                
-//                println("i = \( i ); j = \( j ) ; add = \( addHex ); product = \( productRight.toHexString ) ")
-                
-                if before > productRight[j] {
+                if before > product[j] {
                     var overflowProcessed = false
                     var k = j
                     
-//                    println("Overflow: before product = \( productRight.toHexString ) ")
-
-                    
                     while(!overflowProcessed) {
                         if k > 0 {
-
-                            
-                            productRight[k - 1]++ // Will not warn on overflow
-                            
-                            if productRight[k - 1] != 0 {
-                                overflowProcessed = true
-//                                println("Overflow: after product = \( productRight.toHexString ) ")
-
-                            }
-                            
+                            product[k - 1]++ // Will not warn on overflow
+                            if product[k - 1] != 0 { overflowProcessed = true }
                         } else {
-                            productLeft[7 - k]++
-                            
-                            if productLeft[7 - k] != 0 {
-                                overflowProcessed = true
-                            }
-
+                            product[7 - k]++
+                            if product[7 - k] != 0 { overflowProcessed = true }
                         }
                         
                         k--
                     }
-                    
-                    
-                }
-            }
-            
-            // Most significant UInt256:
-            for var j=7; j >= 0; j-- {
-                let add = lhsLeftShifterLeft[j]
-                let before = productLeft[j]
-                productLeft[j] = before &+ add
-                if before > productLeft[j] {
-                    assert(j > 0, "Overflow")
-                    productLeft[j - 1]++
                 }
             }
         }
         
         // Left shift
-        let lhsLeftShifterRightBefore = lhsLeftShifterRight
-        lhsLeftShifterRight <<= 1
-        lhsLeftShifterLeft <<= 1
+        let lhsLeftShifterBefore = lhsLeftShifter
+        lhsLeftShifter <<= 1
         
-        if lhsLeftShifterRight < lhsLeftShifterRightBefore {
-            lhsLeftShifterLeft += 1
+        if lhsLeftShifter < lhsLeftShifterBefore {
+            assert(false, "Overflow not allowed in multiplication")
         }
-
     }
     
+    return product
+}
+
+func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
+    // Apply 1 iteration of Karatsuba
+    // x₀, x₁, y₀ and y₁ are 128 bit max. They can be added or multiplied without carry,
+    // resulting in 129 or 256 bit values respectively.
+    // z₁ multiplies the result of an addition of 128 bit numbers, so it needs 129 * 2 = 258 bits
+    //
+    
+    let x₁ = lhs >> 128
+    let x₀ = lhs & UInt256(hexStringValue: "00000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    
+    let y₁ = rhs >> 128
+    let y₀ = rhs & UInt256(hexStringValue: "00000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    
+    let z₂: UInt256 = x₁ * y₁
+    let z₀: UInt256 = x₀ * y₀
+    
+    // z₁ = (x₁ + x₀) * (y₁ + y₀) - z₂ - z₀
+    // Call Karatsuba recursively if the additions result in a 129 bit value or
+    // multiplication results in a 257 or 258 bit value.
+    // Alternatively deal with carries...
+    
+    let x₁_plus_x₀ = x₁ + x₀
+    let y₁_plus_y₀ = y₁ + y₀
+    
+    var z₁: UInt256?
+    var z₁tuple: (UInt256, UInt256)?
+    
+    // TODO: check if x₁_plus_x₀ or y₁_plus_y₀ has bit number 127 set
+    
+    if x₁_plus_x₀ & UInt256.singleBitAt(127) != 0 || x₁_plus_x₀ & UInt256.singleBitAt(127) != 0  {
+        let z₁subtotal: (UInt256, UInt256) = x₁_plus_x₀ * y₁_plus_y₀
+        
+        let (left, right) = z₁subtotal
+        
+        // Check if z₁subtotal is <= or > 256 bit (either 257 or 258)
+        if left == 0 {
+           z₁ = right - z₂ - z₀
+        } else {
+          let willOverflow = right < z₂ + z₀
+            if (willOverflow) {
+                z₁tuple = (left - 1, right - z₂ - z₀)
+            } else {
+                z₁tuple = (left, right - z₂ - z₀)
+
+            }
+        }
+
+
+    } else { // Both sums are 128 bit or less, so their product is 256 bit or less
+        let z₁subtotal: UInt256 = x₁_plus_x₀ * y₁_plus_y₀
+        
+         z₁ = z₁subtotal - z₂ - z₀
+    }
+    
+    // product = z₂ · 2²⁵⁶ + z₁ · 2¹²⁸ + z₀
+    
+    var productLeft  = z₂
+    var productRight = z₀
+    
+    if let (z₁left, z₁right) = z₁tuple {
+        let productRightBefore = productRight
+        
+        productRight = productRight &+ (z₁right << 128)
+        
+        if productRight < productRightBefore {
+            productLeft++
+        }
+        
+        productLeft = productLeft + z₁left
+        
+        
+        productLeft = productLeft + (z₁right >> 128)
+
+    } else {
+        let productRightBefore = productRight
+        productRight = productRight &+ (z₁! << 128)
+        
+        if productRight < productRightBefore {
+            productLeft++
+        }
+        
+        productLeft = productLeft + (z₁! >> 128)
+    }
+
     return (productLeft, productRight)
     
 }
