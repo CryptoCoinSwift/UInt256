@@ -122,9 +122,21 @@ func &+ (lhs: UInt256, rhs: UInt256) -> UInt256 {
     var sum = UInt256.allZeros
     
     for var i=7; i >= 0; i-- {
-        sum[i] = lhs[i] &+ rhs[i] &+ (previousDigitDidOverflow ? 1 : 0)
-
-        previousDigitDidOverflow = sum[i] < lhs[i]
+        
+        
+        sum[i] = sum[i] &+ lhs[i]
+        
+        if sum[i] < lhs[i] && i > 0 {
+            sum[i-1] = 1
+        }
+        
+        let sumBefore = sum[i]
+        
+        sum[i] = sumBefore &+ rhs[i]
+        
+        if sum[i] < sumBefore && i > 0 {
+            sum[i-1] = sum[i-1] + 1 // Will either be 1 or 2
+        }
     }
     
     return sum
@@ -132,6 +144,7 @@ func &+ (lhs: UInt256, rhs: UInt256) -> UInt256 {
 
 func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let sum = lhs &+ rhs
+    
     assert(sum >= lhs, "Overflow")
     return sum
 }
@@ -306,6 +319,10 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
     // z₁ multiplies the result of an addition of 128 bit numbers, so it needs 129 * 2 = 258 bits
     //
     
+    if lhs == 0 || rhs == 0 {
+        return (UInt256.allZeros, UInt256.allZeros)
+    }
+    
     let x₁ = lhs >> 128
     let x₀ = lhs & UInt256(hexStringValue: "00000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
     
@@ -321,14 +338,13 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
     // Alternatively deal with carries...
     
     let x₁_plus_x₀ = x₁ + x₀
+    
     let y₁_plus_y₀ = y₁ + y₀
     
     var z₁: UInt256?
     var z₁tuple: (UInt256, UInt256)?
     
-    // TODO: check if x₁_plus_x₀ or y₁_plus_y₀ has bit number 127 set
-    
-    if x₁_plus_x₀ & UInt256.singleBitAt(127) != 0 || x₁_plus_x₀ & UInt256.singleBitAt(127) != 0  {
+    if x₁_plus_x₀ & UInt256.singleBitAt(127) != 0 || y₁_plus_y₀ & UInt256.singleBitAt(127) != 0  {
         let z₁subtotal: (UInt256, UInt256) = x₁_plus_x₀ * y₁_plus_y₀
         
         let (left, right) = z₁subtotal

@@ -195,6 +195,16 @@ class UInt256Tests: XCTestCase {
         XCTAssertEqual(a + b, c, "\(a) + \(b) = \( c )");
     }
     
+    func testAddBigHex() {
+        let a   = UInt256(hexStringValue:  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF") // 128 bit
+        let b   = UInt256(hexStringValue:  "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE") // 128 bit
+        let sum = UInt256(hexStringValue: "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD") // 129 bit
+        let result = a + b
+        
+        XCTAssertEqual(result, sum, result.toHexString);
+
+    }
+    
     func testSubtract() {
         let a = UInt256(decimalStringValue: "40")
         let b = UInt256(decimalStringValue: "26")
@@ -573,5 +583,16 @@ class UInt256Tests: XCTestCase {
         
         XCTAssertEqual(res, aInverse, res.toHexString);
 
+    }
+    
+    func testModularMultiplicativeInverseSmall() {
+        let p = UInt256(11)
+        let a =  UInt256(5)
+        
+        let inverse = UInt256(9) // 9  * 5 = 45 -> 45 % 9 = 1
+        
+        let result = a.modInverse(p)
+        
+        XCTAssertEqual(inverse, result, result.toDecimalString);
     }
 }
