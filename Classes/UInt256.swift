@@ -330,6 +330,44 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     mutating func unsetBitAt(position: Int) -> () {
         self = self & ~UInt256.singleBitAt(position)
     }
+    
+    func modInverse(m: UInt256) -> UInt256 {
+        // http://rosettacode.org/wiki/Modular_inverse#C
+        var a = self
+        var b = m
+        let b0 = b
+        var t: UInt256
+        var q: UInt256
+        var x0 = UInt256.allZeros
+        var x1 = UInt256(1)
+        
+        if (m == 1) {
+            return 1
+        }
+        
+        while (a > 1) {
+//            println("Divide...")
+            q = a / b;
+            t = b
+//            println("Modulo...")
+            b = a % b
+            a = t
+            t = x0
+            //x0 = x1 &- q &* x0
+//            println("Multiply..")
+            let temp = q &* x0
+//            println("Subtract...")
+            x0 = x1 &- temp
+            x1 = t
+        }
+        
+        if (x1 < 0) {
+            println("Add...")
+            x1 += b0
+        }
+        
+        return x1;
+    }
 }
 
 extension UInt256 : Sequence {

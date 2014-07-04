@@ -565,11 +565,11 @@ class UInt256Tests: XCTestCase {
     
     func testModularMultiplicativeInverse() {
         let a = UInt256(hexStringValue: "FFFFFF")
-        let m = "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f"
+        let m = UInt256(hexStringValue:  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")
         
-        let aInverse = "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493"
+        let aInverse = UInt256(hexStringValue: "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493")
         
-        let res = a.inverseModulo(m)
+        let res = a.modInverse(m)
         
         XCTAssertEqual(res, aInverse, res.toHexString);
 
