@@ -96,4 +96,9 @@ extension UInt256Store : Sequence {
     }
 }
 
+func == (lhs: UInt256Store, rhs: UInt256Store) -> Bool {
+    return lhs.part0 == rhs.part0 && lhs.part1 == rhs.part1 && lhs.part2 == rhs.part2 && lhs.part3 == rhs.part3 && lhs.part4 == rhs.part4 && lhs.part5 == rhs.part5 && lhs.part6 == rhs.part6  && lhs.part7 == rhs.part7
+    
+}
+
 

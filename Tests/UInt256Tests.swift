@@ -128,6 +128,19 @@ class UInt256Tests: XCTestCase {
 
         XCTAssertTrue(a == b, "Should be the same");
     }
+    
+    func testAllZeros() {
+        let a = UInt256(decimalStringValue: "131069")
+        let b = UInt256(decimalStringValue: "65534")
+        let c = UInt256.allZeros
+        
+        if(a == c || b == c) {
+            XCTAssertTrue(false ,"Not zero")
+        }
+        
+         XCTAssertTrue(a != c && b != c, "")
+        
+    }
 
     func testComparison() {
         let smaller = UInt256(decimalStringValue: "100000000000")
@@ -328,6 +341,17 @@ class UInt256Tests: XCTestCase {
         let res: UInt256 =  a * b
         
         XCTAssertEqual(res, c, "\(a) * \(b) = \( res ) != \( c )");
+        
+    }
+    
+    func testSquare131070() {
+        let a = UInt256(decimalStringValue: "131070")
+        let b = UInt256(decimalStringValue: "131070")
+        let product = UInt256(decimalStringValue: "17179344900") // 33 bits
+        
+        let res: UInt256 =  a * b
+        
+        XCTAssertEqual(res, product, res.description);
         
     }
     

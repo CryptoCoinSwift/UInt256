@@ -59,13 +59,7 @@ func < (lhs: UInt256, rhs: UInt256) -> Bool {
 }
 
 func == (lhs: UInt256, rhs: UInt256) -> Bool {
-    for i in 0..8 {
-        if lhs[i] != rhs[i] {
-            return false
-        }
-    }
-    
-    return true
+    return lhs.smallerIntegers == rhs.smallerIntegers
 }
 
 
@@ -174,42 +168,54 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
  }
 
 func << (lhs: UInt256, rhs: Int) -> UInt256 {
-    if rhs >= 256 {
+    switch rhs {
+    case let x where x >= 256:
         return UInt256.allZeros
-    }
-    
-    if rhs == 255 {
+    case 255:
         if lhs & UInt256.singleBitAt(255) == 0 {
             return 0
         } else {
             return UInt256.singleBitAt(0)
         }
-    }
-    
-    if rhs == 128 {
+    case 128:
         return UInt256([lhs[4],lhs[5],lhs[6], lhs[7], 0,0,0, 0])
-    }
-    
-    var result = lhs
-    
-    for _ in 0..rhs {
-        var overflow = false
-        for var i=7; i >= 0; i-- {
-            let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-            
-            let willOverflow = result[i] & leftMostBit != 0
-            
-            result[i] = lhs[i] << 1
-            
-            if(overflow) {
-                result[i] = result[i] + 1
+    case 64:
+        return UInt256([lhs[2],lhs[3], lhs[4],lhs[5],lhs[6], lhs[7],0, 0])
+    case 32:
+        return UInt256([lhs[1],lhs[2],lhs[3], lhs[4],lhs[5],lhs[6], lhs[7], 0])
+    case let x where x < 32:
+        return UInt256([
+            (lhs[0] << UInt32(x)) + (lhs[1] >> UInt32(32-x)),
+            (lhs[1] << UInt32(x)) + (lhs[2] >> UInt32(32-x)),
+            (lhs[2] << UInt32(x)) + (lhs[3] >> UInt32(32-x)),
+            (lhs[3] << UInt32(x)) + (lhs[4] >> UInt32(32-x)),
+            (lhs[4] << UInt32(x)) + (lhs[5] >> UInt32(32-x)),
+            (lhs[5] << UInt32(x)) + (lhs[6] >> UInt32(32-x)),
+            (lhs[6] << UInt32(x)) + (lhs[7] >> UInt32(32-x)),
+            (lhs[7] << UInt32(x))
+        ])
+    default:
+        var result = lhs
+        
+        for _ in 0..rhs {
+            var overflow = false
+            for var i=7; i >= 0; i-- {
+                let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
+                
+                let willOverflow = result[i] & leftMostBit != 0
+                
+                result[i] = lhs[i] << 1
+                
+                if(overflow) {
+                    result[i] = result[i] + 1
+                }
+                
+                overflow = willOverflow
             }
-            
-            overflow = willOverflow
         }
+        
+        return result
     }
-    
-    return result
 }
 
 func >> (lhs: UInt256, rhs: Int) -> UInt256 {
@@ -265,51 +271,100 @@ func &* (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var bitLength      = rhs.highestBit
-    var product        = UInt256.allZeros
-    var lhsLeftShifter = lhs
+
+    let zero = UInt256.allZeros
     
-    for var i = 0; i < bitLength; i++ {
-        // Bitwise AND RHS with a single bit at position 256 - i (split in chunks of 32)
-        let relevantInt = rhs[Int((255 - i) / 32)]
-        let position = i % 32
-        
-        if(2^^UInt32(position) & relevantInt != 0) {
-            // Least significant UInt256:
-            for var j=7; j >= 0; j-- {
-                let add    = lhsLeftShifter[j]
-                let before =        product[j]
-                product[j] = before &+ add
-                
-                if before > product[j] {
-                    var overflowProcessed = false
-                    var k = j
-                    
-                    while(!overflowProcessed) {
-                        if k > 0 {
-                            product[k - 1]++ // Will not warn on overflow
-                            if product[k - 1] != 0 { overflowProcessed = true }
-                        } else {
-                            product[7 - k]++
-                            if product[7 - k] != 0 { overflowProcessed = true }
-                        }
-                        
-                        k--
-                    }
-                }
-            }
-        }
-        
-        // Left shift
-        let lhsLeftShifterBefore = lhsLeftShifter
-        lhsLeftShifter <<= 1
-        
-        if lhsLeftShifter < lhsLeftShifterBefore {
-            assert(false, "Overflow not allowed in multiplication")
-        }
+    if (lhs == zero) || (rhs == zero) {
+        return 0 // Don't use lhs == 0, because it casts to a signed 32 bit integer
     }
     
-    return product
+    if lhs == UInt256.singleBitAt(255) {
+        return rhs
+    } else if rhs == UInt256.singleBitAt(255) {
+        return lhs
+    }
+    
+    // Karatsuba
+    let sixteenBitMask = UInt256([0,0,0,0,0,0,0,UInt32.max >> 16])
+    if lhs == lhs & sixteenBitMask && rhs == rhs & sixteenBitMask {
+        return UInt256([0,0,0,0,0,0,0, lhs[7] * rhs[7]].copy())
+    }
+    
+    let thirtyTwoBitMask = UInt256([0,0,0,0,0,0,0,UInt32.max].copy())
+    let sixtyFourBitMask = UInt256([0,0,0,0,0,0,UInt32.max,UInt32.max].copy())
+    let hundredTwentyEightBitMask = UInt256([0,0,0,0,UInt32.max,UInt32.max,UInt32.max,UInt32.max].copy())
+
+    var x₁: UInt256
+    var x₀: UInt256
+    var y₁: UInt256
+    var y₀: UInt256
+    
+    var bitSize: Int
+    
+    if lhs == lhs & thirtyTwoBitMask && rhs == rhs & thirtyTwoBitMask {
+
+        x₁ = UInt256([0,0,0,0,0,0,0,lhs[7] >> UInt32(16)])
+        x₀ = UInt256([0,0,0,0,0,0,0,lhs[7] & 0x0000FFFF].copy())
+    
+        y₁ = UInt256([0,0,0,0,0,0,0, rhs[7] >> UInt32(16)])
+        y₀ = UInt256([0,0,0,0,0,0,0,rhs[7] & 0x0000FFFF].copy())
+        
+        bitSize = 32
+    } else if lhs == lhs & sixtyFourBitMask && rhs == rhs & sixtyFourBitMask {
+        x₁ = UInt256([0,0,0,0,0,0,0,lhs[6]].copy())
+        x₀ = UInt256([0,0,0,0,0,0,0,lhs[7]].copy())
+        
+        y₁ = UInt256([0,0,0,0,0,0,0,rhs[6]].copy())
+        y₀ = UInt256([0,0,0,0,0,0,0,rhs[7]].copy())
+        
+        bitSize = 64
+    } else if lhs == lhs & hundredTwentyEightBitMask && rhs == rhs &  hundredTwentyEightBitMask {
+        x₁ = UInt256([0,0,0,0,0,0,lhs[4],lhs[5]].copy())
+        x₀ = UInt256([0,0,0,0,0,0,lhs[6],lhs[7]].copy())
+        
+        y₁ = UInt256([0,0,0,0,0,0,rhs[4],rhs[5]].copy())
+        y₀ = UInt256([0,0,0,0,0,0,rhs[6],rhs[7]].copy())
+        
+        bitSize = 128
+    } else {
+        assert(false, "Use a tuple when multiplying large values")
+        x₁ = UInt256.allZeros
+        x₀ = UInt256.allZeros
+        y₁ = UInt256.allZeros
+        y₀ = UInt256.allZeros
+//        x₁ = UInt256([0,0,0,0,lhs[0],lhs[1],lhs[2],lhs[3]])
+//        x₀ = UInt256([0,0,0,0,lhs[4],lhs[5],lhs[6],lhs[7]])
+//        
+//        y₁ = UInt256([0,0,0,0,rhs[0],rhs[1],rhs[2],rhs[3]])
+//        y₀ = UInt256([0,0,0,0,rhs[4],rhs[5],rhs[6],rhs[7]])
+//        
+        bitSize = 256
+    }
+    
+    // x₀, x₁, y₀ and y₁ are 64 bit max. They can be added or multiplied without carry,
+    // resulting in 65 or 128 bit values respectively.
+    // z₁ multiplies the result of an addition of 64 bit numbers, so it needs 65 * 2 = 130 bits
+ 
+    if bitSize == 32 {
+        // Part of the calculation can be done using UInt32's
+        let z₂ = x₁[7] * y₁[7]
+        let z₀ = x₀[7] * y₀[7]
+        
+        let x₁_plus_x₀ = UInt256([0,0,0,0,0,0,0, x₁[7] + x₀[7]])
+        let y₁_plus_y₀ = UInt256([0,0,0,0,0,0,0, y₁[7] + y₀[7]])
+
+        let z₁ = x₁_plus_x₀ * y₁_plus_y₀ - UInt256([0,0,0,0,0,0,0,z₂]) - UInt256([0,0,0,0,0,0,0,z₀])
+        
+        return UInt256([0,0,0,0,0,0,z₂,z₀]) + (z₁ << 16)
+    } else {
+    
+        let z₂: UInt256 = x₁ * y₁
+        let z₀: UInt256 = x₀ * y₀
+        
+        let z₁ = (x₁ + x₀) * (y₁ + y₀) - z₂ - z₀
+        
+        return z₂ << (bitSize) + z₀ + z₁  << (bitSize / 2)
+    }
 }
 
 func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {

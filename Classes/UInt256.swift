@@ -274,8 +274,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     }
 
     static var allZeros: UInt256 {
-        let zeros: UInt32[] = [0,0,0,0,0,0,0,0]
-        return UInt256(zeros)
+        return UInt256([0,0,0,0,0,0,0,0])
     }
     
     static var max: UInt256 {
