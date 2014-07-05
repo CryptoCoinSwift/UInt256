@@ -417,16 +417,55 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
     
 }
 
-func / (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (quotient, _) = lhs.divideBy(rhs)
+func / (numerator: UInt256, denomenator: UInt256) -> (UInt256) {
+    assert(denomenator != 0, "Divide by zero")
+    
+    var quotient: UInt256 = 0
+    var remainder: UInt256 = 0
+    
+    for var i=numerator.highestBit - 1; i >= 0; i--  {
+        
+        remainder <<= 1
+        if UInt256.singleBitAt(255 - i) & numerator != 0 {
+            remainder.setBitAt(255)
+        } else {
+            remainder.unsetBitAt(255)
+        }
+        
+        if remainder >= denomenator {
+            // println("R=\( remainder ) D=\( denomenator )")
+            remainder = remainder - denomenator
+            quotient = quotient | UInt256.singleBitAt(255 - i)
+        }
+    }
+    
     
     return quotient
+
 }
 
-func % (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (_, remainder) = lhs.divideBy(rhs)
+func % (numerator: UInt256, denomenator: UInt256) -> UInt256 {
+  
+    assert(denomenator != 0, "Divide by zero")
+    
+    var remainder: UInt256 = 0
+    
+    for var i=numerator.highestBit - 1; i >= 0; i--  {
+        
+        remainder <<= 1
+        if UInt256.singleBitAt(255 - i) & numerator != 0 {
+            remainder.setBitAt(255)
+        } else {
+            remainder.unsetBitAt(255)
+        }
+        
+        if remainder >= denomenator {
+            remainder = remainder - denomenator
+        }
+    }
     
     return remainder
+
     
 }
 

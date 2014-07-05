@@ -286,33 +286,6 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         return Int64(self[6]<<32 + self[7])
     }
     
-    func divideBy(denomenator: UInt256) -> (quotient: UInt256, remainder: UInt256) {
-        assert(denomenator != UInt256.allZeros, "Divide by zero")
-        let numerator = self
-        
-        var  quotient: UInt256 = 0
-        var remainder: UInt256 = 0
-        
-        for var i=numerator.highestBit - 1; i >= 0; i--  {
-            
-            remainder <<= 1
-            if UInt256.singleBitAt(255 - i) & numerator != 0 {
-                remainder.setBitAt(255)
-            } else {
-                remainder.unsetBitAt(255)
-            }
-            
-            if remainder >= denomenator {
-                // println("R=\( remainder ) D=\( denomenator )")
-                remainder = remainder - denomenator
-                quotient = quotient | UInt256.singleBitAt(255 - i)
-            }
-        }
-        
-        
-        return (quotient, remainder);
-    }
-    
     static func singleBitAt (position: Int) -> (UInt256) {
         var result: UInt256 = self.allZeros
         let index: Int = position / 32
