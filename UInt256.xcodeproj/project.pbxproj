@@ -9,7 +9,12 @@
 /* Begin PBXBuildFile section */
 		A26F77A819684ED900C75822 /* UInt256Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = A26F77A719684ED900C75822 /* UInt256Mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A26F77AE19684ED900C75822 /* UInt256Mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26F77A319684ED900C75822 /* UInt256Mac.framework */; };
-		A26F77B519684ED900C75822 /* UInt256MacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26F77B419684ED900C75822 /* UInt256MacTests.swift */; };
+		A26F77C819684F1700C75822 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
+		A26F77C919684F2300C75822 /* UInt256.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A1A0C21962DAFC00701051 /* UInt256.h */; };
+		A26F77CA19684F2300C75822 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5311962CFB400117EF5 /* BaseConverter.swift */; };
+		A26F77CB19684F2300C75822 /* UInt256Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5331962CFB400117EF5 /* UInt256Store.swift */; };
+		A26F77CC19684F2300C75822 /* UInt256.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5321962CFB400117EF5 /* UInt256.swift */; };
+		A26F77CD19684F2300C75822 /* UInt256+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D1FF98196336DB00905250 /* UInt256+Operators.swift */; };
 		A2A1A0C31962DAFC00701051 /* UInt256.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A1A0C21962DAFC00701051 /* UInt256.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A2A1A0C91962DAFC00701051 /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A1A0BE1962DAFC00701051 /* UInt256.framework */; };
 		A2A1A0DE1962DB2100701051 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5311962CFB400117EF5 /* BaseConverter.swift */; };
@@ -70,6 +75,41 @@
 			remoteGlobalIDString = A26F77A219684ED900C75822;
 			remoteInfo = UInt256Mac;
 		};
+		A26F77C019684EDA00C75822 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26F77A219684ED900C75822;
+			remoteInfo = UInt256Mac;
+		};
+		A26F77C219684EDB00C75822 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26F77A219684ED900C75822;
+			remoteInfo = UInt256Mac;
+		};
+		A26F77C419684EDB00C75822 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26F77A219684ED900C75822;
+			remoteInfo = UInt256Mac;
+		};
+		A26F77C619684EDE00C75822 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26F77A219684ED900C75822;
+			remoteInfo = UInt256Mac;
+		};
+		A26F77CE19684FA000C75822 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26F77A219684ED900C75822;
+			remoteInfo = UInt256Mac;
+		};
 		A2A1A0CA1962DAFC00701051 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A2D32CE71962CED3001B5998 /* Project object */;
@@ -85,7 +125,6 @@
 		A26F77A719684ED900C75822 /* UInt256Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UInt256Mac.h; sourceTree = "<group>"; };
 		A26F77AD19684ED900C75822 /* UInt256MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UInt256MacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26F77B319684ED900C75822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A26F77B419684ED900C75822 /* UInt256MacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt256MacTests.swift; sourceTree = "<group>"; };
 		A2A1A0BE1962DAFC00701051 /* UInt256.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UInt256.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2A1A0C11962DAFC00701051 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UInt256/Info.plist; sourceTree = "<group>"; };
 		A2A1A0C21962DAFC00701051 /* UInt256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UInt256.h; path = UInt256/UInt256.h; sourceTree = "<group>"; };
@@ -153,7 +192,6 @@
 		A26F77B119684ED900C75822 /* UInt256MacTests */ = {
 			isa = PBXGroup;
 			children = (
-				A26F77B419684ED900C75822 /* UInt256MacTests.swift */,
 				A26F77B219684ED900C75822 /* Supporting Files */,
 			);
 			path = UInt256MacTests;
@@ -227,6 +265,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A26F77C919684F2300C75822 /* UInt256.h in Headers */,
 				A26F77A819684ED900C75822 /* UInt256Mac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,6 +312,11 @@
 			dependencies = (
 				A26F77B019684ED900C75822 /* PBXTargetDependency */,
 				A26F77BF19684EDA00C75822 /* PBXTargetDependency */,
+				A26F77C119684EDA00C75822 /* PBXTargetDependency */,
+				A26F77C319684EDB00C75822 /* PBXTargetDependency */,
+				A26F77C519684EDB00C75822 /* PBXTargetDependency */,
+				A26F77C719684EDE00C75822 /* PBXTargetDependency */,
+				A26F77CF19684FA000C75822 /* PBXTargetDependency */,
 			);
 			name = UInt256MacTests;
 			productName = UInt256MacTests;
@@ -401,6 +445,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A26F77CC19684F2300C75822 /* UInt256.swift in Sources */,
+				A26F77CD19684F2300C75822 /* UInt256+Operators.swift in Sources */,
+				A26F77CA19684F2300C75822 /* BaseConverter.swift in Sources */,
+				A26F77CB19684F2300C75822 /* UInt256Store.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,7 +456,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26F77B519684ED900C75822 /* UInt256MacTests.swift in Sources */,
+				A26F77C819684F1700C75822 /* UInt256Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +517,31 @@
 			isa = PBXTargetDependency;
 			target = A26F77A219684ED900C75822 /* UInt256Mac */;
 			targetProxy = A26F77BE19684EDA00C75822 /* PBXContainerItemProxy */;
+		};
+		A26F77C119684EDA00C75822 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26F77A219684ED900C75822 /* UInt256Mac */;
+			targetProxy = A26F77C019684EDA00C75822 /* PBXContainerItemProxy */;
+		};
+		A26F77C319684EDB00C75822 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26F77A219684ED900C75822 /* UInt256Mac */;
+			targetProxy = A26F77C219684EDB00C75822 /* PBXContainerItemProxy */;
+		};
+		A26F77C519684EDB00C75822 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26F77A219684ED900C75822 /* UInt256Mac */;
+			targetProxy = A26F77C419684EDB00C75822 /* PBXContainerItemProxy */;
+		};
+		A26F77C719684EDE00C75822 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26F77A219684ED900C75822 /* UInt256Mac */;
+			targetProxy = A26F77C619684EDE00C75822 /* PBXContainerItemProxy */;
+		};
+		A26F77CF19684FA000C75822 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26F77A219684ED900C75822 /* UInt256Mac */;
+			targetProxy = A26F77CE19684FA000C75822 /* PBXContainerItemProxy */;
 		};
 		A2A1A0CB1962DAFC00701051 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -673,12 +746,14 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
+				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = UInt256MacTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Ofast";
 			};
 			name = Fast;
 		};
