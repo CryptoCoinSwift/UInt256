@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import UInt256
+import UInt256Mac // Use UInt256 for iOs
 
 class UInt256Tests: XCTestCase {
 
