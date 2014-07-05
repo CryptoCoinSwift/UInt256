@@ -405,30 +405,26 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         let (left, right) = z₁subtotal
         
         // Check if z₁subtotal is <= or > 256 bit (either 257 or 258)
-        if left == 0 {
+        if left == 0 { // right represents the full value of z₁subtotal, so this will not overflow:
            z₁ = right - z₂ - z₀
         } else {
           var willOverflow = false
             let addSafe = z₂ &+ z₀
             if addSafe >= z₂ { // z₂ + z₀ doesn't overflow
-                willOverflow = right < addSafe
-            } else {
-                if left == 1 {
-                    willOverflow = right < addSafe
-                } else if left > 1 { // left > 1; we already checked left = 0 above
-                    willOverflow = false
+                if right >= addSafe { // subtraction won't overflow
+                    z₁tuple = (left, right - z₂ - z₀)
+                } else {
+                    z₁tuple = (left - 1, right &- addSafe)
+                }
+            } else { // z₂ + z₀ overflows
+                if right >= addSafe { // subtraction won't overflow again
+                    z₁tuple = (left - 1, right - addSafe)
+                } else { // subtraction will overflow again
+                    z₁tuple = (left - 2, right &- addSafe)
                 }
             }
-            
-            
-            
-          
-            if (willOverflow) {
-                z₁tuple = (left - 1, right &- z₂ &- z₀)
-            } else {
-                z₁tuple = (left, right - z₂ - z₀)
 
-            }
+
         }
 
 
