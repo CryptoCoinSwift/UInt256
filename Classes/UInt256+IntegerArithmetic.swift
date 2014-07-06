@@ -362,10 +362,10 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
     }
     
     let x₁ = lhs >> 128
-    let x₀ = lhs & UInt256(hexStringValue: "00000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    let x₀ = lhs & UInt256(0,0,0,0,UInt32.max, UInt32.max,UInt32.max, UInt32.max)
     
     let y₁ = rhs >> 128
-    let y₀ = rhs & UInt256(hexStringValue: "00000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    let y₀ = rhs & UInt256(0,0,0,0,UInt32.max, UInt32.max,UInt32.max, UInt32.max)
     
     let z₂: UInt256 = x₁ * y₁
     let z₀: UInt256 = x₀ * y₀
@@ -431,7 +431,7 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
             productLeft++
         }
         
-        productLeft = productLeft + z₁left
+        productLeft = productLeft + (z₁left << 128)
         
         
         productLeft = productLeft + (z₁right >> 128)
@@ -442,6 +442,9 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         
         if productRight < productRightBefore {
             productLeft++
+            // An intentional extra add here does not a single test to fail!
+        } else {
+            // An intentional extra add here causes the mutliply to tuple test to fail
         }
         
         productLeft = productLeft + (z₁! >> 128)

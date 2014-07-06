@@ -87,9 +87,9 @@ class UInt256Tests: XCTestCase {
         XCTAssertTrue(a == c, c.description);
         XCTAssertTrue(a == e, e.description);
         
-        // 32 bit values:
-        let d: UInt256 = 3221225472
-        XCTAssertTrue(d.toDecimalString == "3221225472", "")
+        // 32 bit values (no longer allowed):
+//        let d: UInt256 = 3221225472
+//        XCTAssertTrue(d.toDecimalString == "3221225472", "")
 
 
         let f = UInt256(3221225472)
