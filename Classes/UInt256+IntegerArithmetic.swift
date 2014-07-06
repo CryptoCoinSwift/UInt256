@@ -391,6 +391,8 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
             let addSafe = z₂ &+ z₀
             if addSafe >= z₂ { // z₂ + z₀ doesn't overflow
                 if right >= addSafe { // subtraction won't overflow
+                    // Code path not covered by any test! 
+                    // Add and double big point do not encounter this.
                     z₁tuple = (left, right - z₂ - z₀)
                 } else {
                     z₁tuple = (left - 1, right &- addSafe)
@@ -399,6 +401,8 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
                 if right >= addSafe { // subtraction won't overflow again
                     z₁tuple = (left - 1, right - addSafe)
                 } else { // subtraction will overflow again
+                    // Code path not covered by any test!
+                    // Double big point encounters this, add big doesn't:
                     z₁tuple = (left - 2, right &- addSafe)
                 }
             }
@@ -424,16 +428,16 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
             productLeft++
         }
         
-        productLeft = productLeft + (z₁left << 128)
-        
-        
         productLeft = productLeft + (z₁right >> 128)
+        productLeft = productLeft + (z₁left << 128)
         
     } else {
         let productRightBefore = productRight
         productRight = productRight &+ (z₁! << 128)
         
         if productRight < productRightBefore {
+            // Leaving this line out will not be detected by any test (but will cause addBig in
+            // ECurve test to hit an overflow.
             productLeft++
         }
         
