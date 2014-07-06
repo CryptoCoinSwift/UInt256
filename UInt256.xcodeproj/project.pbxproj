@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A20E8A5B1969E1B100837EAD /* UInt256TestArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20E8A5A1969E1B100837EAD /* UInt256TestArithmetic.swift */; };
+		A20E8A5C1969E1B100837EAD /* UInt256TestArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20E8A5A1969E1B100837EAD /* UInt256TestArithmetic.swift */; };
+		A20E8A5E1969E26D00837EAD /* UInt256TestBitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20E8A5D1969E26D00837EAD /* UInt256TestBitwise.swift */; };
+		A20E8A5F1969E26D00837EAD /* UInt256TestBitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20E8A5D1969E26D00837EAD /* UInt256TestBitwise.swift */; };
 		A26DCC9719697056008E8399 /* UInt32+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9619697056008E8399 /* UInt32+Additions.swift */; };
 		A26DCC99196970E4008E8399 /* UInt256+BitwiseOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */; };
 		A26DCC9A196970E4008E8399 /* UInt256+BitwiseOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */; };
@@ -140,6 +144,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A20E8A5A1969E1B100837EAD /* UInt256TestArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256TestArithmetic.swift; sourceTree = "<group>"; };
+		A20E8A5D1969E26D00837EAD /* UInt256TestBitwise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256TestBitwise.swift; sourceTree = "<group>"; };
 		A26DCC9619697056008E8399 /* UInt32+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt32+Additions.swift"; path = "Classes/UInt32+Additions.swift"; sourceTree = "<group>"; };
 		A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+BitwiseOperations.swift"; path = "Classes/UInt256+BitwiseOperations.swift"; sourceTree = "<group>"; };
 		A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+IntegerArithmetic.swift"; path = "Classes/UInt256+IntegerArithmetic.swift"; sourceTree = "<group>"; };
@@ -295,6 +301,8 @@
 			children = (
 				A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */,
 				A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */,
+				A20E8A5A1969E1B100837EAD /* UInt256TestArithmetic.swift */,
+				A20E8A5D1969E26D00837EAD /* UInt256TestBitwise.swift */,
 			);
 			path = UInt256Tests;
 			sourceTree = "<group>";
@@ -507,7 +515,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A20E8A5F1969E26D00837EAD /* UInt256TestBitwise.swift in Sources */,
 				A26F77C819684F1700C75822 /* UInt256Tests.swift in Sources */,
+				A20E8A5C1969E1B100837EAD /* UInt256TestArithmetic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,7 +547,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2A1A0E21962DB2F00701051 /* UInt256Tests.swift in Sources */,
+				A20E8A5B1969E1B100837EAD /* UInt256TestArithmetic.swift in Sources */,
 				A2A1A0E11962DB2D00701051 /* BaseConverterTests.swift in Sources */,
+				A20E8A5E1969E26D00837EAD /* UInt256TestBitwise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
