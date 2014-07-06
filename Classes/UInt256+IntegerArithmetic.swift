@@ -1,84 +1,193 @@
 //
-//  UInt256+More.swift
-//  Crypto Coin Swift
+//  UInt256+Divide+Modulus.swift
+//  UInt256
 //
-//  Created by Sjors Provoost on 01-07-14.
+//  Created by Sjors Provoost on 06-07-14.
 //
 
-extension UInt256 : BitwiseOperations {}
-
-func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
-    
-    for i in 0..8 {
-        let and: UInt32 = lhs[i] & rhs[i]
-        res[i] = and
+extension UInt256 : IntegerArithmetic {
+    static func uncheckedAdd(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
+        var previousDigitDidOverflow = false
+        
+        var sum = UInt256.allZeros
+        
+        for var i=7; i >= 0; i-- {
+            
+            
+            sum[i] = sum[i] &+ lhs[i]
+            
+            if sum[i] < lhs[i] && i > 0 {
+                sum[i-1] = 1
+            }
+            
+            let sumBefore = sum[i]
+            
+            sum[i] = sumBefore &+ rhs[i]
+            
+            if sum[i] < sumBefore && i > 0 {
+                sum[i-1] = sum[i-1] + 1 // Will either be 1 or 2
+            }
+        }
+        
+        return (sum, sum < lhs)
+        
     }
     
+    static func uncheckedSubtract(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
+        var previousDigitDidOverflow = false
+        var diff = UInt256.allZeros
+        
+        for var i=7; i >= 0; i-- {
+            let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
+            
+            diff[i] = lhs[i] &- rhs[i] &- modifier
+            
+            if modifier == 1 && rhs[i] == UInt32.max {
+                previousDigitDidOverflow = true
+            } else {
+                previousDigitDidOverflow = lhs[i] < rhs[i] + modifier
+            }
+        }
+        
+        return (diff, lhs > rhs)
+        
+    }
+    
+    static func uncheckedMultiply(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
+        let (a,b) = lhs * rhs
+        return (b, a != 0)
+    }
+    
+    static func uncheckedDivide(numerator: UInt256, _ denomenator: UInt256) -> (UInt256, Bool) {
+        assert(denomenator != 0, "Divide by zero")
+        
+        var quotient: UInt256 = 0
+        var remainder: UInt256 = 0
+        
+        for var i=numerator.highestBit - 1; i >= 0; i--  {
+            
+            remainder <<= 1
+            if UInt256.singleBitAt(255 - i) & numerator != 0 {
+                remainder.setBitAt(255)
+            } else {
+                remainder.unsetBitAt(255)
+            }
+            
+            if remainder >= denomenator {
+                // println("R=\( remainder ) D=\( denomenator )")
+                remainder = remainder - denomenator
+                quotient = quotient | UInt256.singleBitAt(255 - i)
+            }
+        }
+        
+        return (quotient, false)
+        
+    }
+    
+    static func uncheckedModulus(numerator: UInt256, _ denomenator: UInt256) -> (UInt256, Bool) {
+        assert(denomenator != 0, "Divide by zero")
+        
+        var remainder: UInt256 = 0
+        
+        for var i=numerator.highestBit - 1; i >= 0; i--  {
+            
+            remainder <<= 1
+            if UInt256.singleBitAt(255 - i) & numerator != 0 {
+                remainder.setBitAt(255)
+            } else {
+                remainder.unsetBitAt(255)
+            }
+            
+            if remainder >= denomenator {
+                remainder = remainder - denomenator
+            }
+        }
+        
+        return (remainder, false)
+        
+    }
+    
+    // I have no idea what this is supposed to do:
+    func toIntMax() -> IntMax {
+        return Int64(self[6]<<32 + self[7])
+    }
+    
+    func modInverse(m: UInt256) -> UInt256 {
+        // http://rosettacode.org/wiki/Modular_inverse#C
+        var a = self
+        var b = m
+        
+        let b0 = b
+        var t: UInt256
+        var q: UInt256
+        var x0 = UInt256()
+        var x0positive = true
+        var x1: UInt256 = 1
+        
+        if (b == 1) {
+            return 1
+        }
+        
+        while (a > 1) {
+            q = a / b
+            t = b
+            b = a % b
+            a = t
+            t = x0
+            let temp: UInt256 = q &* x0 // Should this really overflow?
+            x0 = x1 &- temp
+            x0positive = x1 >= x0
+            x1 = t
+        }
+        
+        if (!x0positive) {
+            x1 = x1 &+ b0
+        }
+        
+        return x1;
+    }
+
+}
+
+func / (numerator: UInt256, denomenator: UInt256) -> (UInt256) {
+    let (res, trouble) = UInt256.uncheckedDivide(numerator, denomenator)
+    assert(!trouble, "Trouble")
     return res
 }
 
-func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
-    
-    for i in 0..8 {
-        res[i] = lhs[i] | rhs[i]
-    }
-    
+func % (numerator: UInt256, denomenator: UInt256) -> UInt256 {
+    let (res, trouble) = UInt256.uncheckedModulus(numerator, denomenator)
+    assert(!trouble, "Trouble")
     return res
 }
 
-func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
+func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
+    // Source: http://www.hackersdelight.org/MontgomeryMultiplication.pdf (page 5)
+    var (x,y) = lhs
+    let z = rhs
     
-    for i in 0..8 {
-        res[i] = lhs[i] ^ rhs[i]
-    }
+    var t: UInt256
     
-    return res
-}
-
-@prefix func ~(lhs: UInt256) -> UInt256 {
-    var res: UInt256 = UInt256.allZeros
+    assert(x < z, "Can't calculate modulo")
     
-    for i in 0..8 {
-        res[i] = ~lhs[i]
-    }
-    
-    return res
-}
-
-func < (lhs: UInt256, rhs: UInt256) -> Bool {
-    for i in 0..8 {
-        if lhs[i] < rhs[i] {
-            return true
-        } else if lhs[i] > rhs[i] {
-            return false;
+    for _ in 0..256 {
+        // Avoid casting x to a signed integer and right shifting it all the way:
+        if UInt256.singleBitAt(0) & x == 0 {
+            t = UInt256.allZeros
+        } else {
+            t = UInt256.max
+        }
+        
+        x = (x << 1) | (y >> 255)
+        y = y << 1
+        
+        if((x | t) >= z) {
+            x = x &- z
+            y++
         }
     }
     
-    return false
-}
-
-// This results in a duplicate symbol error:
-// extension UInt256 : Comparable, Equatable {}
-
-func == (lhs: UInt256, rhs: UInt256) -> Bool {
-    return lhs.part0 == rhs.part0 && lhs.part1 == rhs.part1 && lhs.part2 == rhs.part2 && lhs.part3 == rhs.part3 && lhs.part4 == rhs.part4 && lhs.part5 == rhs.part5 && lhs.part6 == rhs.part6  && lhs.part7 == rhs.part7
-    
-}
-
-
-func >= (lhs: UInt256, rhs: UInt256) -> Bool {
-    return lhs == rhs || lhs > rhs
-}
-
-func <= (lhs: UInt256, rhs: UInt256) -> Bool {
-    return lhs == rhs || lhs < rhs
-}
-
-func <<= (inout lhs: UInt256, rhs: Int) -> () {
-    lhs = lhs << rhs
+    return x
 }
 
 func += (inout lhs: UInt256, rhs: UInt256) -> () {
@@ -136,104 +245,6 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let (result, overflow) = UInt256.uncheckedSubtract(lhs, rhs)
     assert(!overflow, "Overflow")
     return result
- }
-
-func << (lhs: UInt256, rhs: Int) -> UInt256 {
-    switch rhs {
-    case let x where x >= 256:
-        return UInt256.allZeros
-    case 255:
-        if lhs & UInt256.singleBitAt(255) == 0 {
-            return 0
-        } else {
-            return UInt256.singleBitAt(0)
-        }
-    case 128:
-        return UInt256(lhs[4],lhs[5],lhs[6], lhs[7], 0,0,0, 0)
-    case 64:
-        return UInt256(lhs[2],lhs[3], lhs[4],lhs[5],lhs[6], lhs[7],0, 0)
-    case 32:
-        return UInt256(lhs[1],lhs[2],lhs[3], lhs[4],lhs[5],lhs[6], lhs[7], 0)
-    case let x where x < 32:
-        return UInt256(
-            (lhs[0] << UInt32(x)) + (lhs[1] >> UInt32(32-x)),
-            (lhs[1] << UInt32(x)) + (lhs[2] >> UInt32(32-x)),
-            (lhs[2] << UInt32(x)) + (lhs[3] >> UInt32(32-x)),
-            (lhs[3] << UInt32(x)) + (lhs[4] >> UInt32(32-x)),
-            (lhs[4] << UInt32(x)) + (lhs[5] >> UInt32(32-x)),
-            (lhs[5] << UInt32(x)) + (lhs[6] >> UInt32(32-x)),
-            (lhs[6] << UInt32(x)) + (lhs[7] >> UInt32(32-x)),
-            (lhs[7] << UInt32(x))
-        )
-    default:
-        var result = lhs
-        
-        for _ in 0..rhs {
-            var overflow = false
-            for var i=7; i >= 0; i-- {
-                let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-                
-                let willOverflow = result[i] & leftMostBit != 0
-                
-                result[i] = lhs[i] << 1
-                
-                if(overflow) {
-                    result[i] = result[i] + 1
-                }
-                
-                overflow = willOverflow
-            }
-        }
-        
-        return result
-    }
-}
-
-func >> (lhs: UInt256, rhs: Int) -> UInt256 {
-    if rhs >= 256 {
-        return UInt256.allZeros
-    }
-    
-    if rhs == 255 {
-        if lhs & UInt256.singleBitAt(0) == 0 {
-            return 0
-        } else {
-            return UInt256.singleBitAt(255)
-        }
-    }
-    
-    if rhs == 128 {
-        return UInt256(0,0,0,0, lhs[0],lhs[1],lhs[2], lhs[3])
-    }
-    
-    var result = lhs
-    
-    for _ in 0..rhs {
-        var overflow = false
-        for i in 0..8 {
-            
-            let rightMostBit: UInt32 = 0b0000_0000_0000_0000_0000_0000_0000_0001
-            let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
-            
-            
-            let willOverflow = result[i] & rightMostBit != 0
-            
-            result[i] = lhs[i] >> 1
-            
-            
-            if(overflow) {
-                result[i] += leftMostBit
-            }
-            
-            overflow = willOverflow
-        }
-    }
-    
-    return result
-}
-
-func >>= (inout lhs: UInt256, rhs: Int) -> () {
-    lhs = lhs >> rhs
 }
 
 func &* (lhs: UInt256, rhs: UInt256) -> UInt256 {
@@ -242,7 +253,7 @@ func &* (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
-
+    
     let zero = UInt256.allZeros
     
     if (lhs == zero) || (rhs == zero) {
@@ -264,7 +275,7 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let thirtyTwoBitMask = UInt256(0,0,0,0,0,0,0,UInt32.max)
     let sixtyFourBitMask = UInt256(0,0,0,0,0,0,UInt32.max,UInt32.max)
     let hundredTwentyEightBitMask = UInt256(0,0,0,0,UInt32.max,UInt32.max,UInt32.max,UInt32.max)
-
+    
     var x₁: UInt256
     var x₀: UInt256
     var y₁: UInt256
@@ -273,10 +284,10 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     var bitSize: Int
     
     if lhs == lhs & thirtyTwoBitMask && rhs == rhs & thirtyTwoBitMask {
-
+        
         x₁ = UInt256(0,0,0,0,0,0,0,lhs[7] >> UInt32(16))
         x₀ = UInt256(0,0,0,0,0,0,0,lhs[7] & 0x0000FFFF)
-    
+        
         y₁ = UInt256(0,0,0,0,0,0,0, rhs[7] >> UInt32(16))
         y₀ = UInt256(0,0,0,0,0,0,0,rhs[7] & 0x0000FFFF)
         
@@ -303,19 +314,19 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
         x₀ = UInt256.allZeros
         y₁ = UInt256.allZeros
         y₀ = UInt256.allZeros
-//        x₁ = UInt256([0,0,0,0,lhs[0],lhs[1],lhs[2],lhs[3]])
-//        x₀ = UInt256([0,0,0,0,lhs[4],lhs[5],lhs[6],lhs[7]])
-//        
-//        y₁ = UInt256([0,0,0,0,rhs[0],rhs[1],rhs[2],rhs[3]])
-//        y₀ = UInt256([0,0,0,0,rhs[4],rhs[5],rhs[6],rhs[7]])
-//        
+        //        x₁ = UInt256([0,0,0,0,lhs[0],lhs[1],lhs[2],lhs[3]])
+        //        x₀ = UInt256([0,0,0,0,lhs[4],lhs[5],lhs[6],lhs[7]])
+        //
+        //        y₁ = UInt256([0,0,0,0,rhs[0],rhs[1],rhs[2],rhs[3]])
+        //        y₀ = UInt256([0,0,0,0,rhs[4],rhs[5],rhs[6],rhs[7]])
+        //
         bitSize = 256
     }
     
     // x₀, x₁, y₀ and y₁ are 64 bit max. They can be added or multiplied without carry,
     // resulting in 65 or 128 bit values respectively.
     // z₁ multiplies the result of an addition of 64 bit numbers, so it needs 65 * 2 = 130 bits
- 
+    
     if bitSize == 32 {
         // Part of the calculation can be done using UInt32's
         let z₂ = x₁[7] * y₁[7]
@@ -323,12 +334,12 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
         
         let x₁_plus_x₀ = UInt256(0,0,0,0,0,0,0, x₁[7] + x₀[7])
         let y₁_plus_y₀ = UInt256(0,0,0,0,0,0,0, y₁[7] + y₀[7])
-
+        
         let z₁ = x₁_plus_x₀ * y₁_plus_y₀ - UInt256(0,0,0,0,0,0,0,z₂) - UInt256(0,0,0,0,0,0,0,z₀)
         
         return UInt256(0,0,0,0,0,0,z₂,z₀) + (z₁ << 16)
     } else {
-    
+        
         let z₂: UInt256 = x₁ * y₁
         let z₀: UInt256 = x₀ * y₀
         
@@ -377,9 +388,9 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         
         // Check if z₁subtotal is <= or > 256 bit (either 257 or 258)
         if left == 0 { // right represents the full value of z₁subtotal, so this will not overflow:
-           z₁ = right - z₂ - z₀
+            z₁ = right - z₂ - z₀
         } else {
-          var willOverflow = false
+            var willOverflow = false
             let addSafe = z₂ &+ z₀
             if addSafe >= z₂ { // z₂ + z₀ doesn't overflow
                 if right >= addSafe { // subtraction won't overflow
@@ -394,15 +405,15 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
                     z₁tuple = (left - 2, right &- addSafe)
                 }
             }
-
-
+            
+            
         }
-
-
+        
+        
     } else { // Both sums are 128 bit or less, so their product is 256 bit or less
         let z₁subtotal: UInt256 = x₁_plus_x₀ * y₁_plus_y₀
         
-         z₁ = z₁subtotal - z₂ - z₀
+        z₁ = z₁subtotal - z₂ - z₀
     }
     
     // product = z₂ · 2²⁵⁶ + z₁ · 2¹²⁸ + z₀
@@ -423,7 +434,7 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         
         
         productLeft = productLeft + (z₁right >> 128)
-
+        
     } else {
         let productRightBefore = productRight
         productRight = productRight &+ (z₁! << 128)
@@ -434,48 +445,7 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         
         productLeft = productLeft + (z₁! >> 128)
     }
-
+    
     return (productLeft, productRight)
     
-}
-
-func / (numerator: UInt256, denomenator: UInt256) -> (UInt256) {
-    let (res, trouble) = UInt256.uncheckedDivide(numerator, denomenator)
-    assert(!trouble, "Trouble")
-    return res
-}
-
-func % (numerator: UInt256, denomenator: UInt256) -> UInt256 {
-    let (res, trouble) = UInt256.uncheckedModulus(numerator, denomenator)
-    assert(!trouble, "Trouble")
-    return res
-}
-
-func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
-    // Source: http://www.hackersdelight.org/MontgomeryMultiplication.pdf (page 5)
-    var (x,y) = lhs
-    let z = rhs
-    
-    var t: UInt256
-    
-    assert(x < z, "Can't calculate modulo")
-    
-    for _ in 0..256 {
-        // Avoid casting x to a signed integer and right shifting it all the way:
-        if UInt256.singleBitAt(0) & x == 0 {
-            t = UInt256.allZeros
-        } else {
-            t = UInt256.max
-        }
-        
-        x = (x << 1) | (y >> 255)
-        y = y << 1
-        
-        if((x | t) >= z) {
-            x = x &- z
-            y++
-        }
-    }
-    
-    return x
 }

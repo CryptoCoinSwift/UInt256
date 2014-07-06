@@ -7,20 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A26DCC9719697056008E8399 /* UInt32+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9619697056008E8399 /* UInt32+Additions.swift */; };
+		A26DCC99196970E4008E8399 /* UInt256+BitwiseOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */; };
+		A26DCC9A196970E4008E8399 /* UInt256+BitwiseOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */; };
+		A26DCC9B196970F1008E8399 /* UInt32+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9619697056008E8399 /* UInt32+Additions.swift */; };
+		A26DCCA01969717F008E8399 /* UInt256+IntegerArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */; };
+		A26DCCA11969717F008E8399 /* UInt256+IntegerArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */; };
+		A26DCCA719697341008E8399 /* UInt256+ArrayBound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */; };
+		A26DCCA819697341008E8399 /* UInt256+ArrayBound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */; };
+		A26DCCAA19697394008E8399 /* UInt256+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA919697394008E8399 /* UInt256+Hashable.swift */; };
+		A26DCCAB19697394008E8399 /* UInt256+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA919697394008E8399 /* UInt256+Hashable.swift */; };
+		A26DCCAD196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCAC196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift */; };
+		A26DCCAE196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCAC196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift */; };
+		A26DCCB0196973F8008E8399 /* UInt256+RandomAccessIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCAF196973F8008E8399 /* UInt256+RandomAccessIndex.swift */; };
+		A26DCCB1196973F8008E8399 /* UInt256+RandomAccessIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCAF196973F8008E8399 /* UInt256+RandomAccessIndex.swift */; };
+		A26DCCB319697419008E8399 /* UInt256+ForwardIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCB219697419008E8399 /* UInt256+ForwardIndex.swift */; };
+		A26DCCB419697419008E8399 /* UInt256+ForwardIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCB219697419008E8399 /* UInt256+ForwardIndex.swift */; };
+		A26DCCB719697455008E8399 /* UInt256+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCB519697455008E8399 /* UInt256+Comparable.swift */; };
+		A26DCCB819697455008E8399 /* UInt256+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCB519697455008E8399 /* UInt256+Comparable.swift */; };
+		A26DCCB919697455008E8399 /* UInt256+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCB619697455008E8399 /* UInt256+Equatable.swift */; };
+		A26DCCBA19697455008E8399 /* UInt256+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCB619697455008E8399 /* UInt256+Equatable.swift */; };
+		A26DCCBC1969751E008E8399 /* UInt256+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCBB1969751E008E8399 /* UInt256+Sequence.swift */; };
+		A26DCCBD1969751E008E8399 /* UInt256+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCBB1969751E008E8399 /* UInt256+Sequence.swift */; };
+		A26DCCBF1969753F008E8399 /* UInt256+Printable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCBE1969753F008E8399 /* UInt256+Printable.swift */; };
+		A26DCCC01969753F008E8399 /* UInt256+Printable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCBE1969753F008E8399 /* UInt256+Printable.swift */; };
 		A26F77A819684ED900C75822 /* UInt256Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = A26F77A719684ED900C75822 /* UInt256Mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A26F77AE19684ED900C75822 /* UInt256Mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26F77A319684ED900C75822 /* UInt256Mac.framework */; };
 		A26F77C819684F1700C75822 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
 		A26F77C919684F2300C75822 /* UInt256.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A1A0C21962DAFC00701051 /* UInt256.h */; };
 		A26F77CA19684F2300C75822 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5311962CFB400117EF5 /* BaseConverter.swift */; };
 		A26F77CC19684F2300C75822 /* UInt256.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5321962CFB400117EF5 /* UInt256.swift */; };
-		A26F77CD19684F2300C75822 /* UInt256+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D1FF98196336DB00905250 /* UInt256+Operators.swift */; };
 		A2A1A0C31962DAFC00701051 /* UInt256.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A1A0C21962DAFC00701051 /* UInt256.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A2A1A0C91962DAFC00701051 /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A1A0BE1962DAFC00701051 /* UInt256.framework */; };
 		A2A1A0DE1962DB2100701051 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5311962CFB400117EF5 /* BaseConverter.swift */; };
 		A2A1A0DF1962DB2400701051 /* UInt256.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A5321962CFB400117EF5 /* UInt256.swift */; };
 		A2A1A0E11962DB2D00701051 /* BaseConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */; };
 		A2A1A0E21962DB2F00701051 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
-		A2D1FF99196336DB00905250 /* UInt256+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D1FF98196336DB00905250 /* UInt256+Operators.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,9 +140,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A26DCC9619697056008E8399 /* UInt32+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt32+Additions.swift"; path = "Classes/UInt32+Additions.swift"; sourceTree = "<group>"; };
+		A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+BitwiseOperations.swift"; path = "Classes/UInt256+BitwiseOperations.swift"; sourceTree = "<group>"; };
+		A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+IntegerArithmetic.swift"; path = "Classes/UInt256+IntegerArithmetic.swift"; sourceTree = "<group>"; };
+		A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+ArrayBound.swift"; path = "Classes/UInt256+ArrayBound.swift"; sourceTree = "<group>"; };
+		A26DCCA919697394008E8399 /* UInt256+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Hashable.swift"; path = "Classes/UInt256+Hashable.swift"; sourceTree = "<group>"; };
+		A26DCCAC196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+IntegerLiteralConvertible.swift"; path = "Classes/UInt256+IntegerLiteralConvertible.swift"; sourceTree = "<group>"; };
+		A26DCCAF196973F8008E8399 /* UInt256+RandomAccessIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+RandomAccessIndex.swift"; path = "Classes/UInt256+RandomAccessIndex.swift"; sourceTree = "<group>"; };
+		A26DCCB219697419008E8399 /* UInt256+ForwardIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+ForwardIndex.swift"; path = "Classes/UInt256+ForwardIndex.swift"; sourceTree = "<group>"; };
+		A26DCCB519697455008E8399 /* UInt256+Comparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Comparable.swift"; path = "Classes/UInt256+Comparable.swift"; sourceTree = "<group>"; };
+		A26DCCB619697455008E8399 /* UInt256+Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Equatable.swift"; path = "Classes/UInt256+Equatable.swift"; sourceTree = "<group>"; };
+		A26DCCBB1969751E008E8399 /* UInt256+Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Sequence.swift"; path = "Classes/UInt256+Sequence.swift"; sourceTree = "<group>"; };
+		A26DCCBE1969753F008E8399 /* UInt256+Printable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Printable.swift"; path = "Classes/UInt256+Printable.swift"; sourceTree = "<group>"; };
 		A26F77A319684ED900C75822 /* UInt256Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UInt256Mac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A26F77A619684ED900C75822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A26F77A719684ED900C75822 /* UInt256Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UInt256Mac.h; sourceTree = "<group>"; };
+		A26F77A619684ED900C75822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UInt256Mac/Info.plist; sourceTree = "<group>"; };
+		A26F77A719684ED900C75822 /* UInt256Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UInt256Mac.h; path = UInt256Mac/UInt256Mac.h; sourceTree = "<group>"; };
 		A26F77AD19684ED900C75822 /* UInt256MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UInt256MacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26F77B319684ED900C75822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2A1A0BE1962DAFC00701051 /* UInt256.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UInt256.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,8 +165,7 @@
 		A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256Tests.swift; path = Tests/UInt256Tests.swift; sourceTree = SOURCE_ROOT; };
 		A2B8A5311962CFB400117EF5 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverter.swift; path = Classes/BaseConverter.swift; sourceTree = "<group>"; };
 		A2B8A5321962CFB400117EF5 /* UInt256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256.swift; path = Classes/UInt256.swift; sourceTree = "<group>"; };
-		A2D1FF98196336DB00905250 /* UInt256+Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Operators.swift"; path = "Classes/UInt256+Operators.swift"; sourceTree = "<group>"; };
-		A2D32D011962CED3001B5998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Tests/Info.plist; sourceTree = "<group>"; };
+		A2D32D011962CED3001B5998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,47 +202,69 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A26F77A419684ED900C75822 /* UInt256Mac */ = {
+		A26DCCA219697255008E8399 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				A26F77A719684ED900C75822 /* UInt256Mac.h */,
-				A26F77A519684ED900C75822 /* Supporting Files */,
-			);
-			path = UInt256Mac;
-			sourceTree = "<group>";
-		};
-		A26F77A519684ED900C75822 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A26F77A619684ED900C75822 /* Info.plist */,
+				A26DCCA51969729B008E8399 /* iOs */,
+				A26DCCA41969728B008E8399 /* Mac */,
+				A26DCCA31969727D008E8399 /* Test */,
+				A26F77B119684ED900C75822 /* MacTests */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		A26F77B119684ED900C75822 /* UInt256MacTests */ = {
+		A26DCCA31969727D008E8399 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				A26F77B219684ED900C75822 /* Supporting Files */,
+				A2A1A0C11962DAFC00701051 /* Info.plist */,
 			);
-			path = UInt256MacTests;
+			name = Test;
 			sourceTree = "<group>";
 		};
-		A26F77B219684ED900C75822 /* Supporting Files */ = {
+		A26DCCA41969728B008E8399 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				A26F77A719684ED900C75822 /* UInt256Mac.h */,
+				A26F77A619684ED900C75822 /* Info.plist */,
+			);
+			name = Mac;
+			sourceTree = "<group>";
+		};
+		A26DCCA51969729B008E8399 /* iOs */ = {
+			isa = PBXGroup;
+			children = (
+				A2A1A0C21962DAFC00701051 /* UInt256.h */,
+				A2D32D011962CED3001B5998 /* Info.plist */,
+			);
+			name = iOs;
+			sourceTree = "<group>";
+		};
+		A26F77B119684ED900C75822 /* MacTests */ = {
 			isa = PBXGroup;
 			children = (
 				A26F77B319684ED900C75822 /* Info.plist */,
 			);
-			name = "Supporting Files";
+			name = MacTests;
+			path = UInt256MacTests;
 			sourceTree = "<group>";
 		};
 		A2B8A5371962CFB900117EF5 /* UInt256 */ = {
 			isa = PBXGroup;
 			children = (
-				A2A1A0C21962DAFC00701051 /* UInt256.h */,
-				A2B8A5311962CFB400117EF5 /* BaseConverter.swift */,
 				A2B8A5321962CFB400117EF5 /* UInt256.swift */,
-				A2D1FF98196336DB00905250 /* UInt256+Operators.swift */,
-				A2A1A0C11962DAFC00701051 /* Info.plist */,
+				A26DCCBE1969753F008E8399 /* UInt256+Printable.swift */,
+				A26DCCB619697455008E8399 /* UInt256+Equatable.swift */,
+				A26DCCB519697455008E8399 /* UInt256+Comparable.swift */,
+				A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */,
+				A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */,
+				A26DCCBB1969751E008E8399 /* UInt256+Sequence.swift */,
+				A26DCCAC196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift */,
+				A26DCCA919697394008E8399 /* UInt256+Hashable.swift */,
+				A26DCCAF196973F8008E8399 /* UInt256+RandomAccessIndex.swift */,
+				A26DCCB219697419008E8399 /* UInt256+ForwardIndex.swift */,
+				A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */,
+				A26DCC9619697056008E8399 /* UInt32+Additions.swift */,
+				A2B8A5311962CFB400117EF5 /* BaseConverter.swift */,
 			);
 			name = UInt256;
 			sourceTree = "<group>";
@@ -219,8 +274,7 @@
 			children = (
 				A2B8A5371962CFB900117EF5 /* UInt256 */,
 				A2D32CFF1962CED3001B5998 /* UInt256Tests */,
-				A26F77A419684ED900C75822 /* UInt256Mac */,
-				A26F77B119684ED900C75822 /* UInt256MacTests */,
+				A26DCCA219697255008E8399 /* Supporting Files */,
 				A2D32CF01962CED3001B5998 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -239,19 +293,10 @@
 		A2D32CFF1962CED3001B5998 /* UInt256Tests */ = {
 			isa = PBXGroup;
 			children = (
-				A2D32D011962CED3001B5998 /* Info.plist */,
 				A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */,
 				A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */,
-				A2D32D001962CED3001B5998 /* Supporting Files */,
 			);
 			path = UInt256Tests;
-			sourceTree = "<group>";
-		};
-		A2D32D001962CED3001B5998 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -441,9 +486,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A26DCCA819697341008E8399 /* UInt256+ArrayBound.swift in Sources */,
+				A26DCCB1196973F8008E8399 /* UInt256+RandomAccessIndex.swift in Sources */,
+				A26DCCAB19697394008E8399 /* UInt256+Hashable.swift in Sources */,
+				A26DCC9B196970F1008E8399 /* UInt32+Additions.swift in Sources */,
 				A26F77CC19684F2300C75822 /* UInt256.swift in Sources */,
-				A26F77CD19684F2300C75822 /* UInt256+Operators.swift in Sources */,
+				A26DCCB819697455008E8399 /* UInt256+Comparable.swift in Sources */,
+				A26DCCA11969717F008E8399 /* UInt256+IntegerArithmetic.swift in Sources */,
+				A26DCCC01969753F008E8399 /* UInt256+Printable.swift in Sources */,
+				A26DCCBA19697455008E8399 /* UInt256+Equatable.swift in Sources */,
+				A26DCCB419697419008E8399 /* UInt256+ForwardIndex.swift in Sources */,
+				A26DCC9A196970E4008E8399 /* UInt256+BitwiseOperations.swift in Sources */,
 				A26F77CA19684F2300C75822 /* BaseConverter.swift in Sources */,
+				A26DCCAE196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift in Sources */,
+				A26DCCBD1969751E008E8399 /* UInt256+Sequence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,9 +515,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2D1FF99196336DB00905250 /* UInt256+Operators.swift in Sources */,
+				A26DCCA719697341008E8399 /* UInt256+ArrayBound.swift in Sources */,
+				A26DCCB0196973F8008E8399 /* UInt256+RandomAccessIndex.swift in Sources */,
+				A26DCCAA19697394008E8399 /* UInt256+Hashable.swift in Sources */,
+				A26DCC99196970E4008E8399 /* UInt256+BitwiseOperations.swift in Sources */,
+				A26DCCA01969717F008E8399 /* UInt256+IntegerArithmetic.swift in Sources */,
+				A26DCCB719697455008E8399 /* UInt256+Comparable.swift in Sources */,
 				A2A1A0DE1962DB2100701051 /* BaseConverter.swift in Sources */,
+				A26DCCBF1969753F008E8399 /* UInt256+Printable.swift in Sources */,
+				A26DCCB919697455008E8399 /* UInt256+Equatable.swift in Sources */,
+				A26DCCB319697419008E8399 /* UInt256+ForwardIndex.swift in Sources */,
 				A2A1A0DF1962DB2400701051 /* UInt256.swift in Sources */,
+				A26DCC9719697056008E8399 /* UInt32+Additions.swift in Sources */,
+				A26DCCAD196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift in Sources */,
+				A26DCCBC1969751E008E8399 /* UInt256+Sequence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
