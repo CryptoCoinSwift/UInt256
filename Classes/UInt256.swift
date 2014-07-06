@@ -97,6 +97,10 @@ struct UInt256 { // : UnsignedInteger
       self.init(0,0,0,0,0,0,leftDigit, rightDigit)
     }
     
+    init(let _ value: Int) {
+        self.init(0,0,0,0,0,0,0,UInt32(value))
+    }
+    
 
     
     init(var hexStringValue: String) {
