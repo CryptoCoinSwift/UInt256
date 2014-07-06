@@ -54,6 +54,7 @@ extension UInt256 : IntegerArithmetic {
     }
     
     static func uncheckedMultiply(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
+        assert(false, "Unchecked multiplication is not supported. Multiply to a tuple instead.")
         let (a,b) = lhs * rhs
         return (b, a != UInt256.allZeros)
     }
@@ -135,7 +136,7 @@ extension UInt256 : IntegerArithmetic {
             b = a % b
             a = t
             t = x0
-            let temp: UInt256 = q &* x0 // Should this really overflow?
+            let (_,temp) = q * x0
             x0 = x1 &- temp
             x0positive = x1 >= x0
             x1 = t
@@ -246,11 +247,6 @@ func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let (result, overflow) = UInt256.uncheckedSubtract(lhs, rhs)
     assert(!overflow, "Overflow")
     return result
-}
-
-func &* (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (_,b) = lhs * rhs
-    return b
 }
 
 func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
@@ -438,14 +434,7 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         
     } else {
         let productRightBefore = productRight
-        productRight = productRight &+ (z₁! << 128)
-        
-        if productRight < productRightBefore {
-            productLeft++
-            // An intentional extra add here does not a single test to fail!
-        } else {
-            // An intentional extra add here causes the mutliply to tuple test to fail
-        }
+        productRight = productRight + (z₁! << 128)
         
         productLeft = productLeft + (z₁! >> 128)
     }

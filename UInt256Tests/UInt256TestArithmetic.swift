@@ -193,17 +193,19 @@ class UInt256TestArithmetic: XCTestCase {
     
     
     
-    func testMultiplyOverflow() {
-        let a = UInt256(hexStringValue: "8888888888888888888888888888888888888888888888888888888888888888")
-        let b = UInt256(hexStringValue: "0000000000000000000000000000000000000000000000000000000000000002")
-        let c = UInt256(hexStringValue: "1111111111111111111111111111111111111111111111111111111111111110")
-        
-        // Should crash: let res = a * b
-        
-        let res = a &* b
-        
-        XCTAssertTrue(res == c, "");
-    }
+//    func testMultiplyOverflow() {
+//        let a = UInt256(hexStringValue: "8888888888888888888888888888888888888888888888888888888888888888")
+//        let b = UInt256(hexStringValue: "0000000000000000000000000000000000000000000000000000000000000002")
+//        let c = UInt256(hexStringValue: "1111111111111111111111111111111111111111111111111111111111111110")
+//        
+//        // Should crash: 
+//        let res = a * b
+//        
+//        // Unsafe multiply is not supported, so this will crash as well:
+//        let res = a &* b
+//        
+//        XCTAssertTrue(res == c, "");
+//    }
     
     func testMultiplyToTuple() {
         let a = UInt256(hexStringValue: "8888888888888888888888888888888888888888888888888888888888888888")
@@ -231,17 +233,6 @@ class UInt256TestArithmetic: XCTestCase {
         XCTAssertEqual(result, modulo, result.toHexString)
     }
     
-    func testMultiplyPartOverflow() {
-        let a = UInt256(hexStringValue: "0000000000000000000000008888888888888888888888888888888888888888")
-        let b = UInt256(hexStringValue: "0000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000")
-        
-        // This should crash:
-        //        let res = a * b
-        
-        let res = a &* b
-        
-        XCTAssertTrue(true, ""); // Just make sure it doesn't crash
-    }
 
     func testDivide() {
         let a = UInt256(decimalStringValue: "640")
@@ -381,7 +372,50 @@ class UInt256TestArithmetic: XCTestCase {
         var result = (resLeft, resRight) % p
         
         XCTAssertTrue(result == product, result.description);
+        
+        a = UInt256(0xbaccf46f, 0xb8cf1f04, 0x04ba1b2c, 0x8670a4ed, 0x48d7332b, 0xfd7c2be7, 0x17ac8711, 0x5b90982d)
+        
+        b = UInt256(0xb404418f, 0x7da39ff5, 0xdfb1e64d, 0xbb641d89, 0x57e97ad1, 0xab4d1214, 0x0e2f9b3b, 0xee335cfb)
+        
+        
+        (left, right) = (UInt256(0x835b36e9, 0x1deae5f3, 0x0786bfdf, 0x07a8b64f, 0x6aec6311, 0x48fa547e, 0x38dcd2ac, 0x8168b1ad), UInt256(0xf3aedbb4, 0x6e83c60d, 0x7fb73d7c, 0xd0aaea20, 0xce9e521b, 0x8fd69dda, 0x4f01a793, 0xe46c601f))
+        
+        
+        product = UInt256(0x60b65152, 0xa3821a6c, 0x40a235f8, 0x76771249, 0x27bebb91, 0x4c0fe63e, 0x5685986f, 0x141e806b)
+        
+         (resLeft, resRight) = a * b
+        
+        XCTAssertTrue(resLeft == left, resLeft.description);
+        XCTAssertTrue(resRight == right, resRight.description);
+        
+         result = (resLeft, resRight) % p
+        
+        XCTAssertTrue(result == product, result.description);
 
+    }
+    
+    func testMultiplicationToTupleWithoutRecursion() {
+        let p = UInt256(0xffffffff, 0xffffffff, 0xffffffff,0xffffffff, 0xffffffff,0xffffffff, 0xfffffffe,0xfffffc2f)
+
+    
+        // a and b chosen such that x₁ + x₀ and y₁_plus_y₀ don't overflow
+        let a = UInt256(0x502b5092, 0x9d7b11ed, 0x52d00e63, 0x11cd10ff, 0x92956188, 0xdd566bc4, 0x52d0ebaa, 0x95f8234c)
+    
+        let b = UInt256(0x17c10759, 0xf6e128f2, 0x0704c711, 0x914fa8bf, 0xaa514b51, 0xa371522d, 0xfc5bd655, 0x162050ce)
+    
+        let (left, right) = (UInt256(0x07705732, 0x4641effd, 0x378f46bc, 0x92edec71, 0x75c31faf, 0xc2e21a5d, 0x69bfbb9f, 0x07abd941), UInt256(0x98baaae0, 0xf56e67d7, 0x455c1ce2, 0x8617a3a9, 0xc9cd081a, 0x1afb578a, 0xa0e2446b, 0x2a342728))
+    
+        let product = UInt256(0x42b961bc, 0x4ea293f4, 0xe216ff00, 0xb9de205b, 0xfa5b103e, 0x45a1b1aa, 0x44b97f03, 0xd4c97cb8)
+        
+        let (resLeft, resRight) = a * b
+        
+        XCTAssertTrue(resLeft == left, resLeft.description);
+        XCTAssertTrue(resRight == right, resRight.description);
+        
+        let result = (resLeft, resRight) % p
+        
+        XCTAssertTrue(result == product, result.description);
+    
     }
 
 }
