@@ -55,7 +55,7 @@ extension UInt256 : IntegerArithmetic {
     
     static func uncheckedMultiply(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
         let (a,b) = lhs * rhs
-        return (b, a != 0)
+        return (b, a != UInt256.allZeros)
     }
     
     static func uncheckedDivide(numerator: UInt256, _ denomenator: UInt256) -> (UInt256, Bool) {
@@ -113,6 +113,7 @@ extension UInt256 : IntegerArithmetic {
     }
     
     func modInverse(m: UInt256) -> UInt256 {
+        assert(m > 0, "Modulo 0 makes no sense")
         // http://rosettacode.org/wiki/Modular_inverse#C
         var a = self
         var b = m

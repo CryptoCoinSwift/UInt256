@@ -16,7 +16,7 @@ extension UInt256 { // : RandomAccessIndex {
         return Int(distance[7])
     }
 
-    func advancedBy(distance: Int) -> UInt256 {
-        return self + UInt256(distance)
-    }
+//    func advancedBy(distance: Int) -> UInt256 {
+//        return self + UInt256(distance)
+//    }
 }

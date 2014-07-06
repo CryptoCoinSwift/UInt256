@@ -86,25 +86,18 @@ struct UInt256 { // : UnsignedInteger
         self.init(0,0,0,0,0,0,0,0)
     }
     
-    init(let _ value: Int) {
-        switch UInt64(Int.max) {
-        case UInt64(Int32.max):
-            self.init(0,0,0,0,0,0,0,UInt32(value))
-        case UInt64(Int64.max):
-            let rightDigit: UInt32 = UInt32(value & Int(Int32.max));
-            let leftDigit:  UInt32 = UInt32(value >> 32);
-            
-            self.init(0,0,0,0,0,0,leftDigit, rightDigit)
-        default:
-            assert(false, "Unknown bit size")
-            self.init(0,0,0,0,0,0,0,0)
-        }
+    init(let _ value: UInt32) {
+        self.init(0,0,0,0,0,0,0,UInt32(value))
+    }
+
+    init(let _ value: UInt64) {
+      let leftDigit:  UInt32 = UInt32(value >> 32);
+      let rightDigit: UInt32 = UInt32((value << 32) >> 32);
+
+      self.init(0,0,0,0,0,0,leftDigit, rightDigit)
     }
     
-    
-    init(let _ value: UInt256) {
-        self = value
-    }
+
     
     init(var hexStringValue: String) {
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.

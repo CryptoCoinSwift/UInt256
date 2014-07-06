@@ -76,8 +76,13 @@ class UInt256Tests: XCTestCase {
     
     func testInitWithIntLiteral() {
         let a = UInt256(decimalStringValue: "50245")
-        let b = UInt256(50245)
+        let b = UInt256(UInt32(50245))
         let c: UInt256 = 50245
+        
+        // 32 bit values:
+        let d: UInt256 = 3221225472
+        
+        XCTAssertTrue(d.toDecimalString == "3221225472", "")
 
         
         XCTAssertTrue(a == b, b.description);
@@ -630,10 +635,10 @@ class UInt256Tests: XCTestCase {
     }
     
     func testModularMultiplicativeInverseSmall() {
-        let p = UInt256(11)
-        let a =  UInt256(5)
+        let p: UInt256 = 11
+        let a: UInt256 =  5
         
-        let inverse = UInt256(9) // 9  * 5 = 45 -> 45 % 9 = 1
+        let inverse: UInt256 = 9 // 9  * 5 = 45 -> 45 % 9 = 1
         
         let result = a.modInverse(p)
         
