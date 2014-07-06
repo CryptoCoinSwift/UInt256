@@ -402,10 +402,7 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
                     z₁tuple = (left - 2, right &- addSafe)
                 }
             }
-            
-            
         }
-        
         
     } else { // Both sums are 128 bit or less, so their product is 256 bit or less
         let z₁subtotal: UInt256 = x₁_plus_x₀ * y₁_plus_y₀
@@ -434,7 +431,11 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         
     } else {
         let productRightBefore = productRight
-        productRight = productRight + (z₁! << 128)
+        productRight = productRight &+ (z₁! << 128)
+        
+        if productRight < productRightBefore {
+            productLeft++
+        }
         
         productLeft = productLeft + (z₁! >> 128)
     }
