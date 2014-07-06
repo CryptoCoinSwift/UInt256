@@ -49,7 +49,7 @@ extension UInt256 : IntegerArithmetic {
             }
         }
         
-        return (diff, lhs > rhs)
+        return (diff, lhs < rhs)
         
     }
     
