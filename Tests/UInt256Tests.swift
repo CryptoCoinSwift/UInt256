@@ -66,6 +66,14 @@ class UInt256Tests: XCTestCase {
     }
 
     
+    func testInitWithIntHexLiterals() {
+        let a = UInt256(hexStringValue: "FFFFFFFFFFFFFFFF")
+        let b = UInt256(0,0,0,0,0,0,0xFFFFFFFF,0xFFFFFFFF)
+
+        XCTAssertTrue(a == b, b.description);
+        
+    }
+    
     func testInitWith128BitMaxHex() {
         // The largest value for an unsigned 128 bit integer is 2^128 - 1
         let bi = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")

@@ -4,8 +4,6 @@
 //
 //  Created by Sjors Provoost on 23-06-14.
 
-import Foundation // Needed for a workaround in decimalStringValue's call to hexStringValue
-
 // Avoid using NSNumber:
 func raiseByPositivePower(radix: UInt32, power: UInt32) -> UInt32 {
     var res: UInt32 = 1;
@@ -28,32 +26,74 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     // IntegerArithmetic (it complies, but Swift demands _IntegerArithmetic as well)
     // ForwardIndex  (_Incrementable, etc)
     
-    var smallerIntegers: UInt256Store = UInt256Store(array: [0,0,0,0,0,0,0,0]) // Most significant first.
+   
+    // Use 8 vars, pending fixed size arrays in Swift and arrays that don't behave w̶e̶i̶r̶d̶
+    // optimized when they get copied around with the struct they're in.
+    // Todo: use 4 parts on a 64 bit system
+    var part0: UInt32 // Most significant
+    var part1: UInt32
+    var part2: UInt32
+    var part3: UInt32
+    var part4: UInt32
+    var part5: UInt32
+    var part6: UInt32
+    var part7: UInt32
     
     subscript(index: Int) -> UInt32 {
         get {
-            return smallerIntegers[index]
+            switch index {
+            case 0:
+                return part0
+            case 1:
+                return part1
+            case 2:
+                return part2
+            case 3:
+                return part3
+            case 4:
+                return part4
+            case 5:
+                return part5
+            case 6:
+                return part6
+            case 7:
+                return part7
+            default:
+                assert(false, "Invalid index");
+                return 0
+            }
+            
         }
-        set(newValue) {
-            smallerIntegers[index] = newValue
+        
+        mutating set(newValue) {
+            switch index {
+            case 0:
+                part0 = newValue
+            case 1:
+                part1 = newValue
+            case 2:
+                part2 = newValue
+            case 3:
+                part3 = newValue
+            case 4:
+                part4 = newValue
+            case 5:
+                part5 = newValue
+            case 6:
+                part6 = newValue
+            case 7:
+                part7 = newValue
+            default:
+                assert(false, "Invalid index");
+                
+            }
         }
     }
     
     static func convertFromIntegerLiteral(value: IntegerLiteralType) -> UInt256 {
        assert(value >= 0, "Unsigned integer should be 0 or larger")
 
-        switch UInt64(Int.max) {
-        case UInt64(Int32.max):
-            return UInt256([0,0,0,0,0,0,0,UInt32(value)])
-        case UInt64(Int64.max):
-            let rightDigit: UInt32 = UInt32(value & Int(Int32.max));
-            let leftDigit:  UInt32 = UInt32(value >> 32);
-
-            return UInt256([0,0,0,0,0,0,leftDigit, rightDigit])
-        default:
-            assert(false, "Unknown bit size")
-            return allZeros;
-        }
+        return UInt256(value)
     }
     
     var description: String { return self.toDecimalString }
@@ -99,17 +139,33 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         return unpaddedResult
     }
     
-    init (_ mostSignificantOf8UInt32First: UInt32[]) {
-        assert(mostSignificantOf8UInt32First.count == 8, "8 UInt32's needed")
+    init (_ part0: UInt32, _ part1: UInt32, _ part2: UInt32, _ part3: UInt32, _ part4: UInt32, _ part5: UInt32, _ part6: UInt32, _ part7: UInt32) {
         
-        for i in 0..8 {
-            self[i] = mostSignificantOf8UInt32First[i]
-        }
+        self.part0 = part0
+        self.part1 = part1
+        self.part2 = part2
+        self.part3 = part3
+        self.part4 = part4
+        self.part5 = part5
+        self.part6 = part6
+        self.part7 = part7
 
+        
     }
     
-    init(let _ int: Int) {
-        self.init(decimalStringValue: int.description)
+    init(let _ value: Int) {
+        switch UInt64(Int.max) {
+        case UInt64(Int32.max):
+            self.init(0,0,0,0,0,0,0,UInt32(value))
+        case UInt64(Int64.max):
+            let rightDigit: UInt32 = UInt32(value & Int(Int32.max));
+            let leftDigit:  UInt32 = UInt32(value >> 32);
+            
+            self.init(0,0,0,0,0,0,leftDigit, rightDigit)
+        default:
+            assert(false, "Unknown bit size")
+            self.init(0,0,0,0,0,0,0,0)
+        }
     }
     
     init(var hexStringValue: String) {
@@ -201,7 +257,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
             i++
         }
         
-        self.init([int1, int2, int3, int4, int5, int6, int7, int8])
+        self.init(int1, int2, int3, int4, int5, int6, int7, int8)
     }
     
     init(decimalStringValue: String) {
@@ -239,9 +295,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
             hexStringValue = "0"
         }
         
-        self.init(hexStringValue: hexStringValue ) // This will cause EXC_BAD_ACCESS error
-//        self.init(hexStringValue: NSString(format:"%@", hexStringValue))
-        
+        self.init(hexStringValue: hexStringValue )
     }
     
     var highestBit: Int {
@@ -274,11 +328,11 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
     }
 
     static var allZeros: UInt256 {
-        return UInt256([0,0,0,0,0,0,0,0])
+        return UInt256(0,0,0,0,0,0,0,0)
     }
     
     static var max: UInt256 {
-        return UInt256([UInt32.max, UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max])
+        return UInt256(UInt32.max, UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max,UInt32.max)
     }
     
     func toIntMax() -> IntMax {
@@ -313,7 +367,7 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
         var q: UInt256
         var x0 = UInt256.allZeros
         var x0positive = true
-        var x1 = UInt256(1)
+        var x1: UInt256 = 1
         
         if (b == 1) {
             return 1
@@ -341,9 +395,6 @@ struct UInt256 : Comparable, Printable, BitwiseOperations, Hashable, IntegerLite
 
 extension UInt256 : Sequence {
     func generate() -> IndexingGenerator<UInt32[]> {
-        return self.smallerIntegers.generate()
+        return [part0, part1, part2, part3, part4, part5, part6, part7].generate()
     }
 }
-
-
-
