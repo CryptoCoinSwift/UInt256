@@ -5,6 +5,8 @@
 //  Created by Sjors Provoost on 01-07-14.
 //
 
+extension UInt256 : BitwiseOperations {}
+
 func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
@@ -57,6 +59,9 @@ func < (lhs: UInt256, rhs: UInt256) -> Bool {
     
     return false
 }
+
+// This results in a duplicate symbol error:
+// extension UInt256 : Comparable, Equatable {}
 
 func == (lhs: UInt256, rhs: UInt256) -> Bool {
     return lhs.part0 == rhs.part0 && lhs.part1 == rhs.part1 && lhs.part2 == rhs.part2 && lhs.part3 == rhs.part3 && lhs.part4 == rhs.part4 && lhs.part5 == rhs.part5 && lhs.part6 == rhs.part6  && lhs.part7 == rhs.part7
@@ -112,60 +117,25 @@ func -= (inout lhs: UInt256, rhs: UInt256) -> () {
 
 
 func &+ (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var previousDigitDidOverflow = false
-    
-    var sum = UInt256.allZeros
-    
-    for var i=7; i >= 0; i-- {
-        
-        
-        sum[i] = sum[i] &+ lhs[i]
-        
-        if sum[i] < lhs[i] && i > 0 {
-            sum[i-1] = 1
-        }
-        
-        let sumBefore = sum[i]
-        
-        sum[i] = sumBefore &+ rhs[i]
-        
-        if sum[i] < sumBefore && i > 0 {
-            sum[i-1] = sum[i-1] + 1 // Will either be 1 or 2
-        }
-    }
-    
-    return sum
+    let (result, _) = UInt256.uncheckedAdd(lhs, rhs)
+    return result
 }
 
 func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let sum = lhs &+ rhs
-    
-    assert(sum >= lhs, "Overflow")
-    return sum
+    let (result, overflow) = UInt256.uncheckedAdd(lhs, rhs)
+    assert(!overflow, "Overflow")
+    return result
 }
 
 func &- (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    var previousDigitDidOverflow = false
-    var diff = UInt256.allZeros
-
-    for var i=7; i >= 0; i-- {
-        let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
-        
-        diff[i] = lhs[i] &- rhs[i] &- modifier
-                
-        if modifier == 1 && rhs[i] == UInt32.max {
-            previousDigitDidOverflow = true
-        } else {
-            previousDigitDidOverflow = lhs[i] < rhs[i] + modifier
-        }
-    }
-    
-    return diff
+    let (result, _) = UInt256.uncheckedSubtract(lhs, rhs)
+    return result
 }
 
 func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    assert(lhs >= rhs, "Overflow")
-    return lhs &- rhs
+    let (result, overflow) = UInt256.uncheckedSubtract(lhs, rhs)
+    assert(!overflow, "Overflow")
+    return result
  }
 
 func << (lhs: UInt256, rhs: Int) -> UInt256 {
@@ -470,55 +440,15 @@ func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
 }
 
 func / (numerator: UInt256, denomenator: UInt256) -> (UInt256) {
-    assert(denomenator != 0, "Divide by zero")
-    
-    var quotient: UInt256 = 0
-    var remainder: UInt256 = 0
-    
-    for var i=numerator.highestBit - 1; i >= 0; i--  {
-        
-        remainder <<= 1
-        if UInt256.singleBitAt(255 - i) & numerator != 0 {
-            remainder.setBitAt(255)
-        } else {
-            remainder.unsetBitAt(255)
-        }
-        
-        if remainder >= denomenator {
-            // println("R=\( remainder ) D=\( denomenator )")
-            remainder = remainder - denomenator
-            quotient = quotient | UInt256.singleBitAt(255 - i)
-        }
-    }
-    
-    
-    return quotient
-
+    let (res, trouble) = UInt256.uncheckedDivide(numerator, denomenator)
+    assert(!trouble, "Trouble")
+    return res
 }
 
 func % (numerator: UInt256, denomenator: UInt256) -> UInt256 {
-  
-    assert(denomenator != 0, "Divide by zero")
-    
-    var remainder: UInt256 = 0
-    
-    for var i=numerator.highestBit - 1; i >= 0; i--  {
-        
-        remainder <<= 1
-        if UInt256.singleBitAt(255 - i) & numerator != 0 {
-            remainder.setBitAt(255)
-        } else {
-            remainder.unsetBitAt(255)
-        }
-        
-        if remainder >= denomenator {
-            remainder = remainder - denomenator
-        }
-    }
-    
-    return remainder
-
-    
+    let (res, trouble) = UInt256.uncheckedModulus(numerator, denomenator)
+    assert(!trouble, "Trouble")
+    return res
 }
 
 func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
