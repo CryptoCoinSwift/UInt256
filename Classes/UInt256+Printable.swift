@@ -16,9 +16,13 @@ extension UInt256 : Printable {
     }
     
     var toHexString: String {
+        return toHexStringOfLength(nil)
+    }
     
-    var result: String = ""
-        
+    func toHexStringOfLength (length: Int?) -> String {
+    
+        var result: String = ""
+            
         for int in self {
             var paddedHexString = BaseConverter.decToHex(int.description)
             
@@ -44,6 +48,17 @@ extension UInt256 : Printable {
         
         if unpaddedResult == "" {
             unpaddedResult = "0"
+        }
+        
+        if length {
+            let resultLength = countElements(unpaddedResult)
+            if resultLength < length! {
+                for i in 0..(length! - resultLength) {
+                    unpaddedResult = "0" + unpaddedResult
+                }
+            }
+            
+    
         }
         
         return unpaddedResult

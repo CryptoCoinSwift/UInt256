@@ -110,17 +110,17 @@ struct BaseConverter {
             switch digit {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
                 return digit.toInt()
-            case "A":
+            case "A", "a":
                 return 10
-            case "B":
+            case "B", "b":
                 return 11
-            case "C":
+            case "C", "c":
                 return 12
-            case "D":
+            case "D", "d":
                 return 13
-            case "E":
+            case "E", "e":
                 return 14
-            case "F":
+            case "F", "f":
                 return 15
             default:
                 assert(false, "Invalid hex digit")
@@ -159,9 +159,14 @@ struct BaseConverter {
                 assert(false, "Invalid hex digit")
                 return ""
             }
+        
+        case 58: // This is a bitcoin specific variant!
+            let alphabet: String[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+            
+            return alphabet[digit]
             
         default:
-            assert(false, "Only base 2-10 and 16 are supported")
+            assert(false, "Only base 2-10, 16 and 58 are supported")
             return ""
         }
         
