@@ -59,8 +59,8 @@ extension UInt256 : IntegerArithmetic {
         return (b, a != UInt256.allZeros)
     }
     
-    static func uncheckedDivide(numerator: UInt256, _ denomenator: UInt256) -> (UInt256, Bool) {
-        assert(denomenator != 0, "Divide by zero")
+    static func uncheckedDivide(numerator: UInt256, _ denominator: UInt256) -> (UInt256, Bool) {
+        assert(denominator != 0, "Divide by zero")
         
         var quotient: UInt256 = 0
         var remainder: UInt256 = 0
@@ -74,9 +74,9 @@ extension UInt256 : IntegerArithmetic {
                 remainder.unsetBitAt(255)
             }
             
-            if remainder >= denomenator {
-                // println("R=\( remainder ) D=\( denomenator )")
-                remainder = remainder - denomenator
+            if remainder >= denominator {
+                // println("R=\( remainder ) D=\( denominator )")
+                remainder = remainder - denominator
                 quotient = quotient | UInt256.singleBitAt(255 - i)
             }
         }
@@ -85,8 +85,8 @@ extension UInt256 : IntegerArithmetic {
         
     }
     
-    static func uncheckedModulus(numerator: UInt256, _ denomenator: UInt256) -> (UInt256, Bool) {
-        assert(denomenator != 0, "Divide by zero")
+    static func uncheckedModulus(numerator: UInt256, _ denominator: UInt256) -> (UInt256, Bool) {
+        assert(denominator != 0, "Divide by zero")
         
         var remainder: UInt256 = 0
         
@@ -99,8 +99,8 @@ extension UInt256 : IntegerArithmetic {
                 remainder.unsetBitAt(255)
             }
             
-            if remainder >= denomenator {
-                remainder = remainder - denomenator
+            if remainder >= denominator {
+                remainder = remainder - denominator
             }
         }
         
@@ -151,14 +151,14 @@ extension UInt256 : IntegerArithmetic {
 
 }
 
-func / (numerator: UInt256, denomenator: UInt256) -> (UInt256) {
-    let (res, trouble) = UInt256.uncheckedDivide(numerator, denomenator)
+func / (numerator: UInt256, denominator: UInt256) -> (UInt256) {
+    let (res, trouble) = UInt256.uncheckedDivide(numerator, denominator)
     assert(!trouble, "Trouble")
     return res
 }
 
-func % (numerator: UInt256, denomenator: UInt256) -> UInt256 {
-    let (res, trouble) = UInt256.uncheckedModulus(numerator, denomenator)
+func % (numerator: UInt256, denominator: UInt256) -> UInt256 {
+    let (res, trouble) = UInt256.uncheckedModulus(numerator, denominator)
     assert(!trouble, "Trouble")
     return res
 }
