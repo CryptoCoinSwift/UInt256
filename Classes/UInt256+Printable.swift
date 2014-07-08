@@ -53,7 +53,7 @@ extension UInt256 : Printable {
         if length {
             let resultLength = countElements(unpaddedResult)
             if resultLength < length! {
-                for i in 0..(length! - resultLength) {
+                for i in 0..<(length! - resultLength) {
                     unpaddedResult = "0" + unpaddedResult
                 }
             }

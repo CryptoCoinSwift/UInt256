@@ -6,7 +6,7 @@
 //
 
 extension UInt256 : IntegerArithmetic {
-    static func uncheckedAdd(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
+    static func addWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
         var previousDigitDidOverflow = false
         
         var sum = UInt256.allZeros
@@ -33,7 +33,7 @@ extension UInt256 : IntegerArithmetic {
         
     }
     
-    static func uncheckedSubtract(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
+    static func subtractWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
         var previousDigitDidOverflow = false
         var diff = UInt256.allZeros
         
@@ -53,13 +53,13 @@ extension UInt256 : IntegerArithmetic {
         
     }
     
-    static func uncheckedMultiply(lhs: UInt256, _ rhs: UInt256) -> (UInt256, Bool) {
+    static func multiplyWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
         assert(false, "Unchecked multiplication is not supported. Multiply to a tuple instead.")
         let (a,b) = lhs * rhs
         return (b, a != UInt256.allZeros)
     }
     
-    static func uncheckedDivide(numerator: UInt256, _ denominator: UInt256) -> (UInt256, Bool) {
+    static func divideWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
         var quotient: UInt256 = 0
@@ -85,7 +85,7 @@ extension UInt256 : IntegerArithmetic {
         
     }
     
-    static func uncheckedModulus(numerator: UInt256, _ denominator: UInt256) -> (UInt256, Bool) {
+    static func modulusWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
         var remainder: UInt256 = 0
@@ -152,13 +152,13 @@ extension UInt256 : IntegerArithmetic {
 }
 
 func / (numerator: UInt256, denominator: UInt256) -> (UInt256) {
-    let (res, trouble) = UInt256.uncheckedDivide(numerator, denominator)
+    let (res, trouble) = UInt256.divideWithOverflow(numerator, denominator)
     assert(!trouble, "Trouble")
     return res
 }
 
 func % (numerator: UInt256, denominator: UInt256) -> UInt256 {
-    let (res, trouble) = UInt256.uncheckedModulus(numerator, denominator)
+    let (res, trouble) = UInt256.modulusWithOverflow(numerator, denominator)
     assert(!trouble, "Trouble")
     return res
 }
@@ -172,7 +172,7 @@ func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
     
     assert(x < z, "Can't calculate modulo")
     
-    for _ in 0..256 {
+    for _ in 0..<256 {
         // Avoid casting x to a signed integer and right shifting it all the way:
         if UInt256.singleBitAt(0) & x == 0 {
             t = UInt256.allZeros
@@ -228,23 +228,23 @@ func -= (inout lhs: UInt256, rhs: UInt256) -> () {
 
 
 func &+ (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (result, _) = UInt256.uncheckedAdd(lhs, rhs)
+    let (result, _) = UInt256.addWithOverflow(lhs, rhs)
     return result
 }
 
 func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (result, overflow) = UInt256.uncheckedAdd(lhs, rhs)
+    let (result, overflow) = UInt256.addWithOverflow(lhs, rhs)
     assert(!overflow, "Overflow")
     return result
 }
 
 func &- (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (result, _) = UInt256.uncheckedSubtract(lhs, rhs)
+    let (result, _) = UInt256.subtractWithOverflow(lhs, rhs)
     return result
 }
 
 func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    let (result, overflow) = UInt256.uncheckedSubtract(lhs, rhs)
+    let (result, overflow) = UInt256.subtractWithOverflow(lhs, rhs)
     assert(!overflow, "Overflow")
     return result
 }

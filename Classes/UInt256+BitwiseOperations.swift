@@ -43,7 +43,7 @@ extension UInt256 : BitwiseOperations {
 func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
-    for i in 0..8 {
+    for i in 0..<8 {
         let and: UInt32 = lhs[i] & rhs[i]
         res[i] = and
     }
@@ -54,7 +54,7 @@ func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
 func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
-    for i in 0..8 {
+    for i in 0..<8 {
         res[i] = lhs[i] | rhs[i]
     }
     
@@ -64,7 +64,7 @@ func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
 func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
-    for i in 0..8 {
+    for i in 0..<8 {
         res[i] = lhs[i] ^ rhs[i]
     }
     
@@ -74,7 +74,7 @@ func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
 @prefix func ~(lhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
-    for i in 0..8 {
+    for i in 0..<8 {
         res[i] = ~lhs[i]
     }
     
@@ -117,7 +117,7 @@ func << (lhs: UInt256, rhs: Int) -> UInt256 {
     default:
         var result = lhs
         
-        for _ in 0..rhs {
+        for _ in 0..<rhs {
             var overflow = false
             for var i=7; i >= 0; i-- {
                 let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
@@ -157,9 +157,9 @@ func >> (lhs: UInt256, rhs: Int) -> UInt256 {
     
     var result = lhs
     
-    for _ in 0..rhs {
+    for _ in 0..<rhs {
         var overflow = false
-        for i in 0..8 {
+        for i in 0..<8 {
             
             let rightMostBit: UInt32 = 0b0000_0000_0000_0000_0000_0000_0000_0001
             let  leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000

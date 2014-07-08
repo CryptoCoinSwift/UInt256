@@ -9,7 +9,7 @@
 // extension UInt256 : Comparable {}
 
 func < (lhs: UInt256, rhs: UInt256) -> Bool {
-    for i in 0..8 {
+    for i in 0..<8 {
         if lhs[i] < rhs[i] {
             return true
         } else if lhs[i] > rhs[i] {

@@ -10,8 +10,8 @@ struct BaseConverter {
     let base: Int
     
     // Adds two arrays for the given base (10 or 16)
-    func add(x: Int[], y: Int[]) -> Int[] {
-        var z: Int[] = []
+    func add(x: [Int], y: [Int]) -> [Int] {
+        var z: [Int] = []
         let n = max(countElements(x), countElements(y))
         
         var carry = 0;
@@ -29,7 +29,7 @@ struct BaseConverter {
     
     // Returns a * x, where x is an array of decimal digits and a is an ordinary
     // Int. The array should be in the base of the instance.
-    func multiplyByNumber(num: Int, x: Int[]) -> Int[] {
+    func multiplyByNumber(num: Int, x: [Int]) -> [Int] {
         assert(num >= 0, "Positive numbers only")
         assert(num <= Int(Int32.max), "32 bit power max")
         
@@ -39,7 +39,7 @@ struct BaseConverter {
             return [];
         }
         
-        var result: Int[] = [];
+        var result: [Int] = [];
         var power = x;
         
         while (true) {
@@ -56,13 +56,13 @@ struct BaseConverter {
         return result;
     }
     
-    func parseToDigitsArray(str: String) -> Int[] {
-        var digits: String[] = []
+    func parseToDigitsArray(str: String) -> [Int] {
+        var digits: [String] = []
         for char in str {
             digits += String(char)
         }
         
-        var ary: Int[] = [];
+        var ary: [Int] = [];
         
         for (var i = digits.count - 1; i >= 0; i--) {
             var n = stringToInt(digits[i])
@@ -83,11 +83,11 @@ struct BaseConverter {
         
         var digits = fromBaseConverter.parseToDigitsArray(str);
         
-        var outArray: Int[] = [];
+        var outArray: [Int] = [];
         var power = [1];
         for digit in digits {
             // invariant: at this point, fromBase^i = power
-            let digitsTimesPower: Int[] = toBaseConverter.multiplyByNumber(digit, x: power)
+            let digitsTimesPower: [Int] = toBaseConverter.multiplyByNumber(digit, x: power)
             outArray = toBaseConverter.add(outArray, y:digitsTimesPower);
             power =    toBaseConverter.multiplyByNumber(fromBase, x: power);
         }
@@ -161,7 +161,7 @@ struct BaseConverter {
             }
         
         case 58: // This is a bitcoin specific variant!
-            let alphabet: String[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+            let alphabet: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
             
             return alphabet[digit]
             

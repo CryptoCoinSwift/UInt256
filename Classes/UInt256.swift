@@ -169,21 +169,21 @@ struct UInt256 { // : UnsignedInteger
             increment = increment * incrementor;
             
             switch i {
-            case 0..8:
+            case 0..<8:
                 int1 += UInt32(increment)
-            case 8..16:
+            case 8..<16:
                 int2 += increment
-            case 16..24:
+            case 16..<24:
                 int3 += increment
-            case 24..32:
+            case 24..<32:
                 int4 += increment
-            case 32..40:
+            case 32..<40:
                 int5 += increment
-            case 40..48:
+            case 40..<48:
                 int6 += increment
-            case 48..56:
+            case 48..<56:
                 int7 += increment
-            case 56..64:
+            case 56..<64:
                 int8 += increment
             default:
                 break;
