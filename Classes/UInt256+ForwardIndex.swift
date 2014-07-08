@@ -8,10 +8,10 @@
 
 // Conforming to ForwardIndex results in a duplicate symbol error.
 extension UInt256 { //: ForwardIndex {
-    func succ() -> UInt256 {
+    func successor() -> UInt256 {
         return self + UInt256(UInt32(1))
     }
-    func pred() -> UInt256 {
+    func predecessor() -> UInt256 {
         return self + UInt256(UInt32(1))
     }
 }
