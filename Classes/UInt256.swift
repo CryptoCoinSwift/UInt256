@@ -7,98 +7,43 @@
 struct UInt256 { // : UnsignedInteger
     /* UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly. Unfortunately the compiler still complains that UInt256 doesn't comform to _UnsignedInteger. I can't find documentation for this protocol. */
    
-    // Use 8 vars, pending fixed size arrays in Swift and arrays that don't behave w̶e̶i̶r̶d̶
-    // optimized when they get copied around with the struct they're in.
     // Todo: use 4 parts on a 64 bit system
-    var part0: UInt32 // Most significant
-    var part1: UInt32
-    var part2: UInt32
-    var part3: UInt32
-    var part4: UInt32
-    var part5: UInt32
-    var part6: UInt32
-    var part7: UInt32
+    var value: [UInt32] // Most significant first, should be 8 long
     
     subscript(index: Int) -> UInt32 {
         get {
-            switch index {
-            case 0:
-                return part0
-            case 1:
-                return part1
-            case 2:
-                return part2
-            case 3:
-                return part3
-            case 4:
-                return part4
-            case 5:
-                return part5
-            case 6:
-                return part6
-            case 7:
-                return part7
-            default:
-                assert(false, "Invalid index");
-                return 0
-            }
-            
+          return value[index]
         }
         
         mutating set(newValue) {
-            switch index {
-            case 0:
-                part0 = newValue
-            case 1:
-                part1 = newValue
-            case 2:
-                part2 = newValue
-            case 3:
-                part3 = newValue
-            case 4:
-                part4 = newValue
-            case 5:
-                part5 = newValue
-            case 6:
-                part6 = newValue
-            case 7:
-                part7 = newValue
-            default:
-                assert(false, "Invalid index");
-                
-            }
+            assert(index < 8, "Invalid index")
+            value[index] = newValue
         }
     }
     
     init (_ part0: UInt32, _ part1: UInt32, _ part2: UInt32, _ part3: UInt32, _ part4: UInt32, _ part5: UInt32, _ part6: UInt32, _ part7: UInt32) {
         
-        self.part0 = part0
-        self.part1 = part1
-        self.part2 = part2
-        self.part3 = part3
-        self.part4 = part4
-        self.part5 = part5
-        self.part6 = part6
-        self.part7 = part7
+        self.value = [part0, part1, part2, part3, part4, part5, part6,part7]
     }
     
     init() {
-        self.init(0,0,0,0,0,0,0,0)
+        self.value = [0,0,0,0,0,0,0,0]
     }
     
     init(let _ value: UInt32) {
-        self.init(0,0,0,0,0,0,0,UInt32(value))
+        self.value = [0,0,0,0,0,0,0,UInt32(value)]
     }
 
     init(let _ value: UInt64) {
       let leftDigit:  UInt32 = UInt32(value >> 32);
       let rightDigit: UInt32 = UInt32((value << 32) >> 32);
 
-      self.init(0,0,0,0,0,0,leftDigit, rightDigit)
+      self.value = [0,0,0,0,0,0,leftDigit, rightDigit]
+
     }
     
     init(let _ value: Int) {
-        self.init(0,0,0,0,0,0,0,UInt32(value))
+        self.value = [0,0,0,0,0,0,0,UInt32(value)]
     }
     
 
@@ -192,7 +137,7 @@ struct UInt256 { // : UnsignedInteger
             i++
         }
         
-        self.init(int1, int2, int3, int4, int5, int6, int7, int8)
+        self.value = [int1, int2, int3, int4, int5, int6, int7, int8]
     }
     
     init(decimalStringValue: String) {
