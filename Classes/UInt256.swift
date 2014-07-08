@@ -7,43 +7,141 @@
 struct UInt256 { // : UnsignedInteger
     /* UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly. Unfortunately the compiler still complains that UInt256 doesn't comform to _UnsignedInteger. I can't find documentation for this protocol. */
    
+    // Store as an array with the most significant value first:
+    // var value: [UInt32]
+    
+    // Use 8 vars instead; at Beta 3 this makes elliptic curve math at least 20x faster.
+    var part0: UInt32 // Most significant
+    var part1: UInt32
+    var part2: UInt32
+    var part3: UInt32
+    var part4: UInt32
+    var part5: UInt32
+    var part6: UInt32
+    var part7: UInt32
+    
     // Todo: use 4 parts on a 64 bit system
-    var value: [UInt32] // Most significant first, should be 8 long
     
     subscript(index: Int) -> UInt32 {
         get {
-          return value[index]
+//          return value[index]
+            
+            switch index {
+            case 0:
+                return part0
+            case 1:
+                return part1
+            case 2:
+                return part2
+            case 3:
+                return part3
+            case 4:
+                return part4
+            case 5:
+                return part5
+            case 6:
+                return part6
+            case 7:
+                return part7
+            default:
+                assert(false, "Invalid index");
+                return 0
+            }
+
         }
         
         mutating set(newValue) {
             assert(index < 8, "Invalid index")
-            value[index] = newValue
+//            value[index] = newValue
+            
+            switch index {
+            case 0:
+                part0 = newValue
+            case 1:
+                part1 = newValue
+            case 2:
+                part2 = newValue
+            case 3:
+                part3 = newValue
+            case 4:
+                part4 = newValue
+            case 5:
+                part5 = newValue
+            case 6:
+                part6 = newValue
+            case 7:
+                part7 = newValue
+            default:
+                assert(false, "Invalid index");
+                
+            }
+
         }
     }
     
     init (_ part0: UInt32, _ part1: UInt32, _ part2: UInt32, _ part3: UInt32, _ part4: UInt32, _ part5: UInt32, _ part6: UInt32, _ part7: UInt32) {
         
-        self.value = [part0, part1, part2, part3, part4, part5, part6,part7]
+//        self.value = [part0, part1, part2, part3, part4, part5, part6,part7]
+        
+        self.part0 = part0
+        self.part1 = part1
+        self.part2 = part2
+        self.part3 = part3
+        self.part4 = part4
+        self.part5 = part5
+        self.part6 = part6
+        self.part7 = part7
     }
     
     init() {
-        self.value = [0,0,0,0,0,0,0,0]
+//        self.value = [0,0,0,0,0,0,0,0]
+        self.part0 = 0
+        self.part1 = 0
+        self.part2 = 0
+        self.part3 = 0
+        self.part4 = 0
+        self.part5 = 0
+        self.part6 = 0
+        self.part7 = 0
     }
     
     init(let _ value: UInt32) {
-        self.value = [0,0,0,0,0,0,0,UInt32(value)]
+//        self.value = [0,0,0,0,0,0,0,UInt32(value)]
+        self.part0 = 0
+        self.part1 = 0
+        self.part2 = 0
+        self.part3 = 0
+        self.part4 = 0
+        self.part5 = 0
+        self.part6 = 0
+        self.part7 = UInt32(value)
     }
 
     init(let _ value: UInt64) {
-      let leftDigit:  UInt32 = UInt32(value >> 32);
-      let rightDigit: UInt32 = UInt32((value << 32) >> 32);
+        let leftDigit:  UInt32 = UInt32(value >> 32);
+        let rightDigit: UInt32 = UInt32((value << 32) >> 32);
 
-      self.value = [0,0,0,0,0,0,leftDigit, rightDigit]
+//      self.value = [0,0,0,0,0,0,leftDigit, rightDigit]
+        self.part0 = 0
+        self.part1 = 0
+        self.part2 = 0
+        self.part3 = 0
+        self.part4 = 0
+        self.part5 = 0
+        self.part6 = leftDigit
+        self.part7 = rightDigit
 
     }
     
     init(let _ value: Int) {
-        self.value = [0,0,0,0,0,0,0,UInt32(value)]
+        self.part0 = 0
+        self.part1 = 0
+        self.part2 = 0
+        self.part3 = 0
+        self.part4 = 0
+        self.part5 = 0
+        self.part6 = 0
+        self.part7 = UInt32(value)
     }
     
 
@@ -76,14 +174,14 @@ struct UInt256 { // : UnsignedInteger
             hexStringValue = "0" + hexStringValue;
         }
         
-        var int1: UInt32 = 0
-        var int2: UInt32 = 0
-        var int3: UInt32 = 0
-        var int4: UInt32 = 0
-        var int5: UInt32 = 0
-        var int6: UInt32 = 0
-        var int7: UInt32 = 0
-        var int8: UInt32 = 0
+        self.part0 = 0
+        self.part1 = 0
+        self.part2 = 0
+        self.part3 = 0
+        self.part4 = 0
+        self.part5 = 0
+        self.part6 = 0
+        self.part7 = 0
         
         var i = 0
         
@@ -115,21 +213,21 @@ struct UInt256 { // : UnsignedInteger
             
             switch i {
             case 0..<8:
-                int1 += UInt32(increment)
+                self.part0 += UInt32(increment)
             case 8..<16:
-                int2 += increment
+                self.part1 += increment
             case 16..<24:
-                int3 += increment
+                self.part2 += increment
             case 24..<32:
-                int4 += increment
+                self.part3 += increment
             case 32..<40:
-                int5 += increment
+                self.part4 += increment
             case 40..<48:
-                int6 += increment
+                self.part5 += increment
             case 48..<56:
-                int7 += increment
+                self.part6 += increment
             case 56..<64:
-                int8 += increment
+                self.part7 += increment
             default:
                 break;
             }
@@ -137,7 +235,6 @@ struct UInt256 { // : UnsignedInteger
             i++
         }
         
-        self.value = [int1, int2, int3, int4, int5, int6, int7, int8]
     }
     
     init(decimalStringValue: String) {
