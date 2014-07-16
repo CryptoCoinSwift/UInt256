@@ -354,7 +354,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...1_000 {
+            for _ in 1...1_000_00 {
                 res =  a / b
             }
         }

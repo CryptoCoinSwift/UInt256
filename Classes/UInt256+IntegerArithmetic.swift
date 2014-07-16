@@ -62,29 +62,14 @@ extension UInt256 : IntegerArithmetic {
     static func divideWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
-        var quotient: UInt256 = 0
-        var remainder: UInt256 = 0
+        let num = UnsafePointer<UInt32>.alloc(8)
+        let den = UnsafePointer<UInt32>.alloc(8)
         
-        for var i=numerator.highestBit - 1; i >= 0; i--  { // highestBit takes 6 µs
-//        for var i=255; i >= 0; i--  {
-
-            
-            remainder <<= 1
-            if UInt256.singleBitAt(255 - i) & numerator != 0 {
-                remainder.setBitAt(255)
-            } else {
-                remainder.unsetBitAt(255)
-            }
-            
-            if remainder >= denominator {
-                // println("R=\( remainder ) D=\( denominator )")
-                remainder = remainder - denominator
-                quotient = quotient | UInt256.singleBitAt(255 - i)
-            }
-        }
+        for i in 0..<8 { num[i]  = numerator[i]; den[i]  = denominator[i] }
         
-        return (quotient, false)
+        let result = divideWithOverflowC(num, den)
         
+        return (UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7]), false)
     }
     
     static func modulusWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {

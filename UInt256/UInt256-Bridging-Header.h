@@ -6,4 +6,5 @@
 //
 
 // Takes two arrays which 8 UInt32's each and returns the result as an array.
+uint32_t *  divideWithOverflowC(uint32_t numerator[], uint32_t denominator[]);
 uint32_t * modulusWithOverflowC(uint32_t numerator[], uint32_t denominator[]);

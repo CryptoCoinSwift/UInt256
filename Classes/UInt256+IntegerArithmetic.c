@@ -12,17 +12,13 @@
 #include "UInt256-Bridging-Header.h"
 #include <stdbool.h>
 
-uint32_t * modulusWithOverflowC(uint32_t numerator[], uint32_t denominator[]) {
-    static uint32_t remainder[8];
+void divideWithModulus(uint32_t numerator[], uint32_t denominator[],  uint32_t quotient[], uint32_t remainder[]) {
     int i;
     int word;
     int bit;
     uint32_t singleDigit[32];
     
-    // remainder = 0
-    for (i=0; i<8; i++) {
-        remainder[i] = 0;
-    }
+
     
     singleDigit[31] = 1;
     for (i=30; i>=0; i--) {
@@ -82,13 +78,53 @@ uint32_t * modulusWithOverflowC(uint32_t numerator[], uint32_t denominator[]) {
                     }
                 }
 
-                // To be implemented later:
                 // quotient = quotient | UInt256.singleBitAt(255 - i)
+                quotient[word] |= singleDigit[bit];
             }
 
         
         }
     }
 
+}
+
+uint32_t * divideWithOverflowC(uint32_t numerator[], uint32_t denominator[]) {
+    int i;
+    
+    // remainder = 0
+    static uint32_t remainder[8];
+    for (i=0; i<8; i++) {
+        remainder[i] = 0;
+    }
+    
+    // quotient = 0
+    static uint32_t quotient[8];
+    for (i=0; i<8; i++) {
+        quotient[i] = 0;
+    }
+    
+    divideWithModulus(numerator, denominator, quotient, remainder);
+    
+    return quotient;
+    
+}
+
+uint32_t * modulusWithOverflowC(uint32_t numerator[], uint32_t denominator[]) {
+    int i;
+
+    // remainder = 0
+    static uint32_t remainder[8];
+    for (i=0; i<8; i++) {
+        remainder[i] = 0;
+    }
+    
+    static uint32_t quotient[8];
+    for (i=0; i<8; i++) {
+        quotient[i] = 0;
+    }
+    
+    divideWithModulus(numerator, denominator, quotient, remainder);
+    
     return remainder;
+    
 }
