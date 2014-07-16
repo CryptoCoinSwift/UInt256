@@ -97,7 +97,6 @@ extension UInt256 : IntegerArithmetic {
 //        // let maxBit = numerator.highestBit // takes 6 µs
 //        // for var i=0; i < maxBit; i++  {
 //        for var i=0; i < 256; i++  {
-//            println("\( remainder[0] ),\( remainder[1] ),\( remainder[2] ),\( remainder[3] ),\( remainder[4] ),\( remainder[5] ),\( remainder[6] ),\( remainder[7])")
 //
 //            remainder <<= 1
 //            if UInt256.singleBitAt(i) & numerator != 0 {
