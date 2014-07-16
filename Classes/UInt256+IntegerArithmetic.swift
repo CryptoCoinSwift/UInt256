@@ -34,20 +34,33 @@ extension UInt256 : IntegerArithmetic {
     }
     
     static func subtractWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
-        var previousDigitDidOverflow = false
-        var diff = UInt256.allZeros
+//        var previousDigitDidOverflow = false
+//        var diff = UInt256.allZeros
+//        
+//        for var i=7; i >= 0; i-- {
+//            let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
+//            
+//            diff[i] = lhs[i] &- rhs[i] &- modifier
+//            
+//            if modifier == 1 && rhs[i] == UInt32.max {
+//                previousDigitDidOverflow = true
+//            } else {
+//                previousDigitDidOverflow = lhs[i] < rhs[i] + modifier
+//            }
+//        }
         
-        for var i=7; i >= 0; i-- {
-            let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
-            
-            diff[i] = lhs[i] &- rhs[i] &- modifier
-            
-            if modifier == 1 && rhs[i] == UInt32.max {
-                previousDigitDidOverflow = true
-            } else {
-                previousDigitDidOverflow = lhs[i] < rhs[i] + modifier
-            }
-        }
+        // Use C. Not so much for speed, but for debugging other C functions:
+        
+        let lhsC = UnsafePointer<UInt32>.alloc(8)
+        let rhsC = UnsafePointer<UInt32>.alloc(8)
+        let result = UnsafePointer<UInt32>.alloc(8)
+
+        
+        for i in 0..<8 { lhsC[i]  = lhs[i]; rhsC[i]  = rhs[i]; result[i] = 0  }
+        
+        subtract(result, lhsC, rhsC)
+        
+        let diff = UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7])
         
         return (diff, lhs < rhs)
         
@@ -168,28 +181,41 @@ func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
     var (x,y) = lhs
     let z = rhs
     
+        assert(x < z, "Can't calculate modulo")
+    
+    
+    
     var t: UInt256
+
+/* Takes 300 µs on a Macbook Pro */
+//    for _ in 0..<256 {
+//        // Avoid casting x to a signed integer and right shifting it all the way:
+//        if UInt256.singleBitAt(0) & x == 0 {
+//            t = UInt256.allZeros
+//        } else {
+//            t = UInt256.max
+//        }
+//        
+//        x = (x << 1) | (y >> 255)
+//        y = y << 1
+//        
+//        if((x | t) >= z) {
+//            x = x &- z
+//            y++
+//        }
+//    }
     
-    assert(x < z, "Can't calculate modulo")
+    let xC = UnsafePointer<UInt32>.alloc(8)
+    let yC = UnsafePointer<UInt32>.alloc(8)
+    let zC = UnsafePointer<UInt32>.alloc(8)
+
     
-    for _ in 0..<256 {
-        // Avoid casting x to a signed integer and right shifting it all the way:
-        if UInt256.singleBitAt(0) & x == 0 {
-            t = UInt256.allZeros
-        } else {
-            t = UInt256.max
-        }
-        
-        x = (x << 1) | (y >> 255)
-        y = y << 1
-        
-        if((x | t) >= z) {
-            x = x &- z
-            y++
-        }
-    }
+    for i in 0..<8 { xC[i]  = x[i]; yC[i]  = y[i]; zC[i]  = z[i] }
     
-    return x
+    montgomery(xC, yC, zC)
+    
+//    return x
+    return UInt256(xC[0], xC[1],xC[2],xC[3],xC[4],xC[5],xC[6],xC[7])
 }
 
 func += (inout lhs: UInt256, rhs: UInt256) -> () {

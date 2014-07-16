@@ -346,22 +346,22 @@ class UInt256TestArithmetic: XCTestCase {
         
     }
     
-    func testDivideBig() {
-        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025")
-        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
-        let c = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
-        
-        var res: UInt256 = 0
-        
-        self.measureBlock() {
-            for _ in 1...1_000_00 {
-                res =  a / b
-            }
-        }
-        
-        XCTAssertEqual(res, c, "\(a) / \(b) = \( res ) != \( c )");
-        
-    }
+//    func testDivideBig() {
+//        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025")
+//        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+//        let c = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+//        
+//        var res: UInt256 = 0
+//        
+//        self.measureBlock() {
+//            for _ in 1...1_000_00 {
+//                res =  a / b
+//            }
+//        }
+//        
+//        XCTAssertEqual(res, c, "\(a) / \(b) = \( res ) != \( c )");
+//        
+//    }
     
     func testModuloLargest128bitPrime() {
         // According to http://primes.utm.edu/lists/2small/100bit.html, 2^128-159 is prime
@@ -389,60 +389,60 @@ class UInt256TestArithmetic: XCTestCase {
         
     }
     
-    func testModuloBig() {
-        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
-        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
-
-        
-        var res: UInt256 = 0
-        
-        self.measureBlock() {
-            for _ in 1...1_000_00 {
-                res =  a % b
-            }
-            
-        }
-        
-        let c = UInt256(decimalStringValue: "1")
-
-
-        XCTAssertEqual(res, c, "");
-
-        
-    }
+//    func testModuloBig() {
+//        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
+//        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+//
+//        
+//        var res: UInt256 = 0
+//        
+//        self.measureBlock() {
+//            for _ in 1...1_000_00 {
+//                res =  a % b
+//            }
+//            
+//        }
+//        
+//        let c = UInt256(decimalStringValue: "1")
+//
+//
+//        XCTAssertEqual(res, c, "");
+//
+//        
+//    }
     
-    func testModularMultiplicativeInverse() {
-        let a = UInt256(hexStringValue: "FFFFFF")
-        let m = UInt256(hexStringValue:  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")
-        
-        let aInverse = UInt256(hexStringValue: "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493")
-        
-        var res: UInt256 = 0
-        
-        self.measureBlock() {
-            for _ in 1...10 {
-            
-               res = a.modInverse(m)
-            }
-            
-        }
-        
-        XCTAssertEqual(res, aInverse, res.toHexString);
-
-        
-    }
+//    func testModularMultiplicativeInverse() {
+//        let a = UInt256(hexStringValue: "FFFFFF")
+//        let m = UInt256(hexStringValue:  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")
+//        
+//        let aInverse = UInt256(hexStringValue: "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493")
+//        
+//        var res: UInt256 = 0
+//        
+//        self.measureBlock() {
+//            for _ in 1...100 {
+//            
+//               res = a.modInverse(m)
+//            }
+//            
+//        }
+//        
+//        XCTAssertEqual(res, aInverse, res.toHexString);
+//
+//        
+//    }
     
-    func testModularMultiplicativeInverseSmall() {
-        let p: UInt256 = 11
-        let a: UInt256 =  5
-        
-        let inverse: UInt256 = 9 // 9  * 5 = 45 -> 45 % 9 = 1
-        
-        let result = a.modInverse(p)
-        
-        XCTAssertEqual(inverse, result, result.toDecimalString);
-    }
-    
+//    func testModularMultiplicativeInverseSmall() {
+//        let p: UInt256 = 11
+//        let a: UInt256 =  5
+//        
+//        let inverse: UInt256 = 9 // 9  * 5 = 45 -> 45 % 9 = 1
+//        
+//        let result = a.modInverse(p)
+//        
+//        XCTAssertEqual(inverse, result, result.toDecimalString);
+//    }
+//    
 
     func testMultiplicationInSecp256k1() {
         
@@ -471,27 +471,20 @@ class UInt256TestArithmetic: XCTestCase {
 
     }
     
-    func testModInSecp256k1() {
+    func testModTupleInSecp256k1() {
         
+        let p = UInt256(0xffffffff, 0xffffffff, 0xffffffff,0xffffffff, 0xffffffff,0xffffffff, 0xfffffffe,0xfffffc2f)
         
-            let p = UInt256(0xffffffff, 0xffffffff, 0xffffffff,0xffffffff, 0xffffffff,0xffffffff, 0xfffffffe,0xfffffc2f)
-            
-            
-            var (left, right) = (UInt256(0x8cfa2912, 0x94cc8c2c, 0x827a9ef6, 0x977f6b69, 0x1d24b810, 0xf085c437, 0xabd13f27, 0x942da0b5), UInt256(0xede973cf, 0x7a14db61, 0x0dfe857e, 0x382bc650, 0x71af459e, 0x27425f0c, 0x36b67051, 0x0a55b86e))
-            
-            
-            
-            var mod = UInt256(0x896cbfe5, 0xdd327035, 0x9b769bff, 0x82996a89, 0x9b57827b, 0xc19576ab, 0x11704459, 0x9336d1f0)
+        var (left, right) = (UInt256(0x8cfa2912, 0x94cc8c2c, 0x827a9ef6, 0x977f6b69, 0x1d24b810, 0xf085c437, 0xabd13f27, 0x942da0b5), UInt256(0xede973cf, 0x7a14db61, 0x0dfe857e, 0x382bc650, 0x71af459e, 0x27425f0c, 0x36b67051, 0x0a55b86e))
+        
+        var mod = UInt256(0x896cbfe5, 0xdd327035, 0x9b769bff, 0x82996a89, 0x9b57827b, 0xc19576ab, 0x11704459, 0x9336d1f0)
 
-        
         var result: UInt256 = 0
         
         self.measureBlock() {
-
-            for i in 1...1_000 {
+            for i in 1...1_000_0 {
                 result = (left, right) % p
             }
-            
         }
         
         XCTAssertTrue(result == mod, result.description);
@@ -516,10 +509,6 @@ class UInt256TestArithmetic: XCTestCase {
         
         XCTAssertTrue(resLeft == left, resLeft.description);
         XCTAssertTrue(resRight == right, resRight.description);
-        
-        let result = (resLeft, resRight) % p
-        
-        XCTAssertTrue(result == product, result.description);
     
     }
 
