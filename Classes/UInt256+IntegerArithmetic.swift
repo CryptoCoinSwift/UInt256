@@ -90,24 +90,37 @@ extension UInt256 : IntegerArithmetic {
     static func modulusWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
-        var remainder: UInt256 = 0
-        
-        for var i=numerator.highestBit - 1; i >= 0; i--  { // highestBit takes 6 µs
-//        for var i=255; i >= 0; i--  {
 
-            remainder <<= 1
-            if UInt256.singleBitAt(255 - i) & numerator != 0 {
-                remainder.setBitAt(255)
-            } else {
-                remainder.unsetBitAt(255)
-            }
-            
-            if remainder >= denominator {
-                remainder = remainder - denominator
-            }
-        }
+//       // Takes 160µs:
         
-        return (remainder, false)
+//        var remainder: UInt256 = 0
+//        // let maxBit = numerator.highestBit // takes 6 µs
+//        // for var i=0; i < maxBit; i++  {
+//        for var i=0; i < 256; i++  {
+//            println("\( remainder[0] ),\( remainder[1] ),\( remainder[2] ),\( remainder[3] ),\( remainder[4] ),\( remainder[5] ),\( remainder[6] ),\( remainder[7])")
+//
+//            remainder <<= 1
+//            if UInt256.singleBitAt(i) & numerator != 0 {
+//                remainder.setBitAt(255)
+//            } else {
+//                remainder.unsetBitAt(255)
+//            }
+//            
+//            if remainder >= denominator {
+//                remainder = remainder - denominator
+//            }
+//        }
+//        return (remainder, false)
+
+        
+        let num = UnsafePointer<UInt32>.alloc(8)
+        let den = UnsafePointer<UInt32>.alloc(8)
+        
+        for i in 0..<8 { num[i]  = numerator[i]; den[i]  = denominator[i] }
+        
+        let result = modulusWithOverflowC(num, den)
+        
+        return (UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7]), false)
         
     }
     

@@ -319,7 +319,7 @@ class UInt256TestArithmetic: XCTestCase {
         
         let res =  a % b
         
-        XCTAssertEqual(res, c, "\(a) % \(b) = \( res ) != \( c )");
+        XCTAssertEqual(res, c,res.description);
         
     }
     
@@ -397,7 +397,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...1000 {
+            for _ in 1...1_000_00 {
                 res =  a % b
             }
             
@@ -488,7 +488,7 @@ class UInt256TestArithmetic: XCTestCase {
         
         self.measureBlock() {
 
-            for i in 1...100 {
+            for i in 1...1_000 {
                 result = (left, right) % p
             }
             
