@@ -65,7 +65,9 @@ extension UInt256 : IntegerArithmetic {
         var quotient: UInt256 = 0
         var remainder: UInt256 = 0
         
-        for var i=numerator.highestBit - 1; i >= 0; i--  {
+        for var i=numerator.highestBit - 1; i >= 0; i--  { // highestBit takes 6 µs
+//        for var i=255; i >= 0; i--  {
+
             
             remainder <<= 1
             if UInt256.singleBitAt(255 - i) & numerator != 0 {
@@ -90,8 +92,9 @@ extension UInt256 : IntegerArithmetic {
         
         var remainder: UInt256 = 0
         
-        for var i=numerator.highestBit - 1; i >= 0; i--  {
-            
+        for var i=numerator.highestBit - 1; i >= 0; i--  { // highestBit takes 6 µs
+//        for var i=255; i >= 0; i--  {
+
             remainder <<= 1
             if UInt256.singleBitAt(255 - i) & numerator != 0 {
                 remainder.setBitAt(255)

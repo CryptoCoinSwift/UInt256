@@ -20,6 +20,40 @@ class UInt256TestArithmetic: XCTestCase {
         super.tearDown()
     }
     
+    func testEquality() {
+        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
+        let b = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419932798687112530834793049593217026")
+        
+        
+        var res = false
+        
+        self.measureBlock() {
+            for _ in 1...1_000_000 {
+                res =  a != b
+            }
+            
+        }
+        
+        XCTAssertTrue(res, "");
+    }
+    
+    func testCompare() {
+        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
+        let b = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419932799687112530834793049593217026")
+        
+        
+        var res = false
+        
+        self.measureBlock() {
+            for _ in 1...1_000_000 {
+                res =  b > a
+            }
+            
+        }
+        
+        XCTAssertTrue(res, "");
+    }
+    
     func testAdd() {
         let a = UInt256(decimalStringValue: "14")
         let b = UInt256(decimalStringValue: "26")
@@ -110,6 +144,10 @@ class UInt256TestArithmetic: XCTestCase {
         XCTAssertEqual(a - b, c, "a - b = c");
 
     }
+    
+
+
+    
     
     func testMultiply() {
         let a = UInt256(decimalStringValue: "32")

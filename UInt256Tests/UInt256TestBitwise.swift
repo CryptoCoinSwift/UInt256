@@ -51,6 +51,23 @@ class UInt256TestBitwise: XCTestCase {
         
     }
     
+    func testLeftShiftPerformance() {
+        let a = UInt256(decimalStringValue: "57896044618658097711785492504343953926294709965899343556265417396524796608513")
+        let b = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
+        
+        
+        var res: UInt256 = 0
+        
+        self.measureBlock() {
+            for _ in 1...1_000_000 {
+                res =  a << 1
+            }
+            
+        }
+        
+        XCTAssertEqual(res, b,"");
+    }
+    
     func testLeftShiftShouldNotMutate() {
         var a = UInt256(hexStringValue: "AAAAAAAAAAA")
         var b=a
@@ -99,6 +116,21 @@ class UInt256TestBitwise: XCTestCase {
         XCTAssertEqual(a.toDecimalString, "32000000000000000000", "");
     }
     
+    func testFindHighestBit() {
+        let a = UInt256(decimalStringValue: "6044618658097711785492504343953926294709965899343556265417396524796608513")
+        
+        
+        var res = 0
+        
+        self.measureBlock() {
+            for _ in 1...1_000_0 {
+                res =  a.highestBit
+            }
+            
+        }
+        
+        XCTAssertEqual(res, 242,"");
+    }
     
     func testSingleBitAt() {
         var a = UInt256.singleBitAt(255)
@@ -117,7 +149,12 @@ class UInt256TestBitwise: XCTestCase {
         
         XCTAssertEqual(a.toHexString, "1", "");
         
-        a.setBitAt(254)
+        self.measureBlock() {
+            for _ in 1...1_000_000 {
+                a.setBitAt(254)
+            }
+        }
+        
         XCTAssertEqual(a.toHexString, "3", "");
         
     }
