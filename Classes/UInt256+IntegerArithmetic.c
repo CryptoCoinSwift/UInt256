@@ -152,7 +152,7 @@ uint32_t * divideWithOverflowC(uint32_t numerator[], uint32_t denominator[]) {
     
 }
 
-uint32_t * modulusWithOverflowC(uint32_t numerator[], uint32_t denominator[]) {
+uint32_t * remainderWithOverflowC(uint32_t numerator[], uint32_t denominator[]) {
     static uint32_t theRemainder[8];
     static uint32_t theQuotient[8];
     

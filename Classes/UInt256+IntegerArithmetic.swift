@@ -85,7 +85,7 @@ extension UInt256 : IntegerArithmetic {
         return (UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7]), false)
     }
     
-    static func modulusWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
+    static func remainderWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
 
@@ -115,7 +115,7 @@ extension UInt256 : IntegerArithmetic {
         
         for i in 0..<8 { num[i]  = numerator[i]; den[i]  = denominator[i] }
         
-        let result = modulusWithOverflowC(num, den)
+        let result = remainderWithOverflowC(num, den)
         
         return (UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7]), false)
         
@@ -171,7 +171,7 @@ func / (numerator: UInt256, denominator: UInt256) -> (UInt256) {
 }
 
 func % (numerator: UInt256, denominator: UInt256) -> UInt256 {
-    let (res, trouble) = UInt256.modulusWithOverflow(numerator, denominator)
+    let (res, trouble) = UInt256.remainderWithOverflow(numerator, denominator)
     assert(!trouble, "Trouble")
     return res
 }
