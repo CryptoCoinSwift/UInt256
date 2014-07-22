@@ -9,7 +9,6 @@
 //  Swift form.
 
 #include <stdio.h>
-#include "UInt256-Bridging-Header.h"
 #include <stdbool.h>
 
 void singleBitArray(uint32_t result[]) {
