@@ -126,7 +126,7 @@ extension UInt256 : IntegerArithmetic {
         return Int64(self[6]<<32 + self[7])
     }
     
-    func modInverse(m: UInt256) -> UInt256 {
+    public func modInverse(m: UInt256) -> UInt256 {
         assert(m > 0, "Modulo 0 makes no sense")
         // http://rosettacode.org/wiki/Modular_inverse#C
         var a = self
