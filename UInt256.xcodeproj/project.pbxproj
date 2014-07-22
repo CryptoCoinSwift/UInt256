@@ -49,8 +49,6 @@
 		A2A1A0E21962DB2F00701051 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
 		A2B31C1B1976971500C80E58 /* UInt256+IntegerArithmetic.c in Sources */ = {isa = PBXBuildFile; fileRef = A2B31C1A1976971500C80E58 /* UInt256+IntegerArithmetic.c */; };
 		A2B31C1C1976971500C80E58 /* UInt256+IntegerArithmetic.c in Sources */ = {isa = PBXBuildFile; fileRef = A2B31C1A1976971500C80E58 /* UInt256+IntegerArithmetic.c */; };
-		A2B31C1E1976983000C80E58 /* UInt256-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = A2B31C1D1976983000C80E58 /* UInt256-Bridging-Header.h */; };
-		A2B31C1F1976983000C80E58 /* UInt256-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = A2B31C1D1976983000C80E58 /* UInt256-Bridging-Header.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,7 +170,6 @@
 		A2A1A0C21962DAFC00701051 /* UInt256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UInt256.h; path = UInt256/UInt256.h; sourceTree = "<group>"; };
 		A2A1A0C81962DAFC00701051 /* UInt256Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UInt256Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2B31C1A1976971500C80E58 /* UInt256+IntegerArithmetic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "UInt256+IntegerArithmetic.c"; path = "Classes/UInt256+IntegerArithmetic.c"; sourceTree = "<group>"; };
-		A2B31C1D1976983000C80E58 /* UInt256-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UInt256-Bridging-Header.h"; path = "UInt256/UInt256-Bridging-Header.h"; sourceTree = "<group>"; };
 		A2B8A52D1962CF9300117EF5 /* BaseConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverterTests.swift; path = Tests/BaseConverterTests.swift; sourceTree = SOURCE_ROOT; };
 		A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt256Tests.swift; path = Tests/UInt256Tests.swift; sourceTree = SOURCE_ROOT; };
 		A2B8A5311962CFB400117EF5 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverter.swift; path = Classes/BaseConverter.swift; sourceTree = "<group>"; };
@@ -221,7 +218,6 @@
 				A26DCCA41969728B008E8399 /* Mac */,
 				A26DCCA31969727D008E8399 /* Test */,
 				A26F77B119684ED900C75822 /* MacTests */,
-				A2B31C1D1976983000C80E58 /* UInt256-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -324,7 +320,6 @@
 			files = (
 				A26F77C919684F2300C75822 /* UInt256.h in Headers */,
 				A26F77A819684ED900C75822 /* UInt256Mac.h in Headers */,
-				A2B31C1F1976983000C80E58 /* UInt256-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +328,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2A1A0C31962DAFC00701051 /* UInt256.h in Headers */,
-				A2B31C1E1976983000C80E58 /* UInt256-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,7 +726,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "UInt256/UInt256-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -759,7 +753,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "UInt256/UInt256-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -785,7 +779,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "UInt256/UInt256-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
