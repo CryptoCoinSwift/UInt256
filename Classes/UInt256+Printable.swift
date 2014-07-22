@@ -19,7 +19,7 @@ extension UInt256 : Printable {
         return toHexStringOfLength(nil)
     }
     
-    func toHexStringOfLength (length: Int?) -> String {
+    public func toHexStringOfLength (length: Int?) -> String {
     
         var result: String = ""
             

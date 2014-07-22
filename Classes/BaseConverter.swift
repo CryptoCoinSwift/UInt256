@@ -6,7 +6,7 @@
 //
 
 // Convert between strings in arbitrary base, ported from http://danvk.org/hex2dec.html
-struct BaseConverter {
+public struct BaseConverter {
     let base: Int
     
     // Adds two arrays for the given base (10 or 16)
@@ -76,7 +76,7 @@ struct BaseConverter {
         return ary;
     }
     
-    static  func convertBase(str: String, fromBase: Int, toBase: Int) -> String {
+    public static  func convertBase(str: String, fromBase: Int, toBase: Int) -> String {
         let fromBaseConverter = self(base: fromBase)
         let   toBaseConverter = self(base:   toBase)
         
