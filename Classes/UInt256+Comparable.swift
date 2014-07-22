@@ -8,7 +8,7 @@
 // This results in a duplicate symbol error:
 // extension UInt256 : Comparable {}
 
-func < (lhs: UInt256, rhs: UInt256) -> Bool {
+public func < (lhs: UInt256, rhs: UInt256) -> Bool {
     for i in 0..<8 {
         if lhs[i] < rhs[i] {
             return true
@@ -20,10 +20,10 @@ func < (lhs: UInt256, rhs: UInt256) -> Bool {
     return false
 }
 
-func >= (lhs: UInt256, rhs: UInt256) -> Bool {
+public func >= (lhs: UInt256, rhs: UInt256) -> Bool {
     return lhs == rhs || lhs > rhs
 }
 
-func <= (lhs: UInt256, rhs: UInt256) -> Bool {
+public func <= (lhs: UInt256, rhs: UInt256) -> Bool {
     return lhs == rhs || lhs < rhs
 }

@@ -7,7 +7,7 @@
 
  extension UInt256 : IntegerLiteralConvertible { // _BuiltinIntegerLiteralConvertible
     
-    static func convertFromIntegerLiteral(value: IntegerLiteralType) -> UInt256 {
+    public static func convertFromIntegerLiteral(value: IntegerLiteralType) -> UInt256 {
         assert(value >= 0, "Unsigned integer should be 0 or larger")
         assert(value < 2147483647, "Too large - use decimal string assignment")
 

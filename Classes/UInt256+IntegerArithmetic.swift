@@ -6,7 +6,7 @@
 //
 
 extension UInt256 : IntegerArithmetic {
-    static func addWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
+    public static func addWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
         var previousDigitDidOverflow = false
         
         var sum = UInt256.allZeros
@@ -33,7 +33,7 @@ extension UInt256 : IntegerArithmetic {
         
     }
     
-    static func subtractWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
+    public static func subtractWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
 //        var previousDigitDidOverflow = false
 //        var diff = UInt256.allZeros
 //        
@@ -66,13 +66,13 @@ extension UInt256 : IntegerArithmetic {
         
     }
     
-    static func multiplyWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
+    public static func multiplyWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
         assert(false, "Unchecked multiplication is not supported. Multiply to a tuple instead.")
         let (a,b) = lhs * rhs
         return (b, a != UInt256.allZeros)
     }
     
-    static func divideWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
+    public static func divideWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
         let num = UnsafePointer<UInt32>.alloc(8)
@@ -85,7 +85,7 @@ extension UInt256 : IntegerArithmetic {
         return (UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7]), false)
     }
     
-    static func remainderWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
+    public static func remainderWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
 
@@ -122,7 +122,7 @@ extension UInt256 : IntegerArithmetic {
     }
     
     // I have no idea what this is supposed to do:
-    func toIntMax() -> IntMax {
+    public func toIntMax() -> IntMax {
         return Int64(self[6]<<32 + self[7])
     }
     
@@ -164,19 +164,19 @@ extension UInt256 : IntegerArithmetic {
 
 }
 
-func / (numerator: UInt256, denominator: UInt256) -> (UInt256) {
+public func / (numerator: UInt256, denominator: UInt256) -> (UInt256) {
     let (res, trouble) = UInt256.divideWithOverflow(numerator, denominator)
     assert(!trouble, "Trouble")
     return res
 }
 
-func % (numerator: UInt256, denominator: UInt256) -> UInt256 {
+public func % (numerator: UInt256, denominator: UInt256) -> UInt256 {
     let (res, trouble) = UInt256.remainderWithOverflow(numerator, denominator)
     assert(!trouble, "Trouble")
     return res
 }
 
-func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
+public func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
     // Source: http://www.hackersdelight.org/MontgomeryMultiplication.pdf (page 5)
     var (x,y) = lhs
     let z = rhs
@@ -218,64 +218,64 @@ func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
     return UInt256(xC[0], xC[1],xC[2],xC[3],xC[4],xC[5],xC[6],xC[7])
 }
 
-func += (inout lhs: UInt256, rhs: UInt256) -> () {
+public func += (inout lhs: UInt256, rhs: UInt256) -> () {
     lhs = lhs + rhs
 }
 
-func -= (inout lhs: UInt256, rhs: UInt256) -> () {
+public func -= (inout lhs: UInt256, rhs: UInt256) -> () {
     lhs = lhs - rhs
 }
 
-@postfix func ++ (inout lhs: UInt256) -> (UInt256) {
+@postfix public func ++ (inout lhs: UInt256) -> (UInt256) {
     let oldValue = lhs
     lhs += UInt256(0,0,0,0,0,0,0,1)
     
     return oldValue
 }
 
-@prefix func ++ (inout lhs: UInt256) -> (UInt256) {
+@prefix public func ++ (inout lhs: UInt256) -> (UInt256) {
     lhs += UInt256(0,0,0,0,0,0,0,1)
     
     return lhs
 }
 
-@postfix func -- (inout lhs: UInt256) -> (UInt256) {
+@postfix public func -- (inout lhs: UInt256) -> (UInt256) {
     let oldValue = lhs
     lhs -= UInt256(0,0,0,0,0,0,0,1)
     
     return oldValue
 }
 
-@prefix func -- (inout lhs: UInt256) -> (UInt256) {
+@prefix public func -- (inout lhs: UInt256) -> (UInt256) {
     lhs -= UInt256(0,0,0,0,0,0,0,1)
     
     return lhs
 }
 
 
-func &+ (lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func &+ (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let (result, _) = UInt256.addWithOverflow(lhs, rhs)
     return result
 }
 
-func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func + (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let (result, overflow) = UInt256.addWithOverflow(lhs, rhs)
     assert(!overflow, "Overflow")
     return result
 }
 
-func &- (lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func &- (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let (result, _) = UInt256.subtractWithOverflow(lhs, rhs)
     return result
 }
 
-func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let (result, overflow) = UInt256.subtractWithOverflow(lhs, rhs)
     assert(!overflow, "Overflow")
     return result
 }
 
-func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     
     let zero = UInt256.allZeros
     
@@ -372,7 +372,7 @@ func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     }
 }
 
-func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
+public func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
     // Apply 1 iteration of Karatsuba
     // x₀, x₁, y₀ and y₁ are 128 bit max. They can be added or multiplied without carry,
     // resulting in 129 or 256 bit values respectively.

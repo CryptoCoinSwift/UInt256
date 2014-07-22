@@ -6,7 +6,8 @@
 //
 
 extension UInt256 : BitwiseOperations {
-    var highestBit: Int {
+    // FIXME: make private as soon as tests can handle it
+    public var highestBit: Int {
     var bitLength: UInt32 = 256
         for int in self {
             if int == 0 { bitLength -= 32 } else {
@@ -20,7 +21,8 @@ extension UInt256 : BitwiseOperations {
         return Int(bitLength)
     }
     
-    static func singleBitAt (position: Int) -> (UInt256) {
+    // FIXME: make private as soon as tests can handle it
+    public static func singleBitAt (position: Int) -> (UInt256) {
         var result: UInt256 = self.allZeros
         let index: Int = position / 32
         let bit: Int = 31 - (position % 32)
@@ -40,7 +42,7 @@ extension UInt256 : BitwiseOperations {
     
 }
 
-func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..<8 {
@@ -51,7 +53,7 @@ func &(lhs: UInt256, rhs: UInt256) -> UInt256 {
     return res
 }
 
-func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..<8 {
@@ -61,7 +63,7 @@ func |(lhs: UInt256, rhs: UInt256) -> UInt256 {
     return res
 }
 
-func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
+public func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..<8 {
@@ -71,7 +73,7 @@ func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
     return res
 }
 
-@prefix func ~(lhs: UInt256) -> UInt256 {
+@prefix public func ~(lhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..<8 {
@@ -81,13 +83,13 @@ func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
     return res
 }
 
-func <<= (inout lhs: UInt256, rhs: Int) -> () {
+public func <<= (inout lhs: UInt256, rhs: Int) -> () {
     lhs = lhs << rhs
 }
 
 
 
-func << (lhs: UInt256, rhs: Int) -> UInt256 {
+public func << (lhs: UInt256, rhs: Int) -> UInt256 {
     switch rhs {
     case let x where x >= 256:
         return UInt256.allZeros
@@ -138,7 +140,7 @@ func << (lhs: UInt256, rhs: Int) -> UInt256 {
     }
 }
 
-func >> (lhs: UInt256, rhs: Int) -> UInt256 {
+public func >> (lhs: UInt256, rhs: Int) -> UInt256 {
     if rhs >= 256 {
         return UInt256.allZeros
     }
@@ -181,6 +183,6 @@ func >> (lhs: UInt256, rhs: Int) -> UInt256 {
     return result
 }
 
-func >>= (inout lhs: UInt256, rhs: Int) -> () {
+public func >>= (inout lhs: UInt256, rhs: Int) -> () {
     lhs = lhs >> rhs
 }

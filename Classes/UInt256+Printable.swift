@@ -6,16 +6,16 @@
 //
 
 extension UInt256 : Printable {
-    var description: String { return self.toDecimalString }
+    public var description: String { return self.toDecimalString }
     
-    var toDecimalString: String {
+    public var toDecimalString: String {
     if self == 0 {
         return 0.description
         }
         return BaseConverter.hexToDec(self.toHexString)
     }
     
-    var toHexString: String {
+    public var toHexString: String {
         return toHexStringOfLength(nil)
     }
     

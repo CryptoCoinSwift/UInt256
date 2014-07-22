@@ -11,7 +11,7 @@ extension UInt256 : ArrayBound {
     typealias ArrayBoundType = UInt256
     
     
-    func getArrayBoundValue() -> UInt256 {
+    public func getArrayBoundValue() -> UInt256 {
         return self
     }
 }

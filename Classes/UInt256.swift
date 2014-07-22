@@ -4,7 +4,7 @@
 //
 //  Created by Sjors Provoost on 23-06-14.
 
-struct UInt256 { // : UnsignedInteger
+public struct UInt256 { // : UnsignedInteger
     /* UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly. Unfortunately the compiler still complains that UInt256 doesn't comform to _UnsignedInteger. I can't find documentation for this protocol. */
    
     // Store as an array with the most significant value first:
@@ -79,7 +79,7 @@ struct UInt256 { // : UnsignedInteger
         }
     }
     
-    init (_ part0: UInt32, _ part1: UInt32, _ part2: UInt32, _ part3: UInt32, _ part4: UInt32, _ part5: UInt32, _ part6: UInt32, _ part7: UInt32) {
+    public init (_ part0: UInt32, _ part1: UInt32, _ part2: UInt32, _ part3: UInt32, _ part4: UInt32, _ part5: UInt32, _ part6: UInt32, _ part7: UInt32) {
         
 //        self.value = [part0, part1, part2, part3, part4, part5, part6,part7]
         
@@ -93,7 +93,7 @@ struct UInt256 { // : UnsignedInteger
         self.part7 = part7
     }
     
-    init() {
+    public init() {
 //        self.value = [0,0,0,0,0,0,0,0]
         self.part0 = 0
         self.part1 = 0
@@ -105,7 +105,7 @@ struct UInt256 { // : UnsignedInteger
         self.part7 = 0
     }
     
-    init(let _ value: UInt32) {
+    public init(let _ value: UInt32) {
 //        self.value = [0,0,0,0,0,0,0,UInt32(value)]
         self.part0 = 0
         self.part1 = 0
@@ -117,7 +117,7 @@ struct UInt256 { // : UnsignedInteger
         self.part7 = UInt32(value)
     }
 
-    init(let _ value: UInt64) {
+    public init(let _ value: UInt64) {
         let leftDigit:  UInt32 = UInt32(value >> 32);
         let rightDigit: UInt32 = UInt32((value << 32) >> 32);
 
@@ -133,7 +133,7 @@ struct UInt256 { // : UnsignedInteger
 
     }
     
-    init(let _ value: Int) {
+    public init(let _ value: Int) {
         self.part0 = 0
         self.part1 = 0
         self.part2 = 0
@@ -146,7 +146,7 @@ struct UInt256 { // : UnsignedInteger
     
 
     
-    init(var hexStringValue: String) {
+    public init(var hexStringValue: String) {
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
         
         assert(countElements(hexStringValue) > 0, "Can't be empty");
@@ -237,7 +237,7 @@ struct UInt256 { // : UnsignedInteger
         
     }
     
-    init(decimalStringValue: String) {
+    public init(decimalStringValue: String) {
         // First we perform some sanity checks on the string. Then we convert it to a hex string.
         
         assert(countElements(decimalStringValue) > 0, "Can't be empty");
@@ -275,7 +275,7 @@ struct UInt256 { // : UnsignedInteger
         self.init(hexStringValue: hexStringValue )
     }
 
-    static var allZeros: UInt256 {
+    public static var allZeros: UInt256 {
         return UInt256(0,0,0,0,0,0,0,0)
     }
     
