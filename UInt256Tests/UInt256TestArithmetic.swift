@@ -149,16 +149,7 @@ class UInt256TestArithmetic: XCTestCase {
 
     
     
-    func testMultiply() {
-        let a = UInt256(decimalStringValue: "32")
-        let b = UInt256(decimalStringValue: "2")
-        let c = UInt256(decimalStringValue: "64")
-        
-        let res: UInt256 =  a * b
-        
-        XCTAssertEqual(res, c, "\(a) * \(b) = \( res ) != \( c )");
-        
-    }
+
     
     func testSquare131070() {
         let a = UInt256(decimalStringValue: "131070")
@@ -237,26 +228,7 @@ class UInt256TestArithmetic: XCTestCase {
         
     }
     
-    func testMultiplyMax() {
-        let a = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
-        let c = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025")
-        
-        var res:UInt256 = 0
-        
-        self.measureBlock() {
 
-            for _ in 1...1_000 {
-
-                res = a * a  // 0.9999999...% of UInt256 max
-            }
-            
-        }
-        
-        XCTAssertEqual(res, c, res.description);
-
-        
-    }
-    
     
     
 //    func testMultiplyOverflow() {
@@ -346,22 +318,22 @@ class UInt256TestArithmetic: XCTestCase {
         
     }
     
-//    func testDivideBig() {
-//        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025")
-//        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
-//        let c = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
-//        
-//        var res: UInt256 = 0
-//        
-//        self.measureBlock() {
-//            for _ in 1...1_000_00 {
-//                res =  a / b
-//            }
-//        }
-//        
-//        XCTAssertEqual(res, c, "\(a) / \(b) = \( res ) != \( c )");
-//        
-//    }
+    func testDivideBig() {
+        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025")
+        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        let c = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        
+        var res: UInt256 = 0
+        
+        self.measureBlock() {
+            for _ in 1...1_000_0 {
+                res =  a / b
+            }
+        }
+        
+        XCTAssertEqual(res, c, "\(a) / \(b) = \( res ) != \( c )");
+        
+    }
     
     func testModuloLargest128bitPrime() {
         // According to http://primes.utm.edu/lists/2small/100bit.html, 2^128-159 is prime
@@ -380,7 +352,7 @@ class UInt256TestArithmetic: XCTestCase {
         a = UInt256(decimalStringValue: "18715530180651615490485603408747251621340")
         b = UInt256(decimalStringValue: "340282366920938463463374607431768211297")
         c = UInt256(decimalStringValue: "5")
-        
+       
         res =  a % b
         
         // Fails:
@@ -389,60 +361,169 @@ class UInt256TestArithmetic: XCTestCase {
         
     }
     
-//    func testModuloBig() {
-//        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
-//        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
-//
-//        
-//        var res: UInt256 = 0
-//        
-//        self.measureBlock() {
-//            for _ in 1...1_000_00 {
-//                res =  a % b
-//            }
-//            
-//        }
-//        
-//        let c = UInt256(decimalStringValue: "1")
-//
-//
-//        XCTAssertEqual(res, c, "");
-//
-//        
-//    }
+    func testModuloBig() {
+        let a = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
+        let b = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+
+        
+        var res: UInt256 = 0
+        
+        self.measureBlock() {
+            for _ in 1...1_000_0 {
+                res =  a % b
+            }
+            
+        }
+        
+        let c = UInt256(decimalStringValue: "1")
+
+
+        XCTAssertEqual(res, c, "");
+
+        
+    }
     
-//    func testModularMultiplicativeInverse() {
-//        let a = UInt256(hexStringValue: "FFFFFF")
-//        let m = UInt256(hexStringValue:  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")
-//        
-//        let aInverse = UInt256(hexStringValue: "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493")
-//        
-//        var res: UInt256 = 0
-//        
-//        self.measureBlock() {
-//            for _ in 1...100 {
-//            
-//               res = a.modInverse(m)
-//            }
-//            
-//        }
-//        
-//        XCTAssertEqual(res, aInverse, res.toHexString);
-//
-//        
-//    }
+    func testModularMultiplicativeInverse() {
+        let a = UInt256(hexStringValue: "FFFFFF")
+        let m = UInt256(hexStringValue:  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")
+        
+        let aInverse = UInt256(hexStringValue: "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493")
+        
+        var res: UInt256 = 0
+        
+        self.measureBlock() {
+            for _ in 1...100 {
+            
+               res = a.modInverse(m)
+            }
+            
+        }
+        
+        XCTAssertEqual(res, aInverse, res.toHexString);
+
+        
+    }
     
-//    func testModularMultiplicativeInverseSmall() {
-//        let p: UInt256 = 11
-//        let a: UInt256 =  5
-//        
-//        let inverse: UInt256 = 9 // 9  * 5 = 45 -> 45 % 9 = 1
-//        
-//        let result = a.modInverse(p)
-//        
-//        XCTAssertEqual(inverse, result, result.toDecimalString);
-//    }
-//    
+    func testModularMultiplicativeInverseSmall() {
+        let p: UInt256 = 11
+        let a: UInt256 =  5
+        
+        let inverse: UInt256 = 9 // 9  * 5 = 45 -> 45 % 9 = 1
+        
+        let result = a.modInverse(p)
+        
+        XCTAssertEqual(inverse, result, result.toDecimalString);
+    }
+    
+    
+    func testMultiplyToMax32Bit() {
+        let a = UInt256(decimalStringValue: "65535")
+        let c = UInt256(decimalStringValue: "4294836225")
+        
+        var res:UInt256 = 0
+        
+        self.measureBlock() {
+            
+            for _ in 1...1_000_000 {
+                
+                res = a * a  // 0.9999...% of 32 bit max
+            }
+            
+        }
+        
+        XCTAssertEqual(res, c, res.description);
+        
+        
+    }
+    
+    func testMultiplyToMax64Bit() {
+        let a = UInt256(decimalStringValue: "4294967295")
+        let c = UInt256(decimalStringValue: "18446744065119617025")
+        
+        var res:UInt256 = 0
+        
+        self.measureBlock() {
+            
+            for _ in 1...1_000_00 {
+                
+                res = a * a  // 0.9999999...% of 64 bit max
+            }
+            
+        }
+        
+        XCTAssertEqual(res, c, res.description);
+        
+        
+    }
+    
+    func testMultiplyToMax128Bit() {
+        let a = UInt256(decimalStringValue: "18446744073709551615")
+        let c = UInt256(decimalStringValue: "340282366920938463426481119284349108225")
+        
+        var res:UInt256 = 0
+        
+        self.measureBlock() {
+            
+            for _ in 1...1_000_0 {
+                
+                res = a * a  // 0.9999999...% of 128 bit max
+            }
+            
+        }
+        
+        XCTAssertEqual(res, c, res.description);
+        
+        
+    }
+    
+    func testMultiplyToMax256Bit() {
+        let a = UInt256(decimalStringValue: "340282366920938463463374607431768211455")
+        let c = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217025")
+        
+        var res:UInt256 = 0
+        
+        self.measureBlock() {
+            
+            for _ in 1...1_000_0 {
+                
+                res = a * a  // 0.9999999...% of UInt256 max
+            }
+            
+        }
+        
+        XCTAssertEqual(res, c, res.description);
+        
+        
+    }
+    
+    func testMultiplicationToTupleWithoutRecursion() {
+        let p = UInt256(0xffffffff, 0xffffffff, 0xffffffff,0xffffffff, 0xffffffff,0xffffffff, 0xfffffffe,0xfffffc2f)
+        
+        
+        // a and b chosen such that x₁ + x₀ and y₁_plus_y₀ don't overflow
+        let a = UInt256(0x502b5092, 0x9d7b11ed, 0x52d00e63, 0x11cd10ff, 0x92956188, 0xdd566bc4, 0x52d0ebaa, 0x95f8234c)
+        
+        let b = UInt256(0x17c10759, 0xf6e128f2, 0x0704c711, 0x914fa8bf, 0xaa514b51, 0xa371522d, 0xfc5bd655, 0x162050ce)
+        
+        let (left, right) = (UInt256(0x07705732, 0x4641effd, 0x378f46bc, 0x92edec71, 0x75c31faf, 0xc2e21a5d, 0x69bfbb9f, 0x07abd941), UInt256(0x98baaae0, 0xf56e67d7, 0x455c1ce2, 0x8617a3a9, 0xc9cd081a, 0x1afb578a, 0xa0e2446b, 0x2a342728))
+        
+        let product = UInt256(0x42b961bc, 0x4ea293f4, 0xe216ff00, 0xb9de205b, 0xfa5b103e, 0x45a1b1aa, 0x44b97f03, 0xd4c97cb8)
+        
+        var resLeft: UInt256 = 0
+        var resRight: UInt256 = 0
+        
+        self.measureBlock() {
+            for _ in 1...1_000 {
+                (resLeft, resRight) = a * b
+            }
+        }
+        
+        
+        XCTAssertTrue(resLeft == left, resLeft.description);
+        XCTAssertTrue(resRight == right, resRight.description);
+        
+    }
+    
 
     func testMultiplicationInSecp256k1() {
         
@@ -460,7 +541,7 @@ class UInt256TestArithmetic: XCTestCase {
         var resRight: UInt256 = 0
         
         self.measureBlock() {
-            for i in 0...100 {
+            for i in 0...1_000 {
                 (resLeft, resRight) = a * b
             }
         }
@@ -492,24 +573,6 @@ class UInt256TestArithmetic: XCTestCase {
         
     }
     
-    func testMultiplicationToTupleWithoutRecursion() {
-        let p = UInt256(0xffffffff, 0xffffffff, 0xffffffff,0xffffffff, 0xffffffff,0xffffffff, 0xfffffffe,0xfffffc2f)
 
-    
-        // a and b chosen such that x₁ + x₀ and y₁_plus_y₀ don't overflow
-        let a = UInt256(0x502b5092, 0x9d7b11ed, 0x52d00e63, 0x11cd10ff, 0x92956188, 0xdd566bc4, 0x52d0ebaa, 0x95f8234c)
-    
-        let b = UInt256(0x17c10759, 0xf6e128f2, 0x0704c711, 0x914fa8bf, 0xaa514b51, 0xa371522d, 0xfc5bd655, 0x162050ce)
-    
-        let (left, right) = (UInt256(0x07705732, 0x4641effd, 0x378f46bc, 0x92edec71, 0x75c31faf, 0xc2e21a5d, 0x69bfbb9f, 0x07abd941), UInt256(0x98baaae0, 0xf56e67d7, 0x455c1ce2, 0x8617a3a9, 0xc9cd081a, 0x1afb578a, 0xa0e2446b, 0x2a342728))
-    
-        let product = UInt256(0x42b961bc, 0x4ea293f4, 0xe216ff00, 0xb9de205b, 0xfa5b103e, 0x45a1b1aa, 0x44b97f03, 0xd4c97cb8)
-        
-        let (resLeft, resRight) = a * b
-        
-        XCTAssertTrue(resLeft == left, resLeft.description);
-        XCTAssertTrue(resRight == right, resRight.description);
-    
-    }
 
 }

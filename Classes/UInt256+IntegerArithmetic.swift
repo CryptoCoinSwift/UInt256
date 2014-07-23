@@ -276,7 +276,6 @@ public func - (lhs: UInt256, rhs: UInt256) -> UInt256 {
 }
 
 public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
-    
     let zero = UInt256.allZeros
     
     if (lhs == zero) || (rhs == zero) {
@@ -289,15 +288,21 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
         return lhs
     }
     
-    // Karatsuba
-    let sixteenBitMask = UInt256(0,0,0,0,0,0,0,UInt32.max >> 16)
+    let sixteenBitMask = UInt256(0,0,0,0,0,0,0,65535)
+//    println(lhs)
+//    println(rhs)
+//    println(sixteenBitMask)
+//    println(lhs & sixteenBitMask)
+//    println(rhs & sixteenBitMask)
+
     if lhs == lhs & sixteenBitMask && rhs == rhs & sixteenBitMask {
         return UInt256(0,0,0,0,0,0,0, lhs[7] * rhs[7])
     }
     
-    let thirtyTwoBitMask = UInt256(0,0,0,0,0,0,0,UInt32.max)
-    let sixtyFourBitMask = UInt256(0,0,0,0,0,0,UInt32.max,UInt32.max)
-    let hundredTwentyEightBitMask = UInt256(0,0,0,0,UInt32.max,UInt32.max,UInt32.max,UInt32.max)
+
+    
+    // Karatsuba
+
     
     var x₁: UInt256
     var x₀: UInt256
@@ -306,16 +311,34 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     
     var bitSize: Int
     
+    let thirtyTwoBitMask = UInt256(0,0,0,0,0,0,0,UInt32.max)
+
+    
     if lhs == lhs & thirtyTwoBitMask && rhs == rhs & thirtyTwoBitMask {
         
-        x₁ = UInt256(0,0,0,0,0,0,0,lhs[7] >> UInt32(16))
+        x₁ = UInt256(0,0,0,0,0,0,0,lhs[7] >> 16)
         x₀ = UInt256(0,0,0,0,0,0,0,lhs[7] & 0x0000FFFF)
         
-        y₁ = UInt256(0,0,0,0,0,0,0, rhs[7] >> UInt32(16))
+        y₁ = UInt256(0,0,0,0,0,0,0, rhs[7] >> 16)
         y₀ = UInt256(0,0,0,0,0,0,0,rhs[7] & 0x0000FFFF)
         
-        bitSize = 32
-    } else if lhs == lhs & sixtyFourBitMask && rhs == rhs & sixtyFourBitMask {
+        // Part of the calculation can be done using UInt32's
+        let z₂ = x₁[7] * y₁[7]
+        let z₀ = x₀[7] * y₀[7]
+        
+        let x₁_plus_x₀ = UInt256(0,0,0,0,0,0,0, x₁[7] + x₀[7])
+        let y₁_plus_y₀ = UInt256(0,0,0,0,0,0,0, y₁[7] + y₀[7])
+        
+        let z₁ = x₁_plus_x₀ * y₁_plus_y₀ - UInt256(0,0,0,0,0,0,0,z₂) - UInt256(0,0,0,0,0,0,0,z₀)
+        
+        return UInt256(0,0,0,0,0,0,z₂,z₀) + (z₁ << 16)
+        
+    }
+    
+    let sixtyFourBitMask = UInt256(0,0,0,0,0,0,UInt32.max,UInt32.max)
+    let hundredTwentyEightBitMask = UInt256(0,0,0,0,UInt32.max,UInt32.max,UInt32.max,UInt32.max)
+    
+    if lhs == lhs & sixtyFourBitMask && rhs == rhs & sixtyFourBitMask {
         x₁ = UInt256(0,0,0,0,0,0,0,lhs[6])
         x₀ = UInt256(0,0,0,0,0,0,0,lhs[7])
         
@@ -350,26 +373,14 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     // resulting in 65 or 128 bit values respectively.
     // z₁ multiplies the result of an addition of 64 bit numbers, so it needs 65 * 2 = 130 bits
     
-    if bitSize == 32 {
-        // Part of the calculation can be done using UInt32's
-        let z₂ = x₁[7] * y₁[7]
-        let z₀ = x₀[7] * y₀[7]
+
         
-        let x₁_plus_x₀ = UInt256(0,0,0,0,0,0,0, x₁[7] + x₀[7])
-        let y₁_plus_y₀ = UInt256(0,0,0,0,0,0,0, y₁[7] + y₀[7])
-        
-        let z₁ = x₁_plus_x₀ * y₁_plus_y₀ - UInt256(0,0,0,0,0,0,0,z₂) - UInt256(0,0,0,0,0,0,0,z₀)
-        
-        return UInt256(0,0,0,0,0,0,z₂,z₀) + (z₁ << 16)
-    } else {
-        
-        let z₂: UInt256 = x₁ * y₁
-        let z₀: UInt256 = x₀ * y₀
-        
-        let z₁ = (x₁ + x₀) * (y₁ + y₀) - z₂ - z₀
-        
-        return z₂ << (bitSize) + z₀ + z₁  << (bitSize / 2)
-    }
+    let z₂: UInt256 = x₁ * y₁
+    let z₀: UInt256 = x₀ * y₀
+    
+    let z₁ = (x₁ + x₀) * (y₁ + y₀) - z₂ - z₀
+    
+    return z₂ << (bitSize) + z₀ + z₁  << (bitSize / 2)
 }
 
 public func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
