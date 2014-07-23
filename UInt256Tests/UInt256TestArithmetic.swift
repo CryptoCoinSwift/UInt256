@@ -10,9 +10,17 @@ import UInt256Mac
 
 class UInt256TestArithmetic: XCTestCase {
 
+    #if DEBUG
+    let million = 1000
+    #else
+    let million = 1_000_000
+    #endif
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        
     }
     
     override func tearDown() {
@@ -28,7 +36,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res = false
         
         self.measureBlock() {
-            for _ in 1...1_000_000 {
+            for _ in 1...self.million {
                 res =  a != b
             }
             
@@ -45,7 +53,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res = false
         
         self.measureBlock() {
-            for _ in 1...1_000_000 {
+            for _ in 1...self.million {
                 res =  b > a
             }
             
@@ -89,7 +97,7 @@ class UInt256TestArithmetic: XCTestCase {
         var result: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...1_000_0 {
+            for _ in 1...self.million {
                 result = a + b
             }
             
@@ -136,7 +144,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...1_000_00 {
+            for _ in 1...self.million {
                 res = a - b
             }
         }
@@ -175,26 +183,6 @@ class UInt256TestArithmetic: XCTestCase {
         
     }
     
-    func testMultiplyBig() {
-        let a = UInt256(decimalStringValue: "32000000000")
-        let b = UInt256(decimalStringValue:  "2000000000")
-        let c = UInt256(decimalStringValue: "64000000000000000000")
-        
-        let res: UInt256 = a * b
-        
-        XCTAssertEqual(res, c, "\(a) * \(b) = \( res) != \( c )");
-        
-    }
-    
-    func testSquareUInt32Max() {
-        let a = UInt256(hexStringValue: "FFFFFFFF")
-        let c = UInt256(hexStringValue: "FFFFFFFE00000001")
-        
-        let res: UInt256 = a * a
-        
-        XCTAssertEqual(res, c, res.description);
-        
-    }
     
     func testSquareUInt60Max() {
         let a = UInt256(hexStringValue: "FFFFFFF")
@@ -326,7 +314,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...1_000_0 {
+            for _ in 1...self.million/100 {
                 res =  a / b
             }
         }
@@ -369,7 +357,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...1_000_0 {
+            for _ in 1...self.million/100 {
                 res =  a % b
             }
             
@@ -392,7 +380,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...100 {
+            for _ in 1...self.million / 1_000 {
             
                res = a.modInverse(m)
             }
@@ -424,7 +412,7 @@ class UInt256TestArithmetic: XCTestCase {
         
         self.measureBlock() {
             
-            for _ in 1...1_000_000 {
+            for _ in 1...self.million {
                 
                 res = a * a  // 0.9999...% of 32 bit max
             }
@@ -442,15 +430,16 @@ class UInt256TestArithmetic: XCTestCase {
         
         var res:UInt256 = 0
         
+        #if DEBUG
+            res = a * a  // 0.9999999...% of 64 bit max
+        #else
         self.measureBlock() {
-            
-            for _ in 1...1_000_00 {
-                
-                res = a * a  // 0.9999999...% of 64 bit max
+            for _ in 1...self.million {
+                res = a * a
             }
-            
         }
-        
+        #endif
+    
         XCTAssertEqual(res, c, res.description);
         
         
@@ -464,7 +453,7 @@ class UInt256TestArithmetic: XCTestCase {
         
         self.measureBlock() {
             
-            for _ in 1...1_000_0 {
+            for _ in 1...self.million / 10 {
                 
                 res = a * a  // 0.9999999...% of 128 bit max
             }
@@ -484,7 +473,7 @@ class UInt256TestArithmetic: XCTestCase {
         
         self.measureBlock() {
             
-            for _ in 1...1_000_0 {
+            for _ in 1...self.million / 100 {
                 
                 res = a * a  // 0.9999999...% of UInt256 max
             }
@@ -513,7 +502,7 @@ class UInt256TestArithmetic: XCTestCase {
         var resRight: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...1_000 {
+            for _ in 1...self.million/100 {
                 (resLeft, resRight) = a * b
             }
         }
@@ -541,7 +530,7 @@ class UInt256TestArithmetic: XCTestCase {
         var resRight: UInt256 = 0
         
         self.measureBlock() {
-            for i in 0...1_000 {
+            for i in 0...self.million/1000 {
                 (resLeft, resRight) = a * b
             }
         }
@@ -563,7 +552,7 @@ class UInt256TestArithmetic: XCTestCase {
         var result: UInt256 = 0
         
         self.measureBlock() {
-            for i in 1...1_000_0 {
+            for i in 1...self.million/100 {
                 result = (left, right) % p
             }
         }

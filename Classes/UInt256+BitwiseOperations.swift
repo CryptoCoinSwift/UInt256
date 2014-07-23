@@ -39,7 +39,7 @@ extension UInt256 : BitwiseOperations {
         }
        }
     
-    mutating func setBitAt(position: Int) -> () {
+    public mutating func setBitAt(position: Int) -> () {
         self = (self & ~UInt256.singleBitAt(position)) | UInt256.singleBitAt(position)
     }
     
