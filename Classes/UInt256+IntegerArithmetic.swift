@@ -142,7 +142,7 @@ extension UInt256 : IntegerArithmetic {
         if (b == 1) {
             return 1
         }
-        
+                
         while (a > 1) {
             q = a / b
             t = b

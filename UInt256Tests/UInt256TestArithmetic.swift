@@ -369,15 +369,15 @@ class UInt256TestArithmetic: XCTestCase {
     }
 
     func testModularMultiplicativeInverse() {
-        let a = UInt256(hexStringValue: "FFFFFF")
+        let a = UInt256(hexStringValue: "2b80697edf28a916d822b9b89a8f770fb70d49f48b5c184f2f47f652db960baa")
         let m = UInt256(hexStringValue:  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")
         
-        let aInverse = UInt256(hexStringValue: "6A94546A94546A94546A94546A94546A94546A94546A94546A94546A29C01493")
+        let aInverse = UInt256(hexStringValue: "7ae012558f0053523a39cfe291c0fea21d2c23f41a3805c1c487c93aa83fdac1")
         
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...self.million / 1_000 {
+            for _ in 1...self.million / 1_000_0 {
             
                res = a.modInverse(m)
             }
