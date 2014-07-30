@@ -206,3 +206,84 @@ void montgomery(uint32_t x[], uint32_t y[],  uint32_t z[]) {
         }
     }
 }
+
+void multiply(uint32_t lhs[], uint32_t rhs[],  uint32_t res[]) {
+    // Assuming lhs and rhs are 2 words, res is 4 words. To be expanded later.
+    uint64_t x0 = lhs[1]; // 32 bit max
+    uint64_t x1 = lhs[0]; // 32 bit max
+    uint64_t y0 = rhs[1]; // 32 bit max
+    uint64_t y1 = rhs[0]; // 32 bit max
+    
+    uint64_t z0 = x0 * y0; // 64 bit max
+    uint64_t z2 = x1 * y1; // 64 bit max
+
+    uint64_t x1_plus_x0 = x1 + x0; // 33 bit max
+    uint64_t y1_plus_y0 = y1 + y0; // 33 bit max
+    
+    
+    res[0] = z2 >> 32;
+    res[1] = z2 & 0xffffffff;
+    res[2] = z0 >> 32;
+    res[3] = z0 & 0xffffffff;
+
+    uint32_t overflow = 0;
+    uint64_t z1;
+    
+    // if x1_plus_x0 and y1_plus_y0 are 32 bits or less each
+    if(((x1_plus_x0 >> 32) | (y1_plus_y0 >> 32)) == 0 ) {
+        z1 = x1_plus_x0 * y1_plus_y0 - z2 - z0;
+    } else {
+
+
+        // Use recursion to find overflow value
+        uint32_t lhsR[2]; // 33 bit max
+        uint32_t rhsR[2]; // 33 bit max
+        uint32_t z1_precursor[4];   // 66 bit max, so z1[0] = 0
+        
+        lhsR[0] = x1_plus_x0 >> 32;
+        lhsR[1] = x1_plus_x0 & 0xffffffff;
+
+        rhsR[0] = y1_plus_y0 >> 32;
+        rhsR[1] = y1_plus_y0 & 0xffffffff;
+        
+        multiply(lhsR, rhsR, z1_precursor);
+        
+        uint64_t z1_precursor_lhs = z1_precursor[2];
+        uint64_t z1_precursor_rhs = z1_precursor[3];
+
+        uint64_t z1_precursor_64 = (z1_precursor_lhs << 32)  + z1_precursor_rhs; // Ignoring overflow
+        
+        overflow = z1_precursor[1];
+        
+        if(z1_precursor_64 < z2) {
+            overflow--;
+        }
+        
+        z1_precursor_64 -= z2;
+        
+        if(z1_precursor_64 < z0) {
+            overflow--;
+        }
+        
+        z1 = z1_precursor_64 - z0;
+                
+    }
+    
+    uint32_t before = res[2];
+    res[2]+= z1 & 0xffffffff;
+    if (res[2] < before) {
+        res[1]++;
+        if (res[1]==0) {
+            res[0]++; // This will never overflow. No test reaches this code.
+        }
+    }
+    
+    before = res[1];
+    res[1]+= z1 >> 32;
+    if (res[1] < before) {
+        res[0]++; // This will never overflow
+    }
+    
+    res[0]+= overflow;
+
+}

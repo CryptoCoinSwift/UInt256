@@ -295,14 +295,31 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
 
         if lhs == lhs & thirtyTwoBitMask && rhs == rhs & thirtyTwoBitMask {
             
-            // Check if we're on a 64 bit system:
-            if  UInt64(UInt.max) > UInt64(UInt32.max) {
-                let product:UInt64 = UInt64(lhs[7]) * UInt64(rhs[7])
-                let productLhs:UInt64 = product >> 32
-                let productRhs:UInt64 = product & 0b0000_0000_0000_0000_0000_0000_0000_0000_1111_1111_1111_1111_1111_1111_1111_1111
-                return UInt256(UInt32(0),0,0,0,0,0, UInt32(productLhs), UInt32(productRhs))
-            }
+            let product:UInt64 = UInt64(lhs[7]) * UInt64(rhs[7])
+            let productLhs:UInt64 = product >> 32
+            let productRhs:UInt64 = product & 0b0000_0000_0000_0000_0000_0000_0000_0000_1111_1111_1111_1111_1111_1111_1111_1111
+            return UInt256(UInt32(0),0,0,0,0,0, UInt32(productLhs), UInt32(productRhs))
         }
+    
+        let sixtyFourBitMask = UInt256(0,0,0,0,0,0,UInt32.max,UInt32.max)
+
+        if lhs == lhs & sixtyFourBitMask && rhs == rhs & sixtyFourBitMask {
+
+            let lhsC = UnsafePointer<UInt32>.alloc(2)
+            let rhsC = UnsafePointer<UInt32>.alloc(2)
+            let res  = UnsafePointer<UInt32>.alloc(4)
+            
+            lhsC[0] = lhs[6]
+            lhsC[1] = lhs[7]
+            
+            rhsC[0] = rhs[6]
+            rhsC[1] = rhs[7]
+            
+            multiply(lhsC, rhsC, res)
+            
+            return UInt256(0,0,0,0,res[0], res[1], res[2], res[3])
+        }
+    
     } else {
         // We're on a 32 bit system, check if it's a 16 bit number
         
@@ -358,6 +375,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     // We're on a 32 bit machine or it's a 32+ bit number
     
     let sixtyFourBitMask = UInt256(0,0,0,0,0,0,UInt32.max,UInt32.max)
+    
     let hundredTwentyEightBitMask = UInt256(0,0,0,0,UInt32.max,UInt32.max,UInt32.max,UInt32.max)
     
     if lhs == lhs & sixtyFourBitMask && rhs == rhs & sixtyFourBitMask {
@@ -401,6 +419,11 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     let z₀: UInt256 = x₀ * y₀
     
     let z₁ = (x₁ + x₀) * (y₁ + y₀) - z₂ - z₀
+    
+//    println(z₀);
+//    println(z₁);
+//    println(z₂);
+
     
     return z₂ << (bitSize) + z₀ + z₁  << (bitSize / 2)
 }
