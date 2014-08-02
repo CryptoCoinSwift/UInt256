@@ -173,11 +173,11 @@ public struct BaseConverter {
     }
     
     
-    static func decToHex(decStr: String) -> String {
+    public static func decToHex(decStr: String) -> String {
         return convertBase(decStr, fromBase:10,toBase:16);
     }
     
-    static func hexToDec(var hexStr: String) -> String {
+    public static func hexToDec(var hexStr: String) -> String {
         return convertBase(hexStr, fromBase:16, toBase: 10);
     }
 }
