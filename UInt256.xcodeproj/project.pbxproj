@@ -35,7 +35,6 @@
 		A26DCCBD1969751E008E8399 /* UInt256+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCBB1969751E008E8399 /* UInt256+Sequence.swift */; };
 		A26DCCBF1969753F008E8399 /* UInt256+Printable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCBE1969753F008E8399 /* UInt256+Printable.swift */; };
 		A26DCCC01969753F008E8399 /* UInt256+Printable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCBE1969753F008E8399 /* UInt256+Printable.swift */; };
-		A26F77A819684ED900C75822 /* UInt256Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = A26F77A719684ED900C75822 /* UInt256Mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A26F77AE19684ED900C75822 /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26F77A319684ED900C75822 /* UInt256.framework */; };
 		A26F77C819684F1700C75822 /* UInt256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B8A52E1962CF9300117EF5 /* UInt256Tests.swift */; };
 		A26F77C919684F2300C75822 /* UInt256.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A1A0C21962DAFC00701051 /* UInt256.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -163,7 +162,6 @@
 		A26DCCBE1969753F008E8399 /* UInt256+Printable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Printable.swift"; path = "Classes/UInt256+Printable.swift"; sourceTree = "<group>"; };
 		A26F77A319684ED900C75822 /* UInt256.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UInt256.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26F77A619684ED900C75822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = UInt256Mac/Info.plist; sourceTree = "<group>"; };
-		A26F77A719684ED900C75822 /* UInt256Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UInt256Mac.h; path = UInt256Mac/UInt256Mac.h; sourceTree = "<group>"; };
 		A26F77AD19684ED900C75822 /* UInt256MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UInt256MacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26F77B319684ED900C75822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2A1A0BE1962DAFC00701051 /* UInt256.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UInt256.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +213,7 @@
 		A26DCCA219697255008E8399 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A2A1A0C21962DAFC00701051 /* UInt256.h */,
 				A26DCCA51969729B008E8399 /* iOs */,
 				A26DCCA41969728B008E8399 /* Mac */,
 				A26DCCA31969727D008E8399 /* Test */,
@@ -234,7 +233,6 @@
 		A26DCCA41969728B008E8399 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				A26F77A719684ED900C75822 /* UInt256Mac.h */,
 				A26F77A619684ED900C75822 /* Info.plist */,
 			);
 			name = Mac;
@@ -243,7 +241,6 @@
 		A26DCCA51969729B008E8399 /* iOs */ = {
 			isa = PBXGroup;
 			children = (
-				A2A1A0C21962DAFC00701051 /* UInt256.h */,
 				A2D32D011962CED3001B5998 /* Info.plist */,
 			);
 			name = iOs;
@@ -320,7 +317,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A26F77C919684F2300C75822 /* UInt256.h in Headers */,
-				A26F77A819684ED900C75822 /* UInt256Mac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -679,7 +675,7 @@
 				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = UInt256/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -699,7 +695,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = UInt256Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -868,7 +864,7 @@
 				);
 				INFOPLIST_FILE = UInt256/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -891,7 +887,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = UInt256/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -914,7 +910,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = UInt256Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -929,7 +925,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = UInt256Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
