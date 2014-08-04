@@ -5,7 +5,7 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
-extension UInt256 : BitwiseOperations {
+extension UInt256 : BitwiseOperationsType {
     // FIXME: make private as soon as tests can handle it
     public var highestBit: Int {
     var bitLength: UInt32 = 256
@@ -80,7 +80,7 @@ public func ^(lhs: UInt256, rhs: UInt256) -> UInt256 {
     return res
 }
 
-@prefix public func ~(lhs: UInt256) -> UInt256 {
+prefix public func ~(lhs: UInt256) -> UInt256 {
     var res: UInt256 = UInt256.allZeros
     
     for i in 0..<8 {

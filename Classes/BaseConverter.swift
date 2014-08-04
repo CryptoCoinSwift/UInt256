@@ -20,7 +20,7 @@ public struct BaseConverter {
             let xi = i < countElements(x) ? x[i] : 0
             let yi = i < countElements(y) ? y[i] : 0
             let zi = carry + xi + yi;
-            z += (zi % self.base)
+            z.append(zi % self.base)
             carry = zi / base
             i++;
         }
@@ -59,7 +59,7 @@ public struct BaseConverter {
     func parseToDigitsArray(str: String) -> [Int] {
         var digits: [String] = []
         for char in str {
-            digits += String(char)
+            digits.append(String(char))
         }
         
         var ary: [Int] = [];
@@ -67,8 +67,8 @@ public struct BaseConverter {
         for (var i = digits.count - 1; i >= 0; i--) {
             var n = stringToInt(digits[i])
             
-            if n? {
-                ary += n!
+            if n? != nil {
+                ary.append(n!)
             } else {
                 assert(false, "Invalid digit")
             }

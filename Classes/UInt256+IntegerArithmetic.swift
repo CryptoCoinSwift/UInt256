@@ -5,7 +5,7 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
-extension UInt256 : IntegerArithmetic {
+extension UInt256 : IntegerArithmeticType {
     public static func addWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
         var previousDigitDidOverflow = false
         
@@ -51,14 +51,14 @@ extension UInt256 : IntegerArithmetic {
         
         // Use C. Not so much for speed, but for debugging other C functions:
         
-        let lhsC = UnsafePointer<UInt32>.alloc(8)
-        let rhsC = UnsafePointer<UInt32>.alloc(8)
-        let result = UnsafePointer<UInt32>.alloc(8)
+        var lhsC: [UInt32] = [0,0,0,0,0,0,0,0]
+        var rhsC: [UInt32] = [0,0,0,0,0,0,0,0]
+        var result: [UInt32] = [0,0,0,0,0,0,0,0]
 
         
         for i in 0..<8 { lhsC[i]  = lhs[i]; rhsC[i]  = rhs[i]; result[i] = 0  }
         
-        subtract(result, lhsC, rhsC)
+        subtract(&result, &lhsC, &rhsC)
         
         let diff = UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7])
         
@@ -75,12 +75,12 @@ extension UInt256 : IntegerArithmetic {
     public static func divideWithOverflow(numerator: UInt256, _ denominator: UInt256) -> (UInt256, overflow: Bool) {
         assert(denominator != 0, "Divide by zero")
         
-        let num = UnsafePointer<UInt32>.alloc(8)
-        let den = UnsafePointer<UInt32>.alloc(8)
+        var num: [UInt32] = [0,0,0,0,0,0,0,0]
+        var den: [UInt32] = [0,0,0,0,0,0,0,0]
         
         for i in 0..<8 { num[i]  = numerator[i]; den[i]  = denominator[i] }
         
-        let result = divideWithOverflowC(num, den)
+        let result = divideWithOverflowC(&num, &den)
         
         return (UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7]), false)
     }
@@ -110,12 +110,12 @@ extension UInt256 : IntegerArithmetic {
 //        return (remainder, false)
 
         
-        let num = UnsafePointer<UInt32>.alloc(8)
-        let den = UnsafePointer<UInt32>.alloc(8)
+        var num: [UInt32] = [0,0,0,0,0,0,0,0]
+        var den: [UInt32] = [0,0,0,0,0,0,0,0]
         
         for i in 0..<8 { num[i]  = numerator[i]; den[i]  = denominator[i] }
         
-        let result = remainderWithOverflowC(num, den)
+        let result = remainderWithOverflowC(&num, &den)
         
         return (UInt256(result[0], result[1],result[2],result[3],result[4],result[5],result[6],result[7]), false)
         
@@ -205,14 +205,17 @@ public func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
 //        }
 //    }
     
-    let xC = UnsafePointer<UInt32>.alloc(8)
-    let yC = UnsafePointer<UInt32>.alloc(8)
-    let zC = UnsafePointer<UInt32>.alloc(8)
-
+//    let xC = UnsafeMutablePointer<UInt32>(8)
+//    let yC = UnsafeMutablePointer<UInt32>(8)
+//    let zC = UnsafeMutablePointer<UInt32>(8)
+    
+    var xC: [UInt32] = [0,0,0,0,0,0,0,0]
+    var yC: [UInt32] = [0,0,0,0,0,0,0,0]
+    var zC: [UInt32] = [0,0,0,0,0,0,0,0]
     
     for i in 0..<8 { xC[i]  = x[i]; yC[i]  = y[i]; zC[i]  = z[i] }
     
-    montgomery(xC, yC, zC)
+    montgomery(&xC, &yC, &zC)
     
 //    return x
     return UInt256(xC[0], xC[1],xC[2],xC[3],xC[4],xC[5],xC[6],xC[7])
@@ -226,27 +229,27 @@ public func -= (inout lhs: UInt256, rhs: UInt256) -> () {
     lhs = lhs - rhs
 }
 
-@postfix public func ++ (inout lhs: UInt256) -> (UInt256) {
+postfix public func ++ (inout lhs: UInt256) -> (UInt256) {
     let oldValue = lhs
     lhs += UInt256(0,0,0,0,0,0,0,1)
     
     return oldValue
 }
 
-@prefix public func ++ (inout lhs: UInt256) -> (UInt256) {
+prefix public func ++ (inout lhs: UInt256) -> (UInt256) {
     lhs += UInt256(0,0,0,0,0,0,0,1)
     
     return lhs
 }
 
-@postfix public func -- (inout lhs: UInt256) -> (UInt256) {
+postfix public func -- (inout lhs: UInt256) -> (UInt256) {
     let oldValue = lhs
     lhs -= UInt256(0,0,0,0,0,0,0,1)
     
     return oldValue
 }
 
-@prefix public func -- (inout lhs: UInt256) -> (UInt256) {
+prefix public func -- (inout lhs: UInt256) -> (UInt256) {
     lhs -= UInt256(0,0,0,0,0,0,0,1)
     
     return lhs
@@ -305,9 +308,9 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
 
         if lhs == lhs & sixtyFourBitMask && rhs == rhs & sixtyFourBitMask {
 
-            let lhsC = UnsafePointer<UInt32>.alloc(2)
-            let rhsC = UnsafePointer<UInt32>.alloc(2)
-            let res  = UnsafePointer<UInt32>.alloc(4)
+            var lhsC: [UInt32] = [0,0,0,0,0,0,0,0]
+            var rhsC: [UInt32] = [0,0,0,0,0,0,0,0]
+            var res: [UInt32] = [0,0,0,0,0,0,0,0]
             
             lhsC[0] = lhs[6]
             lhsC[1] = lhs[7]
@@ -315,7 +318,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
             rhsC[0] = rhs[6]
             rhsC[1] = rhs[7]
             
-            multiply(lhsC, rhsC, res)
+            multiply(&lhsC, &rhsC, &res)
             
             return UInt256(0,0,0,0,res[0], res[1], res[2], res[3])
         }

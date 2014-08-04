@@ -25,9 +25,10 @@ extension UInt256 : Printable {
             
         for int in self {
             var paddedHexString = BaseConverter.decToHex(int.description)
-            
-            for _ in 1...(8 - countElements(paddedHexString)) {
-                paddedHexString = "0" + paddedHexString;
+                if countElements(paddedHexString) < 8 {
+                for _ in 1...(8 - countElements(paddedHexString)) {
+                    paddedHexString = "0" + paddedHexString;
+                }
             }
             
             result += paddedHexString
@@ -50,7 +51,7 @@ extension UInt256 : Printable {
             unpaddedResult = "0"
         }
         
-        if length {
+        if length != nil {
             let resultLength = countElements(unpaddedResult)
             if resultLength < length! {
                 for i in 0..<(length! - resultLength) {

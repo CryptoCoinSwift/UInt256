@@ -311,7 +311,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...self.million/100 {
+            for _ in 1...self.million {
                 res =  a / b
             }
         }
@@ -354,7 +354,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...self.million/100 {
+            for _ in 1...self.million {
                 res =  a % b
             }
             
@@ -377,11 +377,10 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...self.million / 1_000_0 {
-            
+            for i: UInt16 in UInt16(0)...UInt16(self.million / 1_000_0) {
+        
                res = a.modInverse(m)
             }
-            
         }
         
         XCTAssertEqual(res, aInverse, res.toHexString);
@@ -582,7 +581,7 @@ class UInt256TestArithmetic: XCTestCase {
         var resRight: UInt256 = 0
         
         self.measureBlock() {
-            for _ in 1...self.million/100 {
+            for _ in 1...self.million/10 {
                 (resLeft, resRight) = a * b
             }
         }
@@ -610,7 +609,7 @@ class UInt256TestArithmetic: XCTestCase {
         var resRight: UInt256 = 0
         
         self.measureBlock() {
-            for i in 0...self.million/100 {
+            for i in 0...self.million/10 {
                 (resLeft, resRight) = a * b
             }
         }
@@ -632,7 +631,7 @@ class UInt256TestArithmetic: XCTestCase {
         var result: UInt256 = 0
         
         self.measureBlock() {
-            for i in 1...self.million/100 {
+            for i in 1...self.million {
                 result = (left, right) % p
             }
         }

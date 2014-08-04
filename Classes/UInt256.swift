@@ -170,8 +170,10 @@ public struct UInt256 { // : UnsignedInteger
         
         
         // Pad zeros
-        for _ in 1...(64 - countElements(hexStringValue)) {
-            hexStringValue = "0" + hexStringValue;
+        if countElements(hexStringValue) < 64 {
+            for _ in 1...(64 - countElements(hexStringValue)) {
+                hexStringValue = "0" + hexStringValue;
+            }
         }
         
         self.part0 = 0
@@ -259,10 +261,11 @@ public struct UInt256 { // : UnsignedInteger
         // Pad zeros
         var paddedDecimalString = decimalStringValue
         
-        for _ in 1...(78 - countElements(decimalStringValue)) {
-            paddedDecimalString = "0" + paddedDecimalString;
+        if countElements(decimalStringValue) < 78 {
+            for _ in 1...(78 - countElements(decimalStringValue)) {
+                paddedDecimalString = "0" + paddedDecimalString;
+            }
         }
-        
         
         assert(paddedDecimalString <= "115792089237316195423570985008687907853269984665640564039457584007913129639935", "Too large")
         
