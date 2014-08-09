@@ -4,7 +4,7 @@
 //
 //  Created by Sjors Provoost on 23-06-14.
 
-public struct UInt256 { // : UnsignedInteger
+public struct UInt256 : Printable { // : UnsignedInteger
     /* UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly. Unfortunately the compiler still complains that UInt256 doesn't comform to _UnsignedInteger. I can't find documentation for this protocol. */
    
     // Store as an array with the most significant value first:

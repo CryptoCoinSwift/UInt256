@@ -148,6 +148,7 @@
 /* Begin PBXFileReference section */
 		A20E8A5A1969E1B100837EAD /* UInt256TestArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256TestArithmetic.swift; sourceTree = "<group>"; };
 		A20E8A5D1969E26D00837EAD /* UInt256TestBitwise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256TestBitwise.swift; sourceTree = "<group>"; };
+		A21D0B1719963539003656D3 /* UInt256 documentation.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "UInt256 documentation.playground"; sourceTree = "<group>"; };
 		A26DCC9619697056008E8399 /* UInt32+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt32+Additions.swift"; path = "Classes/UInt32+Additions.swift"; sourceTree = "<group>"; };
 		A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+BitwiseOperations.swift"; path = "Classes/UInt256+BitwiseOperations.swift"; sourceTree = "<group>"; };
 		A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+IntegerArithmetic.swift"; path = "Classes/UInt256+IntegerArithmetic.swift"; sourceTree = "<group>"; };
@@ -280,6 +281,7 @@
 		A2D32CE61962CED3001B5998 = {
 			isa = PBXGroup;
 			children = (
+				A21D0B1719963539003656D3 /* UInt256 documentation.playground */,
 				A2B8A5371962CFB900117EF5 /* UInt256 */,
 				A2D32CFF1962CED3001B5998 /* UInt256Tests */,
 				A26DCCA219697255008E8399 /* Supporting Files */,

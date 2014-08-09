@@ -5,7 +5,7 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
-extension UInt256 : Printable {
+extension UInt256  { // Printable
     public var description: String { return self.toDecimalString }
     
     public var toDecimalString: String {
