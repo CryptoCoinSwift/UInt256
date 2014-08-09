@@ -6,4 +6,4 @@ Part of the [CryptoCoinSwift](https://github.com/CryptoCoinSwift/CryptoCoinFrame
 
 Tests are based on [Bigi](https://github.com/cryptocoinjs/bigi/blob/master/test/bigi.js) from CryptoCoinJS, but without its variable length.
 
-To a look at the [playground](UInt256 documentation.playground/section-1.swift) to see what it can do.
+Take a look at the [playground](UInt256 documentation.playground/section-1.swift) to see what it can do.
