@@ -4,6 +4,8 @@
 //
 //  Created by Sjors Provoost on 23-06-14.
 
+import Foundation
+
 public struct UInt256 : Printable { // : UnsignedInteger
     /* UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly. Unfortunately the compiler still complains that UInt256 doesn't comform to _UnsignedInteger. I can't find documentation for this protocol. */
    
@@ -300,6 +302,12 @@ public struct UInt256 : Printable { // : UnsignedInteger
         }
     }
 
+    public var toData: NSData {
+        var val: [UInt32] = [part0.bigEndian, part1.bigEndian, part2.bigEndian, part3.bigEndian, part4.bigEndian, part5.bigEndian, part6.bigEndian, part7.bigEndian]
+        
+        return NSData(bytes: val, length: 32)
+            
+    }
     
 }
 
