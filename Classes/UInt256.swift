@@ -289,7 +289,18 @@ public struct UInt256 : Printable { // : UnsignedInteger
     static var min: UInt256 {
         return UInt256.allZeros
     }
+    
+    public static func secureRandom(max: UInt256) -> UInt256 {
+        while(true) {
+            let candidate = UInt256(arc4random_uniform(UInt32.max), arc4random_uniform(UInt32.max),arc4random_uniform(UInt32.max),arc4random_uniform(UInt32.max),arc4random_uniform(UInt32.max),arc4random_uniform(UInt32.max),arc4random_uniform(UInt32.max),arc4random_uniform(UInt32.max))
         
+            if candidate < max {
+                return candidate
+            }
+        }
+    }
+
+    
 }
 
 
