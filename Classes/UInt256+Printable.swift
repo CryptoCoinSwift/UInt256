@@ -43,7 +43,7 @@ extension UInt256  { // Printable
                 didEncounterFirstNonZeroDigit = true
             }
             if didEncounterFirstNonZeroDigit {
-                unpaddedResult += digit
+                unpaddedResult.append(digit)
             }
         }
         

@@ -24,7 +24,8 @@ class UInt256Tests: XCTestCase {
         // The largest value for an unsigned 16 bit integer is 2^16 - 1
         let bi = UInt256(hexStringValue: "FFFF")
         
-        XCTAssertTrue(bi != nil, "Should exist");
+        XCTAssertTrue(bi == 0xFFFF, "Should exist");
+ 
         
     }
     
@@ -34,38 +35,7 @@ class UInt256Tests: XCTestCase {
 
     }
 
-    func testInitWith32BitHex() {
-        let bi = UInt256(hexStringValue: "7FFFFFFF")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
-
-    func testInitWithHalfMax32BitHex() {
-        // The largest value for an unsigned 32 bit integer is 2^32 - 1
-        let bi = UInt256(hexStringValue: "80000000")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
-    
-    func testInitWith32BitMaxHex() {
-        // The largest value for an unsigned 32 bit integer is 2^32 - 1
-        let bi = UInt256(hexStringValue: "FFFFFFFF")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
-
-    func testInitWith64BitMaxHex() {
-        // The largest value for an unsigned 64 bit integer is 2^64 - 1
-        let bi = UInt256(hexStringValue: "FFFFFFFFFFFFFFFF")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
-
-    
+ 
     func testInitWithIntHexLiterals() {
         let a = UInt256(hexStringValue: "FFFFFFFFFFFFFFFF")
         let b = UInt256(0,0,0,0,0,0,0xFFFFFFFF,0xFFFFFFFF)
@@ -96,21 +66,7 @@ class UInt256Tests: XCTestCase {
         XCTAssertTrue(f.toDecimalString == "3221225472", "")
     }
     
-    func testInitWith128BitMaxHex() {
-        // The largest value for an unsigned 128 bit integer is 2^128 - 1
-        let bi = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
 
-    func testInitWithLargestHex() {
-        // The largest value for an unsigned 256 bit integer is 2^256 - 1
-        let bi = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        
-        XCTAssertTrue(bi != nil, "Should exist");
-        
-    }
     
     func testInitWithDecimal() {
         let dec = UInt256(decimalStringValue: "42")
@@ -125,17 +81,6 @@ class UInt256Tests: XCTestCase {
         
     }
     
-    
-    func test9DigitNumber() {
-        let bi = UInt256(decimalStringValue: "100000000")
-        XCTAssertTrue(bi != nil, "Should exist");
-    }
-
-    func test12DigitNumber() {
-        let bi = UInt256(decimalStringValue: "100000000000")
-        XCTAssertTrue(bi != nil, "Should exist");
-    }
-
     func testInitWithLargestDecimalNumber() {
         // The largest value for an unsigned 256 bit integer is 2^256 - 1
         let a = UInt256(decimalStringValue: "115792089237316195423570985008687907853269984665640564039457584007913129639935")

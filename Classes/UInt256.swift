@@ -194,7 +194,7 @@ public struct UInt256 : Printable { // : UnsignedInteger
             
             switch char {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
-                let stringChar: String = char + "";
+                let stringChar: String = "\(char)";
                 increment = UInt32(stringChar.toInt()!)
             case "A":
                 increment = 10
