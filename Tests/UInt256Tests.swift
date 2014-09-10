@@ -30,8 +30,9 @@ class UInt256Tests: XCTestCase {
     }
     
     func testToHexString() {
-        let bi = UInt256(hexStringValue: "FFFF")
-        XCTAssertEqual(bi.toHexString, "FFFF", "");
+        let bi = UInt256(hexStringValue: "FFF")
+        let expected: String = "FFF"
+        XCTAssertEqual(bi.toHexString, expected);
 
     }
 
@@ -77,7 +78,8 @@ class UInt256Tests: XCTestCase {
     
     func testToDecimalString() {
         let bi = UInt256(decimalStringValue: "42")
-        XCTAssertEqual(bi.toDecimalString, "42", "");
+        let expected: String = "42"
+        XCTAssertEqual(bi.toDecimalString, expected, "");
         
     }
     
