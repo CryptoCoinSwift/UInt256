@@ -552,7 +552,7 @@ class UInt256TestArithmetic: XCTestCase {
         
         self.measureBlock() {
             
-            for _ in 1...self.million / 1000 {
+            for _ in 1...self.million / 100 {
                 
                 res = a * a  // 0.9999999...% of UInt256 max
             }
