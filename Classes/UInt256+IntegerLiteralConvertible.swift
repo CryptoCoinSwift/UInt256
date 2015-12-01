@@ -7,17 +7,18 @@
 
  extension UInt256 : IntegerLiteralConvertible { // _BuiltinIntegerLiteralConvertible
     
-    public static func convertFromIntegerLiteral(value: IntegerLiteralType) -> UInt256 {
+    public init(integerLiteral value: IntegerLiteralType) {
         assert(value >= 0, "Unsigned integer should be 0 or larger")
         assert(value < 2147483647, "Too large - use decimal string assignment")
 
-        return UInt256(UInt32(value))
+        self.part0 = 0
+        self.part1 = 0
+        self.part2 = 0
+        self.part3 = 0
+        self.part4 = 0
+        self.part5 = 0
+        self.part6 = 0
+        self.part7 = UInt32(value)
     }
-
-//    This overrides convertFromIntegerLiteral!
-//    static func _convertFromBuiltinIntegerLiteral(value: MaxBuiltinIntegerType) -> UInt256 {
-//        assert(false, "Can't handle this") // Doesn't crash!
-//        return UInt256(0,0,0,0,0,0,0,0)
-//    }
     
  }

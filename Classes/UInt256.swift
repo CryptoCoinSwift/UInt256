@@ -6,7 +6,7 @@
 
 import Foundation
 
-public struct UInt256 : Printable { // : UnsignedInteger
+public struct UInt256 : CustomStringConvertible { // : UnsignedInteger
     /* UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly. Unfortunately the compiler still complains that UInt256 doesn't comform to _UnsignedInteger. I can't find documentation for this protocol. */
    
     // Store as an array with the most significant value first:
@@ -151,16 +151,16 @@ public struct UInt256 : Printable { // : UnsignedInteger
     public init(var hexStringValue: String) {
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
         
-        assert(countElements(hexStringValue) > 0, "Can't be empty");
+        assert(hexStringValue.characters.count > 0, "Can't be empty");
         
         // Assert if string isn't too long
-        assert(countElements(hexStringValue) <= 64, "Too large");
+        assert(hexStringValue.characters.count <= 64, "Too large");
         
         
         hexStringValue = hexStringValue.uppercaseString;
         
         // Assert if string has any characters that are not 0-9 or A-F
-        for character in hexStringValue {
+        for character in hexStringValue.characters {
             switch character {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F":
                 assert(true)
@@ -172,8 +172,8 @@ public struct UInt256 : Printable { // : UnsignedInteger
         
         
         // Pad zeros
-        if countElements(hexStringValue) < 64 {
-            for _ in 1...(64 - countElements(hexStringValue)) {
+        if hexStringValue.characters.count < 64 {
+            for _ in 1...(64 - hexStringValue.characters.count) {
                 hexStringValue = "0" + hexStringValue;
             }
         }
@@ -189,13 +189,13 @@ public struct UInt256 : Printable { // : UnsignedInteger
         
         var i = 0
         
-        for char in hexStringValue {
+        for char in hexStringValue.characters {
             var increment: UInt32 = 0
             
             switch char {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
                 let stringChar: String = "\(char)";
-                increment = UInt32(stringChar.toInt()!)
+                increment = UInt32(Int(stringChar)!)
             case "A":
                 increment = 10
             case "B":
@@ -244,13 +244,13 @@ public struct UInt256 : Printable { // : UnsignedInteger
     public init(decimalStringValue: String) {
         // First we perform some sanity checks on the string. Then we convert it to a hex string.
         
-        assert(countElements(decimalStringValue) > 0, "Can't be empty");
+        assert(decimalStringValue.characters.count > 0, "Can't be empty");
         
         // Assert if string longer than 78 characters
-        assert(countElements(decimalStringValue) <= 78, "Too large");
+        assert(decimalStringValue.characters.count <= 78, "Too large");
         
         // Assert if string has any characters that are not 0-9
-        for character in decimalStringValue {
+        for character in decimalStringValue.characters {
             switch character {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
                 assert(true)
@@ -263,8 +263,8 @@ public struct UInt256 : Printable { // : UnsignedInteger
         // Pad zeros
         var paddedDecimalString = decimalStringValue
         
-        if countElements(decimalStringValue) < 78 {
-            for _ in 1...(78 - countElements(decimalStringValue)) {
+        if decimalStringValue.characters.count < 78 {
+            for _ in 1...(78 - decimalStringValue.characters.count) {
                 paddedDecimalString = "0" + paddedDecimalString;
             }
         }
@@ -303,7 +303,7 @@ public struct UInt256 : Printable { // : UnsignedInteger
     }
 
     public var toData: NSData {
-        var val: [UInt32] = [part0.bigEndian, part1.bigEndian, part2.bigEndian, part3.bigEndian, part4.bigEndian, part5.bigEndian, part6.bigEndian, part7.bigEndian]
+        let val: [UInt32] = [part0.bigEndian, part1.bigEndian, part2.bigEndian, part3.bigEndian, part4.bigEndian, part5.bigEndian, part6.bigEndian, part7.bigEndian]
         
         return NSData(bytes: val, length: 32)
             

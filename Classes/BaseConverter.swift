@@ -12,13 +12,13 @@ public struct BaseConverter {
     // Adds two arrays for the given base (10 or 16)
     func add(x: [Int], y: [Int]) -> [Int] {
         var z: [Int] = []
-        let n = max(countElements(x), countElements(y))
+        let n = max(x.count, y.count)
         
         var carry = 0;
         var i = 0;
         while (i < n || carry > 0) {
-            let xi = i < countElements(x) ? x[i] : 0
-            let yi = i < countElements(y) ? y[i] : 0
+            let xi = i < x.count ? x[i] : 0
+            let yi = i < y.count ? y[i] : 0
             let zi = carry + xi + yi;
             z.append(zi % self.base)
             carry = zi / base
@@ -58,16 +58,16 @@ public struct BaseConverter {
     
     func parseToDigitsArray(str: String) -> [Int] {
         var digits: [String] = []
-        for char in str {
+        for char in str.characters {
             digits.append(String(char))
         }
         
         var ary: [Int] = [];
         
         for (var i = digits.count - 1; i >= 0; i--) {
-            var n = stringToInt(digits[i])
+            let n = stringToInt(digits[i])
             
-            if n? != nil {
+            if n != nil {
                 ary.append(n!)
             } else {
                 assert(false, "Invalid digit")
@@ -77,11 +77,11 @@ public struct BaseConverter {
     }
     
     public static  func convertBase(str: String, fromBase: Int, toBase: Int) -> String {
-        let fromBaseConverter = self(base: fromBase)
-        let   toBaseConverter = self(base:   toBase)
+        let fromBaseConverter = self.init(base: fromBase)
+        let   toBaseConverter = self.init(base:   toBase)
         
         
-        var digits = fromBaseConverter.parseToDigitsArray(str);
+        let digits = fromBaseConverter.parseToDigitsArray(str);
         
         var outArray: [Int] = [];
         var power = [1];
@@ -105,11 +105,11 @@ public struct BaseConverter {
         
         switch self.base {
         case 2, 3, 4, 5, 6, 7, 8, 9, 10:
-            return digit.toInt()
+            return Int(digit)
         case 16:
             switch digit {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
-                return digit.toInt()
+                return Int(digit)
             case "A", "a":
                 return 10
             case "B", "b":
@@ -177,7 +177,7 @@ public struct BaseConverter {
         return convertBase(decStr, fromBase:10,toBase:16);
     }
     
-    public static func hexToDec(var hexStr: String) -> String {
+    public static func hexToDec(hexStr: String) -> String {
         return convertBase(hexStr, fromBase:16, toBase: 10);
     }
 }

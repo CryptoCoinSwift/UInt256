@@ -25,8 +25,8 @@ extension UInt256  { // Printable
             
         for int in self {
             var paddedHexString = BaseConverter.decToHex(int.description)
-                if countElements(paddedHexString) < 8 {
-                for _ in 1...(8 - countElements(paddedHexString)) {
+                if paddedHexString.characters.count < 8 {
+                for _ in 1...(8 - paddedHexString.characters.count) {
                     paddedHexString = "0" + paddedHexString;
                 }
             }
@@ -38,7 +38,7 @@ extension UInt256  { // Printable
         var unpaddedResult = ""
         var didEncounterFirstNonZeroDigit = false
         
-        for digit in result {
+        for digit in result.characters {
             if digit != "0" {
                 didEncounterFirstNonZeroDigit = true
             }
@@ -52,9 +52,9 @@ extension UInt256  { // Printable
         }
         
         if length != nil {
-            let resultLength = countElements(unpaddedResult)
+            let resultLength = unpaddedResult.characters.count
             if resultLength < length! {
-                for i in 0..<(length! - resultLength) {
+                for _ in 0..<(length! - resultLength) {
                     unpaddedResult = "0" + unpaddedResult
                 }
             }

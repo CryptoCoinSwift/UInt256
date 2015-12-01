@@ -7,8 +7,6 @@
 
 extension UInt256 : IntegerArithmeticType {
     public static func addWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
-        var previousDigitDidOverflow = false
-        
         var sum = UInt256.allZeros
         
         for var i=7; i >= 0; i-- {
@@ -34,21 +32,6 @@ extension UInt256 : IntegerArithmeticType {
     }
     
     public static func subtractWithOverflow(lhs: UInt256, _ rhs: UInt256) -> (UInt256, overflow: Bool) {
-//        var previousDigitDidOverflow = false
-//        var diff = UInt256.allZeros
-//        
-//        for var i=7; i >= 0; i-- {
-//            let modifier: UInt32 = (previousDigitDidOverflow ? 1 : 0)
-//            
-//            diff[i] = lhs[i] &- rhs[i] &- modifier
-//            
-//            if modifier == 1 && rhs[i] == UInt32.max {
-//                previousDigitDidOverflow = true
-//            } else {
-//                previousDigitDidOverflow = lhs[i] < rhs[i] + modifier
-//            }
-//        }
-        
         // Use C. Not so much for speed, but for debugging other C functions:
         
         var lhsC: [UInt32] = [0,0,0,0,0,0,0,0]
@@ -185,7 +168,6 @@ public func % (lhs: (UInt256, UInt256), rhs: UInt256) -> UInt256 {
     
     
     
-    var t: UInt256
 
 /* Takes 300 µs on a Macbook Pro */
 //    for _ in 0..<256 {
@@ -472,7 +454,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         if left == 0 { // right represents the full value of z₁subtotal, so this will not overflow:
             z₁ = right - z₂ - z₀
         } else {
-            var willOverflow = false
+
             let addSafe = z₂ &+ z₀
             if addSafe >= z₂ { // z₂ + z₀ doesn't overflow
                 if right >= addSafe { // subtraction won't overflow
