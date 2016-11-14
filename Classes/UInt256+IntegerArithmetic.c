@@ -233,8 +233,6 @@ void multiply(uint32_t lhs[], uint32_t rhs[],  uint32_t res[]) {
     if(((x1_plus_x0 >> 32) | (y1_plus_y0 >> 32)) == 0 ) {
         z1 = x1_plus_x0 * y1_plus_y0 - z2 - z0;
     } else {
-
-
         // Use recursion to find overflow value
         uint32_t lhsR[2]; // 33 bit max
         uint32_t rhsR[2]; // 33 bit max

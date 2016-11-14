@@ -403,7 +403,6 @@ public func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         let z₁subtotal: (UInt256, UInt256) = x₁_plus_x₀ * y₁_plus_y₀
 
         let (left, right) = z₁subtotal
-
         // Check if z₁subtotal is <= or > 256 bit (either 257 or 258)
         if left == 0 { // right represents the full value of z₁subtotal, so this will not overflow:
             z₁ = right - z₂ - z₀
