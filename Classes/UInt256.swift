@@ -265,11 +265,11 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
         return UInt256(0, 0, 0, 0, 0, 0, 0, 0)
     }
 
-    static var max: UInt256 {
+    public static var max: UInt256 {
         return UInt256(UInt32.max, UInt32.max, UInt32.max, UInt32.max, UInt32.max, UInt32.max, UInt32.max, UInt32.max)
     }
 
-    static var min: UInt256 {
+    public static var min: UInt256 {
         return UInt256.allZeros
     }
 
