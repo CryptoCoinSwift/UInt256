@@ -10,13 +10,14 @@
 // Conforming to RandomAccessIndex results in a duplicate symbol error.
 
 extension UInt256 { // : RandomAccessIndex {
+
     func distanceTo(_ other: UInt256) -> Int {
         let distance = other - self
-        assert(distance <= UInt256(0,0,0,0, 0,0,0,UInt32.max), "Too far")
+        assert(distance <= UInt256(0, 0, 0, 0, 0, 0, 0, UInt32.max), "Too far")
         return Int(distance[7])
     }
 
-//    func advancedBy(distance: Int) -> UInt256 {
-//        return self + UInt256(distance)
-//    }
+    //    func advancedBy(distance: Int) -> UInt256 {
+    //        return self + UInt256(distance)
+    //    }
 }

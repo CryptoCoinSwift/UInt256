@@ -5,8 +5,8 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
- extension UInt256 : ExpressibleByIntegerLiteral { // _BuiltinIntegerLiteralConvertible
-    
+extension UInt256: ExpressibleByIntegerLiteral { // _BuiltinIntegerLiteralConvertible
+
     public init(integerLiteral value: IntegerLiteralType) {
         assert(value >= 0, "Unsigned integer should be 0 or larger")
         assert(value < 2147483647, "Too large - use decimal string assignment")
@@ -20,5 +20,4 @@
         self.part6 = 0
         self.part7 = UInt32(value)
     }
-    
- }
+}
