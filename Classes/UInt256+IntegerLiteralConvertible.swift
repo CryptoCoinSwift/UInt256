@@ -5,7 +5,7 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
- extension UInt256 : IntegerLiteralConvertible { // _BuiltinIntegerLiteralConvertible
+ extension UInt256 : ExpressibleByIntegerLiteral { // _BuiltinIntegerLiteralConvertible
     
     public init(integerLiteral value: IntegerLiteralType) {
         assert(value >= 0, "Unsigned integer should be 0 or larger")

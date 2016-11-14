@@ -146,9 +146,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F42EC171DD9C471008C65E2 /* UInt256 Docs.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "UInt256 Docs.playground"; sourceTree = "<group>"; };
 		A20E8A5A1969E1B100837EAD /* UInt256TestArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256TestArithmetic.swift; sourceTree = "<group>"; };
 		A20E8A5D1969E26D00837EAD /* UInt256TestBitwise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt256TestBitwise.swift; sourceTree = "<group>"; };
-		A21D0B1719963539003656D3 /* UInt256 documentation.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "UInt256 documentation.playground"; sourceTree = "<group>"; };
 		A26DCC9619697056008E8399 /* UInt32+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt32+Additions.swift"; path = "Classes/UInt32+Additions.swift"; sourceTree = "<group>"; };
 		A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+BitwiseOperations.swift"; path = "Classes/UInt256+BitwiseOperations.swift"; sourceTree = "<group>"; };
 		A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+IntegerArithmetic.swift"; path = "Classes/UInt256+IntegerArithmetic.swift"; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 		A2D32CE61962CED3001B5998 = {
 			isa = PBXGroup;
 			children = (
-				A21D0B1719963539003656D3 /* UInt256 documentation.playground */,
+				9F42EC171DD9C471008C65E2 /* UInt256 Docs.playground */,
 				A2B8A5371962CFB900117EF5 /* UInt256 */,
 				A2D32CFF1962CED3001B5998 /* UInt256Tests */,
 				A26DCCA219697255008E8399 /* Supporting Files */,
@@ -436,9 +436,11 @@
 					};
 					A2A1A0BD1962DAFC00701051 = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0810;
 					};
 					A2A1A0C71962DAFC00701051 = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0810;
 						TestTargetID = A2A1A0BD1962DAFC00701051;
 					};
 				};
@@ -689,6 +691,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_DISABLE_SAFETY_CHECKS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -709,6 +712,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cryptocoinswift.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Ofast";
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Fast;
 		};
@@ -740,6 +744,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -768,6 +773,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 3.0.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -799,6 +805,7 @@
 				SWIFT_DISABLE_SAFETY_CHECKS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 3.0.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -824,6 +831,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cryptocoinswift.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
@@ -843,6 +851,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cryptocoinswift.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};
@@ -865,6 +874,7 @@
 				SDKROOT = macosx;
 				SWIFT_DISABLE_SAFETY_CHECKS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Fast;
 		};
@@ -892,6 +902,7 @@
 				PROVISIONING_PROFILE = "3FE6B72E-A1FD-4A71-969A-1F8E9CD1BE4F";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -916,6 +927,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3FE6B72E-A1FD-4A71-969A-1F8E9CD1BE4F";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -939,6 +951,7 @@
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cryptocoinswift.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
@@ -955,6 +968,7 @@
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cryptocoinswift.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};

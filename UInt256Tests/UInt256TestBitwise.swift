@@ -27,9 +27,9 @@ class UInt256TestBitwise: XCTestCase {
     }
 
     func testLeftShift() {
-        var a = UInt256(decimalStringValue: "32")
+        let a = UInt256(decimalStringValue: "32")
         
-        XCTAssertEqual((a << 1).toDecimalString, "64", "");
+        XCTAssertEqual((a << 1).toDecimalString, "64", "")
     }
     
     func testAssignLeftShift() {
@@ -37,7 +37,7 @@ class UInt256TestBitwise: XCTestCase {
         
         a <<= 1
         
-        XCTAssertEqual(a.toDecimalString, "64", "");
+        XCTAssertEqual(a.toDecimalString, "64", "")
         
     }
     
@@ -45,7 +45,7 @@ class UInt256TestBitwise: XCTestCase {
         var a = UInt256(hexStringValue: "FFFFFFFF")
         a <<= 1
         
-        XCTAssertEqual(a.toHexString,  "1FFFFFFFE", "");
+        XCTAssertEqual(a.toHexString,  "1FFFFFFFE", "")
         
     }
     
@@ -53,7 +53,7 @@ class UInt256TestBitwise: XCTestCase {
         var a = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFF")
         a <<= 1
         
-        XCTAssertEqual(a.toHexString,  "1FFFFFFFFFFFFFFFFFFFE", "");
+        XCTAssertEqual(a.toHexString,  "1FFFFFFFFFFFFFFFFFFFE", "")
         
     }
     
@@ -64,29 +64,29 @@ class UInt256TestBitwise: XCTestCase {
         
         var res: UInt256 = 0
 
-        self.measureBlock() {
+        self.measure() {
             for i: Int in Int(0) ..< Int(self.million) {
                 res =  a << 1
             }
         }
 
-        XCTAssertEqual(res, b,"");
+        XCTAssertEqual(res, b,"")
     }
     
     func testLeftShiftShouldNotMutate() {
-        var a = UInt256(hexStringValue: "AAAAAAAAAAA")
-        var b=a
-        a << 1
+        let a = UInt256(hexStringValue: "AAAAAAAAAAA")
+        let b = a
+        let _ = a << 1
         
-        XCTAssertEqual(a, b, "");
+        XCTAssertEqual(a, b, "")
     }
     
     func testRightShiftShouldNotMutate() {
-        var a = UInt256(hexStringValue: "AAAAAAAAAAA")
-        var b=a
-        a >> 1
+        let a = UInt256(hexStringValue: "AAAAAAAAAAA")
+        let b = a
+        let _ = a >> 1
         
-        XCTAssertEqual(a, b, "");
+        XCTAssertEqual(a, b, "")
     }
     
     func testLeftOverflowHex() {
@@ -94,7 +94,7 @@ class UInt256TestBitwise: XCTestCase {
         
         a <<= 1
         
-        XCTAssertEqual(a.toHexString,   "3FFFFE", "");
+        XCTAssertEqual(a.toHexString, "3FFFFE", "")
         
     }
     
@@ -102,7 +102,7 @@ class UInt256TestBitwise: XCTestCase {
         var a = UInt256(decimalStringValue: "32000000000000000000")
         a <<= 1
         
-        XCTAssertEqual(a.toDecimalString,   "64000000000000000000", "");
+        XCTAssertEqual(a.toDecimalString, "64000000000000000000", "")
         
     }
     
@@ -110,7 +110,7 @@ class UInt256TestBitwise: XCTestCase {
         var a = UInt256(decimalStringValue: "64")
         a >>= 1
         
-        XCTAssertEqual(a.toDecimalString, "32", "");
+        XCTAssertEqual(a.toDecimalString, "32", "")
         
     }
     
@@ -118,7 +118,7 @@ class UInt256TestBitwise: XCTestCase {
         var a = UInt256(decimalStringValue: "64000000000000000000")
         a >>= 1
         
-        XCTAssertEqual(a.toDecimalString, "32000000000000000000", "");
+        XCTAssertEqual(a.toDecimalString, "32000000000000000000", "")
     }
     
     func testFindHighestBit() {
@@ -127,39 +127,39 @@ class UInt256TestBitwise: XCTestCase {
         
         var res = 0
         
-        self.measureBlock() {
+        self.measure() {
             for i: Int in Int(0)...Int(self.million / 100) {
                 res =  a.highestBit
             }
         }
         
-        XCTAssertEqual(res, 242,"");
+        XCTAssertEqual(res, 242,"")
     }
     
     func testSingleBitAt() {
         var a = UInt256.singleBitAt(255)
-        XCTAssertEqual(a.toHexString, "1", "");
+        XCTAssertEqual(a.toHexString, "1", "")
         
         a = UInt256.singleBitAt(254)
-        XCTAssertEqual(a.toHexString, "2", "");
+        XCTAssertEqual(a.toHexString, "2", "")
         
         a = UInt256.singleBitAt(0)
-        XCTAssertEqual(a.toHexString, "8000000000000000000000000000000000000000000000000000000000000000", "");
+        XCTAssertEqual(a.toHexString, "8000000000000000000000000000000000000000000000000000000000000000", "")
     }
     
     func testSetBitAt() {
         var a = UInt256.singleBitAt(255)
         a.setBitAt(255)
         
-        XCTAssertEqual(a.toHexString, "1", "");
+        XCTAssertEqual(a.toHexString, "1", "")
         
-        self.measureBlock() {
+        self.measure() {
             for i: Int in Int(0)...Int(self.million) {
                 a.setBitAt(254)
             }
         }
     
-        XCTAssertEqual(a.toHexString, "3", "");
+        XCTAssertEqual(a.toHexString, "3", "")
         
     }
 }

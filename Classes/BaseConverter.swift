@@ -10,98 +10,103 @@ public struct BaseConverter {
     let base: Int
     
     // Adds two arrays for the given base (10 or 16)
-    func add(x: [Int], y: [Int]) -> [Int] {
+    func add(_ x: [Int], y: [Int]) -> [Int] {
         var z: [Int] = []
         let n = max(x.count, y.count)
         
-        var carry = 0;
-        var i = 0;
+        var carry = 0
+        var i = 0
         while (i < n || carry > 0) {
             let xi = i < x.count ? x[i] : 0
             let yi = i < y.count ? y[i] : 0
-            let zi = carry + xi + yi;
+            let zi = carry + xi + yi
             z.append(zi % self.base)
             carry = zi / base
-            i++;
+            i += 1
         }
-        return z;
+        return z
     }
     
     // Returns a * x, where x is an array of decimal digits and a is an ordinary
     // Int. The array should be in the base of the instance.
-    func multiplyByNumber(num: Int, x: [Int]) -> [Int] {
+    func multiplyByNumber(_ num: Int, x: [Int]) -> [Int] {
         assert(num >= 0, "Positive numbers only")
         assert(num <= Int(Int32.max), "32 bit power max")
         
-        var numU: UInt32  = UInt32(num);
+        var numU: UInt32  = UInt32(num)
         
         if (numU == 0) {
-            return [];
+            return []
         }
         
-        var result: [Int] = [];
-        var power = x;
+        var result: [Int] = []
+        var power = x
         
         while (true) {
             if numU & 1 > 0 {
-                result = add(result, y: power);
+                result = add(result, y: power)
             }
-            numU = numU >> 1;
+            numU = numU >> 1
             if (numU == 0) {
-                break;
+                break
             }
-            power = add(power, y: power);
+            power = add(power, y: power)
         }
         
-        return result;
+        return result
     }
     
-    func parseToDigitsArray(str: String) -> [Int] {
+    func parseToDigitsArray(_ str: String) -> [Int] {
         var digits: [String] = []
         for char in str.characters {
             digits.append(String(char))
         }
         
-        var ary: [Int] = [];
-        
-        for (var i = digits.count - 1; i >= 0; i--) {
-            let n = stringToInt(digits[i])
-            
-            if n != nil {
-                ary.append(n!)
-            } else {
-                assert(false, "Invalid digit")
+        var ary: [Int] = []
+
+        if digits.count > 0 {
+            for i in (0...(digits.count - 1)).reversed() {
+                let n = stringToInt(digits[i])
+
+                if n != nil {
+                    ary.append(n!)
+                } else {
+                    assert(false, "Invalid digit")
+                }
             }
         }
-        return ary;
+
+        return ary
     }
     
-    public static  func convertBase(str: String, fromBase: Int, toBase: Int) -> String {
+    public static  func convertBase(_ str: String, fromBase: Int, toBase: Int) -> String {
         let fromBaseConverter = self.init(base: fromBase)
         let   toBaseConverter = self.init(base:   toBase)
         
         
-        let digits = fromBaseConverter.parseToDigitsArray(str);
+        let digits = fromBaseConverter.parseToDigitsArray(str)
         
-        var outArray: [Int] = [];
-        var power = [1];
+        var outArray: [Int] = []
+        var power = [1]
         for digit in digits {
             // invariant: at this point, fromBase^i = power
             let digitsTimesPower: [Int] = toBaseConverter.multiplyByNumber(digit, x: power)
-            outArray = toBaseConverter.add(outArray, y:digitsTimesPower);
-            power =    toBaseConverter.multiplyByNumber(fromBase, x: power);
+            outArray = toBaseConverter.add(outArray, y:digitsTimesPower)
+            power =    toBaseConverter.multiplyByNumber(fromBase, x: power)
         }
         
         var out: String = ""
-        
-        for (var i = outArray.count - 1; i >= 0; i--) {
-            out += toBaseConverter.intToString(outArray[i])
+
+        if outArray.count > 0 {
+            for i in (0...(outArray.count - 1)).reversed() {
+                out += toBaseConverter.intToString(outArray[i])
+            }
         }
         
-        return out;
+        return out
     }
     
-    func stringToInt (digit: String) -> Int? {
+    func stringToInt (_ digit: String) -> Int? {
         
         switch self.base {
         case 2, 3, 4, 5, 6, 7, 8, 9, 10:
@@ -134,7 +139,7 @@ public struct BaseConverter {
         
     }
     
-    func intToString (digit: Int) -> String {
+    func intToString (_ digit: Int) -> String {
         
         switch self.base {
         case 2, 3, 4, 5, 6, 7, 8, 9, 10:
@@ -173,11 +178,11 @@ public struct BaseConverter {
     }
     
     
-    public static func decToHex(decStr: String) -> String {
-        return convertBase(decStr, fromBase:10,toBase:16);
+    public static func decToHex(_ decStr: String) -> String {
+        return convertBase(decStr, fromBase:10,toBase:16)
     }
     
-    public static func hexToDec(hexStr: String) -> String {
-        return convertBase(hexStr, fromBase:16, toBase: 10);
+    public static func hexToDec(_ hexStr: String) -> String {
+        return convertBase(hexStr, fromBase:16, toBase: 10)
     }
 }

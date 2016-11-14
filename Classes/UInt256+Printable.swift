@@ -19,7 +19,7 @@ extension UInt256  { // Printable
         return toHexStringOfLength(nil)
     }
     
-    public func toHexStringOfLength (length: Int?) -> String {
+    public func toHexStringOfLength (_ length: Int?) -> String {
     
         var result: String = ""
             
@@ -27,7 +27,7 @@ extension UInt256  { // Printable
             var paddedHexString = BaseConverter.decToHex(int.description)
                 if paddedHexString.characters.count < 8 {
                 for _ in 1...(8 - paddedHexString.characters.count) {
-                    paddedHexString = "0" + paddedHexString;
+                    paddedHexString = "0" + paddedHexString
                 }
             }
             

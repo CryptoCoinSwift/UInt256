@@ -6,18 +6,24 @@
 //
 
 // Avoid using NSNumber:
-func raiseByPositivePower(radix: UInt32, power: UInt32) -> UInt32 {
-    var res: UInt32 = 1;
+func raiseByPositivePower(_ radix: UInt32, power: UInt32) -> UInt32 {
+    var res: UInt32 = 1
     if power > 0 {
         for _ in 1...power {
-            res = res * radix;
+            res = res * radix
         }
     }
-    return res;
+    return res
 }
 
-infix operator  ^^ { precedence 160 associativity left }
- func ^^ (radix: UInt32, power: UInt32) -> UInt32 {
+precedencegroup ExponentialPrecedence {
+    associativity: left
+    higherThan: MultiplicationPrecedence
+}
+
+infix operator  ^^ : ExponentialPrecedence
+
+func ^^ (radix: UInt32, power: UInt32) -> UInt32 {
     assert(power >= 0, "Power must be 0 or more")
     return raiseByPositivePower(radix, power: power)
 }

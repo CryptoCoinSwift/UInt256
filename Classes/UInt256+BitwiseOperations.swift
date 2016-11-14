@@ -5,16 +5,16 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
-extension UInt256 : BitwiseOperationsType {
+extension UInt256 : BitwiseOperations {
     // FIXME: make private as soon as tests can handle it
     public var highestBit: Int {
     var bitLength: UInt32 = 256
         for int in self {
             if int == 0 { bitLength -= 32 } else {
-                for var i: UInt32 = 31; i > 0; i-- {
-                    if (2^^i) & int != 0 {  break;  } else {  bitLength--; }
+                for i: UInt32 in ((0 + 1)...31).reversed() {
+                    if (2^^i) & int != 0 {  break;  } else {  bitLength -= 1; }
                 }
-                break;
+                break
             }
         }
         
@@ -22,7 +22,7 @@ extension UInt256 : BitwiseOperationsType {
     }
     
     // FIXME: make private as soon as tests can handle it
-    public static func singleBitAt (position: Int) -> (UInt256) {
+    public static func singleBitAt (_ position: Int) -> (UInt256) {
         switch position {
         case 0:
             return UInt256(2147483648,0,0,0,0,0,0,0)
@@ -39,11 +39,11 @@ extension UInt256 : BitwiseOperationsType {
         }
        }
     
-    public mutating func setBitAt(position: Int) -> () {
+    public mutating func setBitAt(_ position: Int) -> () {
         self = (self & ~UInt256.singleBitAt(position)) | UInt256.singleBitAt(position)
     }
     
-    mutating func unsetBitAt(position: Int) -> () {
+    mutating func unsetBitAt(_ position: Int) -> () {
         self = self & ~UInt256.singleBitAt(position)
     }
     
@@ -90,7 +90,7 @@ prefix public func ~(lhs: UInt256) -> UInt256 {
     return res
 }
 
-public func <<= (inout lhs: UInt256, rhs: Int) -> () {
+public func <<= (lhs: inout UInt256, rhs: Int) -> () {
     lhs = lhs << rhs
 }
 
@@ -124,7 +124,7 @@ public func << (lhs: UInt256, rhs: Int) -> UInt256 {
         
         for _ in 0..<rhs {
             var overflow = false
-            for var i=7; i >= 0; i-- {
+            for i in (0...7).reversed() {
                 let leftMostBit: UInt32 = 0b1000_0000_0000_0000_0000_0000_0000_0000
                 
                 let willOverflow = result[i] & leftMostBit != 0
@@ -171,7 +171,7 @@ public func >> (lhs: UInt256, rhs: Int) -> UInt256 {
         
         for _ in 0..<rhs {
             var overflow = false
-            for var i=0; i < 8; i++ {
+            for i in 0 ..< 8 {
                 let rightMostBit: UInt32 = 0b0000_0000_0000_0000_0000_0000_0000_0001
                 
                 let willOverflow = result[i] & rightMostBit != 0
@@ -190,6 +190,6 @@ public func >> (lhs: UInt256, rhs: Int) -> UInt256 {
     }
 }
 
-public func >>= (inout lhs: UInt256, rhs: Int) -> () {
+public func >>= (lhs: inout UInt256, rhs: Int) -> () {
     lhs = lhs >> rhs
 }

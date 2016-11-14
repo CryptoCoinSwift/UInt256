@@ -13,7 +13,7 @@ public func < (lhs: UInt256, rhs: UInt256) -> Bool {
         if lhs[i] < rhs[i] {
             return true
         } else if lhs[i] > rhs[i] {
-            return false;
+            return false
         }
     }
     
