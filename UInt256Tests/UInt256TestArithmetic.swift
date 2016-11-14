@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import UInt256
+@testable import UInt256
 
 class UInt256TestArithmetic: XCTestCase {
 

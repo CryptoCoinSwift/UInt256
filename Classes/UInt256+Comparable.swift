@@ -5,9 +5,7 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
-// This results in a duplicate symbol error:
-// extension UInt256 : Comparable {}
-
+/// As soon as one of its parts, ordered by significance, is smaller then the other's corresponding part, we can return.
 public func < (lhs: UInt256, rhs: UInt256) -> Bool {
     for i in 0 ..< 8 {
         if lhs[i] < rhs[i] {

@@ -347,12 +347,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
         x₀ = UInt256.allZeros
         y₁ = UInt256.allZeros
         y₀ = UInt256.allZeros
-        //        x₁ = UInt256([0,0,0,0,lhs[0],lhs[1],lhs[2],lhs[3]])
-        //        x₀ = UInt256([0,0,0,0,lhs[4],lhs[5],lhs[6],lhs[7]])
-        //
-        //        y₁ = UInt256([0,0,0,0,rhs[0],rhs[1],rhs[2],rhs[3]])
-        //        y₀ = UInt256([0,0,0,0,rhs[4],rhs[5],rhs[6],rhs[7]])
-        //
+
         bitSize = 256
     }
 
@@ -441,7 +436,6 @@ public func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
     }
 
     // product = z₂ · 2²⁵⁶ + z₁ · 2¹²⁸ + z₀
-
     var productLeft = z₂
     var productRight = z₀
 

@@ -18,8 +18,6 @@
 		A26DCC9B196970F1008E8399 /* UInt32+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9619697056008E8399 /* UInt32+Additions.swift */; };
 		A26DCCA01969717F008E8399 /* UInt256+IntegerArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */; };
 		A26DCCA11969717F008E8399 /* UInt256+IntegerArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */; };
-		A26DCCA719697341008E8399 /* UInt256+ArrayBound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */; };
-		A26DCCA819697341008E8399 /* UInt256+ArrayBound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */; };
 		A26DCCAA19697394008E8399 /* UInt256+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA919697394008E8399 /* UInt256+Hashable.swift */; };
 		A26DCCAB19697394008E8399 /* UInt256+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCA919697394008E8399 /* UInt256+Hashable.swift */; };
 		A26DCCAD196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCAC196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift */; };
@@ -152,7 +150,6 @@
 		A26DCC9619697056008E8399 /* UInt32+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt32+Additions.swift"; path = "Classes/UInt32+Additions.swift"; sourceTree = "<group>"; };
 		A26DCC98196970E4008E8399 /* UInt256+BitwiseOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+BitwiseOperations.swift"; path = "Classes/UInt256+BitwiseOperations.swift"; sourceTree = "<group>"; };
 		A26DCC9F1969717F008E8399 /* UInt256+IntegerArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+IntegerArithmetic.swift"; path = "Classes/UInt256+IntegerArithmetic.swift"; sourceTree = "<group>"; };
-		A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+ArrayBound.swift"; path = "Classes/UInt256+ArrayBound.swift"; sourceTree = "<group>"; };
 		A26DCCA919697394008E8399 /* UInt256+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+Hashable.swift"; path = "Classes/UInt256+Hashable.swift"; sourceTree = "<group>"; };
 		A26DCCAC196973BF008E8399 /* UInt256+IntegerLiteralConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+IntegerLiteralConvertible.swift"; path = "Classes/UInt256+IntegerLiteralConvertible.swift"; sourceTree = "<group>"; };
 		A26DCCAF196973F8008E8399 /* UInt256+RandomAccessIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UInt256+RandomAccessIndex.swift"; path = "Classes/UInt256+RandomAccessIndex.swift"; sourceTree = "<group>"; };
@@ -271,7 +268,6 @@
 				A26DCCA919697394008E8399 /* UInt256+Hashable.swift */,
 				A26DCCAF196973F8008E8399 /* UInt256+RandomAccessIndex.swift */,
 				A26DCCB219697419008E8399 /* UInt256+ForwardIndex.swift */,
-				A26DCCA619697341008E8399 /* UInt256+ArrayBound.swift */,
 				A26DCC9619697056008E8399 /* UInt32+Additions.swift */,
 				A2B8A5311962CFB400117EF5 /* BaseConverter.swift */,
 			);
@@ -501,7 +497,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26DCCA819697341008E8399 /* UInt256+ArrayBound.swift in Sources */,
 				A26DCCB1196973F8008E8399 /* UInt256+RandomAccessIndex.swift in Sources */,
 				A26DCCAB19697394008E8399 /* UInt256+Hashable.swift in Sources */,
 				A26DCC9B196970F1008E8399 /* UInt32+Additions.swift in Sources */,
@@ -534,7 +529,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26DCCA719697341008E8399 /* UInt256+ArrayBound.swift in Sources */,
 				A26DCCB0196973F8008E8399 /* UInt256+RandomAccessIndex.swift in Sources */,
 				A26DCCAA19697394008E8399 /* UInt256+Hashable.swift in Sources */,
 				A26DCC99196970E4008E8399 /* UInt256+BitwiseOperations.swift in Sources */,

@@ -5,19 +5,17 @@
 //  Created by Sjors Provoost on 06-07-14.
 //
 
-// Preliminary implementation to conform to UnsignedInteger. Unused and untested.
+// TODO: Add tests for this.
 
-// Conforming to RandomAccessIndex results in a duplicate symbol error.
+public extension UInt256 {
 
-extension UInt256 { // : RandomAccessIndex {
-
-    func distanceTo(_ other: UInt256) -> Int {
+    public func distanceTo(_ other: UInt256) -> Int {
         let distance = other - self
         assert(distance <= UInt256(0, 0, 0, 0, 0, 0, 0, UInt32.max), "Too far")
         return Int(distance[7])
     }
 
-    //    func advancedBy(distance: Int) -> UInt256 {
-    //        return self + UInt256(distance)
-    //    }
+    public func advanced(by distance: Int) -> UInt256 {
+        return self + UInt256(distance)
+    }
 }

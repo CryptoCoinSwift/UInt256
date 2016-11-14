@@ -4,10 +4,9 @@
 //
 //  Created by Sjors Provoost on 06-07-14.
 
-// Preliminary implementation to conform to UnsignedInteger. Unused and untested.
+// TODO: Add tests.
 
-// Conforming to ForwardIndex results in a duplicate symbol error.
-extension UInt256 { //:  ForwardIndex {
+extension UInt256 {
 
     func successor() -> UInt256 {
         return self + UInt256(UInt32(1))
