@@ -126,11 +126,9 @@ class UInt256TestArithmetic: XCTestCase {
 
         let c = UInt256(decimalStringValue: "148873535527910577802119878898817695674")
 
-        var res: UInt256 = 0
-
         self.measure() {
             for _ in 1 ... self.million / 100 {
-                res = a - b
+                let _ = a - b
             }
         }
 
@@ -332,7 +330,7 @@ class UInt256TestArithmetic: XCTestCase {
         var res: UInt256 = 0
 
         self.measure() {
-            for i: UInt16 in UInt16(0) ... UInt16(self.million / 1_000_00) {
+            for _: UInt16 in UInt16(0) ... UInt16(self.million / 1_000_00) {
 
                 res = a.modInverse(m)
             }
@@ -501,16 +499,12 @@ class UInt256TestArithmetic: XCTestCase {
     }
 
     func testMultiplicationToTupleWithoutRecursion() {
-        let p = UInt256(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xfffffffe, 0xfffffc2f)
-
         // a and b chosen such that x₁ + x₀ and y₁_plus_y₀ don't overflow
         let a = UInt256(0x502b5092, 0x9d7b11ed, 0x52d00e63, 0x11cd10ff, 0x92956188, 0xdd566bc4, 0x52d0ebaa, 0x95f8234c)
 
         let b = UInt256(0x17c10759, 0xf6e128f2, 0x0704c711, 0x914fa8bf, 0xaa514b51, 0xa371522d, 0xfc5bd655, 0x162050ce)
 
         let (left, right) = (UInt256(0x07705732, 0x4641effd, 0x378f46bc, 0x92edec71, 0x75c31faf, 0xc2e21a5d, 0x69bfbb9f, 0x07abd941), UInt256(0x98baaae0, 0xf56e67d7, 0x455c1ce2, 0x8617a3a9, 0xc9cd081a, 0x1afb578a, 0xa0e2446b, 0x2a342728))
-
-        let product = UInt256(0x42b961bc, 0x4ea293f4, 0xe216ff00, 0xb9de205b, 0xfa5b103e, 0x45a1b1aa, 0x44b97f03, 0xd4c97cb8)
 
         var resLeft: UInt256 = 0
         var resRight: UInt256 = 0
@@ -526,20 +520,17 @@ class UInt256TestArithmetic: XCTestCase {
     }
 
     func testMultiplicationInSecp256k1() {
+        let a = UInt256(0x9b992796, 0x19237faf, 0x0c13c344, 0x614c46a9, 0xe7357341, 0xc6e4e042, 0xa9b1311a, 0x8622deaa)
 
-        var a = UInt256(0x9b992796, 0x19237faf, 0x0c13c344, 0x614c46a9, 0xe7357341, 0xc6e4e042, 0xa9b1311a, 0x8622deaa)
+        let b = UInt256(0xe7f1caa6, 0x36baa277, 0x9cfd6cf9, 0x696cf826, 0xf013db03, 0x7aa08f3d, 0x5c2dfaf9, 0xdb5d255b)
 
-        var b = UInt256(0xe7f1caa6, 0x36baa277, 0x9cfd6cf9, 0x696cf826, 0xf013db03, 0x7aa08f3d, 0x5c2dfaf9, 0xdb5d255b)
-
-        var(left, right) = (UInt256(0x8cfa2912, 0x94cc8c2c, 0x827a9ef6, 0x977f6b69, 0x1d24b810, 0xf085c437, 0xabd13f27, 0x942da0b5), UInt256(0xede973cf, 0x7a14db61, 0x0dfe857e, 0x382bc650, 0x71af459e, 0x27425f0c, 0x36b67051, 0x0a55b86e))
-
-        var product = UInt256(0x896cbfe5, 0xdd327035, 0x9b769bff, 0x82996a89, 0x9b57827b, 0xc19576ab, 0x11704459, 0x9336d1f0)
+        let(left, right) = (UInt256(0x8cfa2912, 0x94cc8c2c, 0x827a9ef6, 0x977f6b69, 0x1d24b810, 0xf085c437, 0xabd13f27, 0x942da0b5), UInt256(0xede973cf, 0x7a14db61, 0x0dfe857e, 0x382bc650, 0x71af459e, 0x27425f0c, 0x36b67051, 0x0a55b86e))
 
         var resLeft: UInt256 = 0
         var resRight: UInt256 = 0
 
         self.measure() {
-            for i in 0 ... self.million / 1000 {
+            for _ in 0 ... self.million / 1000 {
                 (resLeft, resRight) = a * b
             }
         }
@@ -552,14 +543,14 @@ class UInt256TestArithmetic: XCTestCase {
 
         let p = UInt256(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xfffffffe, 0xfffffc2f)
 
-        var(left, right) = (UInt256(0x8cfa2912, 0x94cc8c2c, 0x827a9ef6, 0x977f6b69, 0x1d24b810, 0xf085c437, 0xabd13f27, 0x942da0b5), UInt256(0xede973cf, 0x7a14db61, 0x0dfe857e, 0x382bc650, 0x71af459e, 0x27425f0c, 0x36b67051, 0x0a55b86e))
+        let(left, right) = (UInt256(0x8cfa2912, 0x94cc8c2c, 0x827a9ef6, 0x977f6b69, 0x1d24b810, 0xf085c437, 0xabd13f27, 0x942da0b5), UInt256(0xede973cf, 0x7a14db61, 0x0dfe857e, 0x382bc650, 0x71af459e, 0x27425f0c, 0x36b67051, 0x0a55b86e))
 
-        var mod = UInt256(0x896cbfe5, 0xdd327035, 0x9b769bff, 0x82996a89, 0x9b57827b, 0xc19576ab, 0x11704459, 0x9336d1f0)
+        let mod = UInt256(0x896cbfe5, 0xdd327035, 0x9b769bff, 0x82996a89, 0x9b57827b, 0xc19576ab, 0x11704459, 0x9336d1f0)
 
         var result: UInt256 = 0
 
         self.measure() {
-            for i in 1 ... (self.million / 1_00) {
+            for _ in 1 ... (self.million / 1_00) {
                 result = (left, right) % p
             }
         }

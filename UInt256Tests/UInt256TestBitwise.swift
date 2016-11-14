@@ -61,7 +61,7 @@ class UInt256TestBitwise: XCTestCase {
         var res: UInt256 = 0
 
         self.measure() {
-            for i: Int in Int(0) ..< Int(self.million) {
+            for _: Int in Int(0) ..< Int(self.million) {
                 res = a << 1
             }
         }
@@ -120,7 +120,7 @@ class UInt256TestBitwise: XCTestCase {
         var res = 0
 
         self.measure() {
-            for i: Int in Int(0) ... Int(self.million / 100) {
+            for _: Int in Int(0) ... Int(self.million / 100) {
                 res = a.highestBit
             }
         }
@@ -146,7 +146,7 @@ class UInt256TestBitwise: XCTestCase {
         XCTAssertEqual(a.toHexString, "1", "")
 
         self.measure() {
-            for i: Int in Int(0) ... Int(self.million) {
+            for _: Int in Int(0) ... Int(self.million) {
                 a.setBitAt(254)
             }
         }

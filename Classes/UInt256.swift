@@ -7,12 +7,14 @@
 import Foundation
 
 public struct UInt256: CustomStringConvertible { // : UnsignedInteger
-    /* UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly. Unfortunately the compiler still complains that UInt256 doesn't comform to _UnsignedInteger. I can't find documentation for this protocol. */
+    /*
+     UnsignedInteger consists of a whole bunch of protocols. I implemented all that I could find, even if not always correctly.
+     */
 
     // Store as an array with the most significant value first:
     // var value: [UInt32]
 
-    // Use 8 vars instead; at Beta 3 this makes elliptic curve math at least 20x faster.
+    // Use 8 vars instead; This should make elliptic curve math at least 20x faster.
     var part0: UInt32 // Most significant
     var part1: UInt32
     var part2: UInt32
@@ -22,12 +24,8 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
     var part6: UInt32
     var part7: UInt32
 
-    // Todo: use 4 parts on a 64 bit system
-
     subscript(index: Int) -> UInt32 {
         get {
-            //          return value[index]
-
             switch index {
             case 0:
                 return part0
@@ -53,7 +51,6 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
 
         mutating set(newValue) {
             assert(index < 8, "Invalid index")
-            //            value[index] = newValue
 
             switch index {
             case 0:
@@ -79,9 +76,6 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
     }
 
     public init(_ part0: UInt32, _ part1: UInt32, _ part2: UInt32, _ part3: UInt32, _ part4: UInt32, _ part5: UInt32, _ part6: UInt32, _ part7: UInt32) {
-
-        //        self.value = [part0, part1, part2, part3, part4, part5, part6,part7]
-
         self.part0 = part0
         self.part1 = part1
         self.part2 = part2
@@ -93,7 +87,6 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
     }
 
     public init() {
-        //        self.value = [0,0,0,0,0,0,0,0]
         self.part0 = 0
         self.part1 = 0
         self.part2 = 0
@@ -105,7 +98,6 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
     }
 
     public init(_ value: UInt32) {
-        //        self.value = [0,0,0,0,0,0,0,UInt32(value)]
         self.part0 = 0
         self.part1 = 0
         self.part2 = 0
@@ -120,7 +112,6 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
         let leftDigit: UInt32 = UInt32(value >> 32)
         let rightDigit: UInt32 = UInt32((value << 32) >> 32)
 
-        //      self.value = [0,0,0,0,0,0,leftDigit, rightDigit]
         self.part0 = 0
         self.part1 = 0
         self.part2 = 0
@@ -144,8 +135,8 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
 
     public init(hexStringValue: String) {
         var hexStringValue = hexStringValue
-        // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
 
+        // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
         assert(hexStringValue.characters.count > 0, "Can't be empty")
 
         // Assert if string isn't too long
