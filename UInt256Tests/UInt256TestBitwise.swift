@@ -10,11 +10,7 @@ import XCTest
 
 class UInt256TestBitwise: XCTestCase {
 
-    #if DEBUG
-        let million: Int = 1_000_0
-    #else
-        let million: Int = 1_000_000
-    #endif
+    let thousand: Int = 1_000
 
     override func setUp() {
         super.setUp()
@@ -61,7 +57,7 @@ class UInt256TestBitwise: XCTestCase {
         var res: UInt256 = 0
 
         self.measure() {
-            for _: Int in Int(0) ..< Int(self.million) {
+            for _: Int in Int(0) ..< Int(self.thousand) {
                 res = a << 1
             }
         }
@@ -120,7 +116,7 @@ class UInt256TestBitwise: XCTestCase {
         var res = 0
 
         self.measure() {
-            for _: Int in Int(0) ... Int(self.million / 100) {
+            for _: Int in Int(0) ... Int(self.thousand / 100) {
                 res = a.highestBit
             }
         }
@@ -146,7 +142,7 @@ class UInt256TestBitwise: XCTestCase {
         XCTAssertEqual(a.toHexString, "1", "")
 
         self.measure() {
-            for _: Int in Int(0) ... Int(self.million) {
+            for _: Int in Int(0) ... Int(self.thousand) {
                 a.setBitAt(254)
             }
         }

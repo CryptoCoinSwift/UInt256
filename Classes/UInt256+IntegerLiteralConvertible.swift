@@ -21,7 +21,7 @@ extension UInt256: ExpressibleByIntegerLiteral {
             }
         #else
             assert(value >= 0, "Unsigned integer should be 0 or larger")
-            assert(value <= 4294967295, "Value too large. Use a decimal string isntead.")
+            assert(UInt32(value) <= UInt32.max, "Value too large. Use a decimal string isntead.")
 
             self.init(UInt32(value))
         #endif

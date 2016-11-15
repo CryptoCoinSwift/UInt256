@@ -51,20 +51,22 @@ class UInt256Tests: XCTestCase {
         XCTAssertTrue(a == c, c.description)
         XCTAssertTrue(a == e, e.description)
 
-        let f = UInt256(322122547232212254)
-        XCTAssertTrue(f.toDecimalString == "322122547232212254", "")
+        #if CGFLOAT_IS_DOUBLE
+            let f = UInt256(322122547232212254)
+            XCTAssertTrue(f.toDecimalString == "322122547232212254", "")
 
-        let d: UInt256 = UInt256(Int64(1000000000000000000))
-        XCTAssertTrue(d.toDecimalString == "1000000000000000000", "")
+            let d: UInt256 = UInt256(Int64(1000000000000000000))
+            XCTAssertTrue(d.toDecimalString == "1000000000000000000", "")
 
-        let g: UInt256 = UInt256(UInt64(1000000000000000000))
-        XCTAssertTrue(g.toDecimalString == "1000000000000000000", "")
+            let g: UInt256 = UInt256(UInt64(1000000000000000000))
+            XCTAssertTrue(g.toDecimalString == "1000000000000000000", "")
 
-        let h: UInt256 = UInt256(Int64(1000000000000000009))
-        XCTAssertTrue(h.toDecimalString == "1000000000000000009", "")
+            let h: UInt256 = UInt256(Int64(1000000000000000009))
+            XCTAssertTrue(h.toDecimalString == "1000000000000000009", "")
 
-        let i = UInt256(1000000000000000000)
-        XCTAssertTrue(i.toDecimalString == "1000000000000000000", "")
+            let i = UInt256(1000000000000000000)
+            XCTAssertTrue(i.toDecimalString == "1000000000000000000", "")
+        #endif
     }
 
     func testInitWithDecimal() {
