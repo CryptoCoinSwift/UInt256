@@ -108,6 +108,21 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
         self.part7 = UInt32(value)
     }
 
+    public init(_ value: Int64) {
+        let uvalue = UInt64(value)
+        let leftDigit: UInt32 = UInt32(uvalue >> 32)
+        let rightDigit: UInt32 = UInt32((uvalue << 32) >> 32)
+
+        self.part0 = 0
+        self.part1 = 0
+        self.part2 = 0
+        self.part3 = 0
+        self.part4 = 0
+        self.part5 = 0
+        self.part6 = leftDigit
+        self.part7 = rightDigit
+    }
+
     public init(_ value: UInt64) {
         let leftDigit: UInt32 = UInt32(value >> 32)
         let rightDigit: UInt32 = UInt32((value << 32) >> 32)
