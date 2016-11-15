@@ -123,14 +123,17 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
     }
 
     public init(_ value: Int) {
+        let leftDigit: UInt32 = UInt32(value >> 32)
+        let rightDigit: UInt32 = UInt32((value << 32) >> 32)
+
         self.part0 = 0
         self.part1 = 0
         self.part2 = 0
         self.part3 = 0
         self.part4 = 0
         self.part5 = 0
-        self.part6 = 0
-        self.part7 = UInt32(value)
+        self.part6 = leftDigit
+        self.part7 = rightDigit
     }
 
     public init(hexStringValue: String) {
