@@ -27,13 +27,13 @@ class UInt256TestBitwise: XCTestCase {
     }
 
     func testLeftShift() {
-        let a = UInt256(decimalStringValue: "32")
+        let a = UInt256(decimalString: "32")
 
         XCTAssertEqual((a << 1).toDecimalString, "64", "")
     }
 
     func testAssignLeftShift() {
-        var a = UInt256(decimalStringValue: "32")
+        var a = UInt256(decimalString: "32")
 
         a <<= 1
 
@@ -41,22 +41,22 @@ class UInt256TestBitwise: XCTestCase {
     }
 
     func testLeftShiftHex() {
-        var a = UInt256(hexStringValue: "FFFFFFFF")
+        var a = UInt256(hexString: "FFFFFFFF")
         a <<= 1
 
         XCTAssertEqual(a.toHexString, "1FFFFFFFE", "")
     }
 
     func testLeftShiftBigHex() {
-        var a = UInt256(hexStringValue: "FFFFFFFFFFFFFFFFFFFF")
+        var a = UInt256(hexString: "FFFFFFFFFFFFFFFFFFFF")
         a <<= 1
 
         XCTAssertEqual(a.toHexString, "1FFFFFFFFFFFFFFFFFFFE", "")
     }
 
     func testLeftShiftPerformance() {
-        let a = UInt256(decimalStringValue: "57896044618658097711785492504343953926294709965899343556265417396524796608513")
-        let b = UInt256(decimalStringValue: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
+        let a = UInt256(decimalString: "57896044618658097711785492504343953926294709965899343556265417396524796608513")
+        let b = UInt256(decimalString: "115792089237316195423570985008687907852589419931798687112530834793049593217026")
 
         var res: UInt256 = 0
 
@@ -70,7 +70,7 @@ class UInt256TestBitwise: XCTestCase {
     }
 
     func testLeftShiftShouldNotMutate() {
-        let a = UInt256(hexStringValue: "AAAAAAAAAAA")
+        let a = UInt256(hexString: "AAAAAAAAAAA")
         let b = a
         let _ = a << 1
 
@@ -78,7 +78,7 @@ class UInt256TestBitwise: XCTestCase {
     }
 
     func testRightShiftShouldNotMutate() {
-        let a = UInt256(hexStringValue: "AAAAAAAAAAA")
+        let a = UInt256(hexString: "AAAAAAAAAAA")
         let b = a
         let _ = a >> 1
 
@@ -86,7 +86,7 @@ class UInt256TestBitwise: XCTestCase {
     }
 
     func testLeftOverflowHex() {
-        var a = UInt256(hexStringValue: "1FFFFF")
+        var a = UInt256(hexString: "1FFFFF")
 
         a <<= 1
 
@@ -94,28 +94,28 @@ class UInt256TestBitwise: XCTestCase {
     }
 
     func testLeftShiftBig() {
-        var a = UInt256(decimalStringValue: "32000000000000000000")
+        var a = UInt256(decimalString: "32000000000000000000")
         a <<= 1
 
         XCTAssertEqual(a.toDecimalString, "64000000000000000000", "")
     }
 
     func testRightShift() {
-        var a = UInt256(decimalStringValue: "64")
+        var a = UInt256(decimalString: "64")
         a >>= 1
 
         XCTAssertEqual(a.toDecimalString, "32", "")
     }
 
     func testRightShiftBig() {
-        var a = UInt256(decimalStringValue: "64000000000000000000")
+        var a = UInt256(decimalString: "64000000000000000000")
         a >>= 1
 
         XCTAssertEqual(a.toDecimalString, "32000000000000000000", "")
     }
 
     func testFindHighestBit() {
-        let a = UInt256(decimalStringValue: "6044618658097711785492504343953926294709965899343556265417396524796608513")
+        let a = UInt256(decimalString: "6044618658097711785492504343953926294709965899343556265417396524796608513")
 
         var res = 0
 

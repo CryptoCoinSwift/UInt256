@@ -152,19 +152,19 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
         self.part7 = rightDigit
     }
 
-    public init(hexStringValue: String) {
-        var hexStringValue = hexStringValue
+    public init(hexString: String) {
+        var hexString = hexString
 
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
-        assert(hexStringValue.characters.count > 0, "Can't be empty")
+        assert(hexString.characters.count > 0, "Can't be empty")
 
         // Assert if string isn't too long
-        assert(hexStringValue.characters.count <= 64, "Too large")
+        assert(hexString.characters.count <= 64, "Too large")
 
-        hexStringValue = hexStringValue.uppercased()
+        hexString = hexString.uppercased()
 
         // Assert if string has any characters that are not 0-9 or A-F
-        for character in hexStringValue.characters {
+        for character in hexString.characters {
             switch character {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F":
                 assert(true)
@@ -174,9 +174,9 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
         }
 
         // Pad zeros
-        if hexStringValue.characters.count < 64 {
-            for _ in 1 ... (64 - hexStringValue.characters.count) {
-                hexStringValue = "0" + hexStringValue
+        if hexString.characters.count < 64 {
+            for _ in 1 ... (64 - hexString.characters.count) {
+                hexString = "0" + hexString
             }
         }
 
@@ -191,7 +191,7 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
 
         var i = 0
 
-        for char in hexStringValue.characters {
+        for char in hexString.characters {
             var increment: UInt32 = 0
 
             switch char {
@@ -242,16 +242,16 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
         }
     }
 
-    public init(decimalStringValue: String) {
+    public init(decimalString: String) {
         // First we perform some sanity checks on the string. Then we convert it to a hex string.
 
-        assert(decimalStringValue.characters.count > 0, "Can't be empty")
+        assert(decimalString.characters.count > 0, "Can't be empty")
 
         // Assert if string longer than 78 characters
-        assert(decimalStringValue.characters.count <= 78, "Too large")
+        assert(decimalString.characters.count <= 78, "Too large")
 
         // Assert if string has any characters that are not 0-9
-        for character in decimalStringValue.characters {
+        for character in decimalString.characters {
             switch character {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
                 assert(true)
@@ -261,23 +261,23 @@ public struct UInt256: CustomStringConvertible { // : UnsignedInteger
         }
 
         // Pad zeros
-        var paddedDecimalString = decimalStringValue
+        var paddedDecimalString = decimalString
 
-        if decimalStringValue.characters.count < 78 {
-            for _ in 1 ... (78 - decimalStringValue.characters.count) {
+        if decimalString.characters.count < 78 {
+            for _ in 1 ... (78 - decimalString.characters.count) {
                 paddedDecimalString = "0" + paddedDecimalString
             }
         }
 
         assert(paddedDecimalString <= "115792089237316195423570985008687907853269984665640564039457584007913129639935", "Too large")
 
-        var hexStringValue: String = BaseConverter.decToHex(decimalStringValue)
+        var hexString: String = BaseConverter.decToHex(decimalString)
 
-        if hexStringValue == "" {
-            hexStringValue = "0"
+        if hexString == "" {
+            hexString = "0"
         }
 
-        self.init(hexStringValue: hexStringValue)
+        self.init(hexString: hexString)
     }
 
     public static var allZeros: UInt256 {

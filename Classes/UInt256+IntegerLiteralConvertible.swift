@@ -8,7 +8,7 @@
 extension UInt256: ExpressibleByIntegerLiteral {
 
     public init(integerLiteral value: IntegerLiteralType) {
-        if UInt64(UInt.max) > UInt64(UInt32.max) {
+        #if CGFLOAT_IS_DOUBLE
             assert(value >= 0, "Unsigned integer should be 0 or larger")
             assert(value <= 9223372036854775807, "Value too large. Use a decimal string isntead.")
 
@@ -19,11 +19,11 @@ extension UInt256: ExpressibleByIntegerLiteral {
             } else {
                 fatalError("Something went wrong while creating a UInt256 from \(value).")
             }
-        } else {
+        #else
             assert(value >= 0, "Unsigned integer should be 0 or larger")
             assert(value <= 4294967295, "Value too large. Use a decimal string isntead.")
 
             self.init(UInt32(value))
-        }
+        #endif
     }
 }
