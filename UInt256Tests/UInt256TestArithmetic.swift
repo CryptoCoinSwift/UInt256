@@ -281,6 +281,14 @@ class UInt256TestArithmetic: XCTestCase {
         XCTAssertEqual(res, c, "\(a) / \(b) = \(res) != \(c)")
     }
 
+    func testDivideBigLiteral() {
+        let a = UInt256(decimalStringValue: "106030040005000600070")
+
+        let result = (a / 1000000000000000000).description
+        let c = "106"
+        XCTAssertEqual(result, c, "\(a) / \(1000000000000000000) = \(result) != \(c)")
+    }
+
     func testModuloLargest128bitPrime() {
         // According to http://primes.utm.edu/lists/2small/100bit.html, 2^128-159 is prime
         // According to Ruby that's: 340282366920938463463374607431768211297

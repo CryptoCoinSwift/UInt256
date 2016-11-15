@@ -62,6 +62,9 @@ class UInt256Tests: XCTestCase {
 
         let h: UInt256 = UInt256(Int64(1000000000000000009))
         XCTAssertTrue(h.toDecimalString == "1000000000000000009", "")
+
+        let i = UInt256(1000000000000000000)
+        XCTAssertTrue(i.toDecimalString == "1000000000000000000", "")
     }
 
     func testInitWithDecimal() {
