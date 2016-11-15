@@ -284,7 +284,7 @@ class UInt256TestArithmetic: XCTestCase {
     func testDivideBigLiteral() {
         let a = UInt256(decimalStringValue: "106030040005000600070")
 
-        let result = (a / 1000000000000000000).description
+        let result = "\(a / 1000000000000000000)"
         let c = "106"
         XCTAssertEqual(result, c, "\(a) / \(1000000000000000000) = \(result) != \(c)")
     }
