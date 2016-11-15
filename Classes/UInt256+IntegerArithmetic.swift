@@ -242,7 +242,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
     }
 
     // Check if we're on a 64 bit system:
-    #if CGFLOAT_IS_DOUBLE
+    if CGFLOAT_IS_DOUBLE == 1 {
         let thirtyTwoBitMask = UInt256(0, 0, 0, 0, 0, 0, 0, UInt32.max)
 
         if lhs == lhs & thirtyTwoBitMask && rhs == rhs & thirtyTwoBitMask {
@@ -271,7 +271,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
 
             return UInt256(0, 0, 0, 0, res[0], res[1], res[2], res[3])
         }
-    #else
+    } else {
         // We're on a 32 bit system, check if it's a 16 bit number
 
         let sixteenBitMask = UInt256(0, 0, 0, 0, 0, 0, 0, 65535)
@@ -309,7 +309,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> UInt256 {
 
             return UInt256(0, 0, 0, 0, 0, 0, z₂, z₀) + (z₁ << 16)
         }
-    #endif
+    }
 
     var x₁: UInt256
     var x₀: UInt256
@@ -441,7 +441,7 @@ public func * (lhs: UInt256, rhs: UInt256) -> (UInt256, UInt256) {
         let productRightBefore = productRight
 
         productRight = productRight &+ (z₁right << 128)
-        
+
         if productRight < productRightBefore {
             productLeft += 1
         }
